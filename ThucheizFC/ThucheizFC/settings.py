@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'news',
+    'fixtures',
+    'results',
     'search',
     'django_countries',
     'crispy_forms',
