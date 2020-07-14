@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .news-detail {
+    padding-top: 50px;
+    padding-bottom: 120px;
+}
+    .news-detail .news-date{
+    color:#fff;
+    background: linear-gradient(to right, #244cfd, #15e4fd);
+    padding:12px 30px;
+    display:inline-block;
+    position:relative;
+    top:-25px;
+    left:30px;
+    }
+    .update-news-btn{
+    color:#fff !important;
+    background-color: #006cff;
+    padding: 12px 26px;
+    float:left;
+    border-radius:4px;
+    letter-spacing:1.7px;
+    text-transform:capitalize;
+    }
+    .delete-news-btn{
+    background-color: #dc3545;
+    padding: 12px 26px;
+    color:#fff !important;
+    float:right;
+    border-radius:4px;
+    letter-spacing:1.7px;
+    text-transform:capitalize;
+    }
+</style>
+<div class="news-detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="image-area">
+                    <img src="{{object.imageURL}}" class="img-fluid">
+                </div>
+
+                <div class="news-details-text">
+                    <div class="news-date">{{object.date}}</div>
+                    <div class="news-title mb-4">
+                        <h5>{{object.title}}</h5>
+                    </div>
+                    <p>{{object.content}}</p>
+                    <a class="update-news-btn mt-4" href="{% url 'news-update' object.pk %}">change news<i class="fa fa-edit ml-4"></i></a>
+                    <a class="delete-news-btn mt-4" href="{% url 'news-delete' object.pk %}">delete news<i class="fa fa-trash ml-4"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content%}

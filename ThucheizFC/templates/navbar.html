@@ -1,0 +1,74 @@
+{% load static %}
+<!--Topbar-->
+<div class="topbar">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-5 col-12">
+                <!-----Contact---->
+                <ul class="top-link">
+                    <li><a href="{% url 'admin-login' %}" >admin login<i class="fa fa-key ml-2"></i></a></li>
+                    <li><a href="{% url 'user-login' %}" >user login<i class="fa fa-key ml-2"></i></a></li>
+                </ul>
+                <!----End contact--->
+
+            </div>
+            <div class="col-lg-6 col-md-7 col-12">
+                <!----Top Contact---->
+                <ul class="top-contact">
+                    <li><i class="fa fa-phone"></i>+254 1234 56789</li>
+                    <li><i class="fa fa-envelope">support@yourmail.com</i></li>
+                </ul>
+                <!--End Top Contact-->
+            </div>
+        </div>
+    </div>
+</div>
+<!---End Topbar--->
+<!---Header Inner--->
+<div class="header-inner">
+    <div class="container">
+        <div class="inner">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-12">
+                    <!----Start Logo----->
+                    <div class="logo">
+                        <a href=""><img src="{% static 'images/logo.png' %}"></a>
+                    </div>
+                    <!----End Logo--->
+                    <!--Mobile Nav---->
+                    <div class="mobile-nav">
+
+                    </div>
+                    <!------End Mobile Nav---->
+                </div>
+                <div class="col-lg-7 col-md-9 col-12">
+                    <!----Main Menu--->
+                    <div class="main-menu">
+                        <nav class="navigation">
+                            <ul class="nav menu">
+                                <li><a href="{% url 'home' %}">Home</a></li>
+                                <li class=""><a href="" >squad</a>
+                                    <ul class="dropdown">
+                                        <li><a href="{% url 'coach-list' %}">coaches</a></li>
+                                        <li><a href="{% url 'player-list' %}">players</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{% url 'news-list' %}">news</a></li>
+								<li><a href="#">Results</a></li>
+                                <li><a href="#">Fixtures</a></li>
+								<li><a href="#">Contact Us</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <!----End Main Menu------>
+                </div>
+                <div class="col-lg-2 col-12">
+					<div class="get-quote">
+						<a href="" class="btn">Login</a>
+					</div>
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!----End Header Inner--->

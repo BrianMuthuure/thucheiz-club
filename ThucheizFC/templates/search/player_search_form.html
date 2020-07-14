@@ -1,0 +1,30 @@
+<style>
+	.mybutton{
+     width: 140px;
+     height: 46px;
+     background: #14bdee;
+     color: #FFFFFF;
+     font-size: 14px;
+     font-weight: 500;
+     text-transform: uppercase;
+     border: none;
+     margin-left:20px;
+     outline: none;
+     border-radius: 3px;
+     cursor: pointer;
+	}
+	.form-control{
+	height: 44px;
+	border-radius: 0rem;
+	}
+
+</style>
+<div class="player_search_container">
+     <form method="GET" action="{% url 'query' %}" class="courses_search_form d-flex flex-row align-items-center justify-content-start">
+        <input class="form-control " type="text" name="q" placeholder="search" aria-label="Search" value="{{ request.GET.q }}">
+          <span class="input-group-btn">
+			  <button class="mybutton" type="submit">search now</button>
+          </span>
+	 </form>
+ </div>
+

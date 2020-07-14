@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .news-area .news-date{
+    color:#fff;
+    background: linear-gradient(to right, #244cfd, #15e4fd);
+    padding:12px 30px;
+    display:inline-block;
+    position:relative;
+    top:-25px;
+    left:30px;
+    }
+    .news-area h5 a{
+    color:#222 !important;
+    text-transform:lowercase;
+    letter-spacing:1.3px;
+    -webkit-transition:.3s;
+    -moz-transition:.3s;
+    -o-transition:.3s;
+    transition:.3s
+}
+    .news-area h5 a:hover{
+    color:blue !important;
+    }
+    .news-area img{
+    width:100%;
+    height:250px;
+    }
+    .news-btn {
+    color: #fff !important;
+    text-transform: uppercase;
+    font-size: 12px;
+    background:blue;
+    padding:12px 15px;
+    border-radius:5px;
+    font-weight: 500;
+    position: relative;
+    -webkit-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+.news-btn:hover{
+background: linear-gradient(to right,#8971ea,#7f72ea,#7574ea,#6a75e9,#5f76e8);
+}
+.btn-sm{
+color:#fff !important;
+}
+</style>
+<section class="news-area section-padding mb-4">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-lg-6">
+                 <button class="btn btn-primary btn-block add-player-btn"><a href="" >Add news</a></button>
+            </div>
+            <div class="col-lg-6">
+                 {% include 'search/news_search_form.html' %}
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="section-top text-center">
+                    <h4>Latest News</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            {% for new in news %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="single-news mt-5 mt-md-0">
+                    <div class="news-img">
+                        <a href="{% url 'news-detail' new.pk %}" ><img src="{{new.imageURL}}" class="img-fluid"></a>
+                    </div>
+                    <div class="news-text">
+                        <div class="news-date">{{new.date}}</div>
+                        <h5 class="text-center mb-4"><a href="{% url 'news-detail' new.pk %}">{{new.title}}</a></h5>
+                        <p class="mb-4">{{new.content|truncatewords:30}}</p>
+                            <a href="{% url 'news-detail' new.pk %}" class="news-btn">read more<i class="fa fa-arrow-right ml-3"></i> </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+              {% if is_paginated %}
+
+         {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.previous_page_number}}">Previous</a>
+         {% endif %}
+
+         {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+           <a class="btn btn-info btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
+           {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+             <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+         {% endfor %}
+
+          {% if page_obj.has_next %}
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+         {% endif %}
+         {% endif %}
+    </div>
+</section>
+{% endblock content%}

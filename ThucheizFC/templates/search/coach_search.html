@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+.player-wrap {
+ margin-bottom: 40px;
+ -webkit-box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.06);
+ -moz-box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.06);
+  background: #fff;
+
+  }
+  .player-wrap .img {
+   width: fill;
+   margin-left:3%;
+   margin-right:3%;
+   height: 220px;
+   background-size:cover;
+
+  }
+  .player-wrap .text {
+    border-top: none;
+    padding: 20px 30px 30px; }
+    .player-wrap .text .jersey {
+      color: #1089ff;
+      font-size:20px;
+      margin-bottom: 0;
+      font-weight: 600;
+       }
+
+      .player-wrap .text .jersey span {
+        font-size: 12px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.3);
+        }
+
+    .player-wrap .text h2 {
+      font-size: 20px;
+      font-weight: 500; }
+      .car-wrap .text h2 a {
+        color: #000000; }
+    .player-wrap .text span.cat {
+      font-weight: 700;
+      color: rgba(0, 0, 0, 0.6);
+      display: block;
+      margin-bottom: 0; }
+    .player-wrap .text p.d-block {
+      width: 100%; }
+      .player-wrap .text p.d-block a {
+        width: 100%;
+         }
+.btn-sm{
+color:#fff !important;
+}
+</style>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row mb-3">
+          <div class="col-md-6">
+              <button class="btn btn-primary btn-block add-player-btn"><a href="{% url 'coach-register' %}" >Add new coach</a></button>
+          </div>
+       <div class="col-md-6">
+           {% include 'search/coach_search_form.html' %}
+        </div>
+     </div>
+        <div class="row justify-content-center">
+             <div class="col-md-4">
+                   <h4 class="text-center coach-title">Our Coaches</h4>
+             </div>
+        </div>
+        <div class="row">
+            {% for coach in coaches %}
+            <div class="col-md-4">
+                <div class="player-wrap rounded ftco-animate">
+                    <a href="{% url 'coach-detail' coach.pk %}">
+                        <div class="img d-flex">
+                            <img src="{{coach.coachimageURL}}" style="margin-top:10px;width:fill;" class="">
+                        </div>
+                    </a>
+
+                    <div class="text">
+                        <h2 class="mb-0"><a href="">{{coach.user.first_name}} {{coach.user.last_name}}</a></h2>
+                        <div class="d-flex mb-3">
+                            <span class="cat">{{coach.title}}</span>
+                        </div>
+                        <h6 style="color:#fff;" class="d-flex mb-0 d-block"><a href="{% url 'coach-detail' coach.pk %}" class="btn btn-primary btn-block py-2 ml-1">View profile</a> </h6>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+            {% if is_paginated %}
+
+         {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.previous_page_number}}">Previous</a>
+         {% endif %}
+
+         {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+           <a class="btn btn-info btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
+           {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+             <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+         {% endfor %}
+
+          {% if page_obj.has_next %}
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+         {% endif %}
+         {% endif %}
+    </div>
+</section>
+{% endblock %}

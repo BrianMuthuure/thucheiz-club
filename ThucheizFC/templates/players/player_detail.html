@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+   .single_player{
+   margin-bottom:50px;
+   }
+   .p_details_list{
+    margin-top:80px;
+    }
+    .p_details_list .list li{
+    margin-bottom:20px;
+    }
+    .p_details_list .list li a{
+    background: linear-gradient(to right, #244cfd, #15e4fd);
+    display: block;
+    line-height: 50px !important;
+    padding: 0px 18px;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    color: #fff;
+    text-decoration:none;
+    text-transform:capitalize;
+
+    }
+    .p_details_list .list li a span{
+    float: right;
+    font-size: 18px !important;
+    }
+    .p_details_list .list li:first-child a span{
+     color: #000;
+    }
+    .p_details_list .list li:last-child a span{
+    color:red;
+    }
+    .c_details_img img{
+    height:480px;
+    }
+    #myTab{
+    border:none;
+    margin-top:70px;
+    margin-left:90px;
+    margin-top:30px;
+    }
+    #myTab li{
+    margin:0px;
+    margin-left:75px;
+    }
+     #myTab li a{
+    border:none;
+    margin-bottom:0px;
+    line-height:55px;
+    font-size:16px;
+    letter-spacing:2px;
+    font-family: "Roboto", sans-serif;
+    color: blue !important;
+    font-weight:600;
+    padding: 0px !important;
+    border-bottom: 1px solid transparent;
+    }
+    #myTab li a.active{
+    border-color: #17a2b8;
+
+    }
+    #myTabContent{
+    background: #F5FBFF !important;
+    }
+    #myTabContent .objective_text{
+    padding: 35px;
+    border: 1px solid #eeeeee;
+    }
+    #myTabContent .objective_text h6{
+    text-transform:capitalize;
+    color: #2c234d;
+    font-weight: 600;
+    font-size: 17px;
+    }
+    #myTabContent .objective_text p{
+    text-transform:lowercase;
+    color: grey;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom:20px;
+    }
+    .edit-player-button{
+    color:#fff !important;
+     background: #244cfd;
+    padding:15px 25px;
+    border-radius:6px;
+    float:left;
+    letter-spacing:1.1px;
+    }
+    .edit-player-button:hover{
+     background: #15e4fd;
+     color:#343a40 !important;
+    }
+    .delete-player-button{
+    color:#fff !important;
+    background:red;
+    float:right;
+    padding:15px 25px;
+    border-radius:6px;
+    letter-spacing:1.1px;
+    }
+     .delete-player-button:hover{
+     background: #e83e8c;
+    }
+    .fa{
+    margin-left:6px;
+    }
+
+</style>
+<section class="player_area single_player p_120">
+    <div class="container">
+        <div class="row player_details_inner justify-content-center">
+            <div class="col-lg-8">
+                <div class="c_details_img">
+                    <img src="{{object.imageURL}}" class="img-fluid">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="p_details_list">
+                    <ul class="list">
+                       <li><a href="" class="lin">Name <span>{{object.user.first_name}} {{object.user.last_name}}</span></a></li>
+                       <li><a href="" class="lin">Position<span>{{object.position}}</span></a></li>
+                       <li><a href="" class="lin">Appearances<span>{{object.appearances}}</span></a></li>
+                    </ul>
+                    <div class="modify-player-section">
+                        <a class="button edit-player-button" href="{% url 'player-update' player.pk%}">edit player<i class="fa fa-edit"></i> </a>
+                        <span>
+                            <a class="button delete-player-button" href="{% url 'player-delete' player.pk %}">delete player<i class="fa fa-trash"></i> </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row player-statistics justify-content-start">
+            <div class="col-lg-8">
+                 <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Biography</a>
+                    </li>
+                     <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Contract</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Statistics</a>
+                    </li>
+                </ul>
+
+                 <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="objective_text">
+                            <h6>nationality</h6>
+                            <p>{{object.nationality}}</p>
+
+                            <h6>dob</h6>
+                            <p>{{object.dob}}</p>
+
+                            <h6>age</h6>
+                            <p>{{object.age}} years</p>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="objective_text">
+                           {% for contract in contracts %}
+                            <h6>Start date</h6>
+                            <p>{{contract.start_date}}</p>
+                            <h6>End date</h6>
+                            <p>{{contract.end_date}}</p>
+                            <h6>Salary</h6>
+                            <p>{{contract.salary}} ksh</p>
+                            <h6>Buyout clause</h6>
+                            <p>{{contract.buyout_clause}} ksh</p>
+                            <h6>Bonuses</h6>
+                            <p>{{contract.bonuses}} ksh</p>
+                            <h6>Total Salary</h6>
+                            <p>{{contract.total_salary}} ksh</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <div class="objective_text">
+                            <h6>goals</h6>
+                            <p>{{object.goals}}</p>
+
+                            <h6>yellow cards</h6>
+                            <p>{{object.yellow_card}}</p>
+
+                             <h6>red cards</h6>
+                            <p>{{object.red_cards}}</p>
+                        </div>
+                    </div>
+                 </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+{% endblock %}

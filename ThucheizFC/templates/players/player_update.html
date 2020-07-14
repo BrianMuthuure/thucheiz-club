@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .player-form{
+    width:60%;
+    margin-left:20%;
+    margin-bottom:40px;
+    }
+</style>
+<div class="container">
+    <form action="" method="post" enctype="multipart/form-data" class="player-form">
+        {% csrf_token %}
+        <h4 class="text-center add-player-h4">edit player</h4>
+               {{form.as_p}}
+        <button class="btn btn-info mt-4 btn-block" type="submit">Submit</button>
+    </form>
+</div>
+{% endblock content%}

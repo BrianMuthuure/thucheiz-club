@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+.total-players{
+background: linear-gradient(to right, #000099, #000066);
+
+}
+.totals h5, h6{
+color:#fff;
+}
+.available-players{
+background: linear-gradient(to right, #0000ff, #0080ff);
+}
+.injured-players{
+background: linear-gradient(to right, #003d66, #004d80);
+}
+.coaches{
+background: linear-gradient(to right, #1e2434, #003d66);
+}
+</style>
+<div class="container totals">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4 total-players">
+                <div class="card-header">
+                    <h6>Total Players:</h6>
+                </div>
+                <div class="card-body">
+                    <h5>{{players}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card mb-4 available-players">
+                <div class="card-header">
+                    <h6>Available Players:</h6>
+                </div>
+                <div class="card-body">
+                    <h5>{{available}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card mb-4 injured-players">
+                <div class="card-header">
+                    <h6>Injured Players:</h6>
+                </div>
+                <div class="card-body">
+                    <h5>{{injured}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card mb-4 coaches">
+                <div class="card-header">
+                    <h6>Coaches:</h6>
+                </div>
+                <div class="card-body">
+                    <h5>{{coaches}}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content%}
