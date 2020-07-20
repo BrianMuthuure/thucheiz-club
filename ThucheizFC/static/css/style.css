@@ -1,59 +1,26 @@
-/* =====================================
-Template Name: 	Mediplus.
-Author Name: Naimur Rahman
-Website: http://wpthemesgrid.com/
-Description: Mediplus - Doctor HTML Template.
-Version:	1.1
-========================================*/   
-/*======================================
-[ CSS Table of contents ]
-* Global CSS
-* Header CSS
-	+ Topbar
-	+ Logo
-	+ Widget
-	+ Main Menu
-	+ Search
-* Hero Slider CSS
-* Schedule CSS
-* Feautes CSS
-* Fun Facts CSS
-* Why Choose CSS
-* Call to Action CSS
-* Portfolio CSS
-	+ Portfolio Single CSS
-* Services CSS
-* Testimonials CSS
-* Departments CSS
-* Pricing Table CSS
-* Clients CSS
-* Team CSS
-	+ Single Team
-* Blog CSS
-	+ Latest Blog CSS
-	+ Blog Single CSS
-	+ Blog Sidebar CSS
-* Appointment CSS
-* Login CSS
-* Register CSS
-* Faq CSS
-* Contact Us CSS
-* Error 404 CSS
-* Mail Success CSS
-* Newsletter CSS
-* Doctor Calendar CSS
-* About Us CSS
-* Footer CSS
-========================================*/ 
-/*=============================
-	Global CSS 
-===============================*/
+
 body{
     font-family: 'Poppins', sans-serif;
 	font-weight: 400;
 	font-size:14px;
 	color:#888;
 }
+.logo_text{
+font-family: 'Roboto Slab', serif;
+font-size: 36px;
+font-weight: 700;
+line-height: 0.85;
+color: #000;
+-webkit-transition: all 200ms ease;
+-moz-transition: all 200ms ease;
+-ms-transition: all 200ms ease;
+-o-transition: all 200ms ease;
+transition: all 200ms ease;
+}
+.logo_text span {
+    color: #14bdee;
+}
+
 .form-control{
 width: 100%;
 height: 50px;
@@ -78,7 +45,7 @@ border-radius: 0px !important;
 }
 /* Topbar */
 .header .topbar{
-	background-color:#F5FBFF;;
+	background-color:#1e2434;
 	border-bottom:1px solid #eee;
 }
 .header .topbar{
@@ -95,7 +62,7 @@ border-radius: 0px !important;
 	margin-right:0px;
 }
 .header .top-link li a{
-	color:blue;
+	color:#fff;
 	font-size:15px;
 	font-weight:400;
 }
@@ -108,7 +75,7 @@ border-radius: 0px !important;
 .header .top-contact li{
 	display:inline-block;
 	margin-right:25px;
-	color:#2C2D3F;
+	color:#fff;
 }
 .header .top-contact li:last-child{
 	margin-right:0;
@@ -120,7 +87,7 @@ border-radius: 0px !important;
 	color:#1A76D1;
 }
 .header .top-contact li i{
-	color:#1A76D1;
+	color:#fff;
 	margin-right:8px;
 }
 .header .header-inner {

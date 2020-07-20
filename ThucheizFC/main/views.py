@@ -1,14 +1,18 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.utils.decorators import method_decorator
 # Create your views here.
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 from main.forms import ExtendedUserCreationForm, PlayerForm, PlayerUpdateForm, UserLoginForm, PlayerContractForm, \
     CoachCreationForm, CoachUpdateForm
+from main.mixins import allowed_users, unauthenticated_user
 from main.models import Player, Coach
 
 
@@ -66,6 +70,8 @@ def admin_login(request):
     return render(request, 'login.html', context)
 
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def add_player(request):
     if request.method == 'POST':
         form = ExtendedUserCreationForm(request.POST)
@@ -82,7 +88,8 @@ def add_player(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, f'Account created for {username} . You are now required to create {username} contract !')
-
+            group = Group.objects.get(name='Squad')
+            user.groups.add(group)
             return redirect('create-contract')
     else:
         form = ExtendedUserCreationForm()
@@ -114,13 +121,18 @@ class PlayerDetailView(DetailView):
         return context
 
 
-class PlayerUpdateView(SuccessMessageMixin, UpdateView):
+class PlayerUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
     model = Player
     template_name = 'players/player_update.html'
     form_class = PlayerUpdateForm
     success_message = 'Player information was changed successfully'
 
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def player_delete_view(request, pk):
     context = {}
     player = get_object_or_404(Player, pk=pk)
@@ -130,6 +142,8 @@ def player_delete_view(request, pk):
     return render(request, 'players/player_delete.html')
 
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def player_contract_create(request):
     if request.method == 'POST':
         form = PlayerContractForm(request.POST or None)
@@ -146,6 +160,8 @@ def player_contract_create(request):
     return render(request, 'players/add_player_contract.html', {'form': form})
 
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def coach_register(request):
     if request.method == 'POST':
         form = ExtendedUserCreationForm(request.POST)
@@ -193,14 +209,20 @@ class CoachDetailView(DetailView):
         return context
 
 
-class CoachUpdateView(SuccessMessageMixin, UpdateView):
+class CoachUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
     model = Coach
     template_name = 'coaches/coach-update.html'
     form_class = CoachUpdateForm
     success_message = "Coach information was updated successfully"
 
 
-class CoachDeleteView(DeleteView):
+class CoachDeleteView(LoginRequiredMixin, DeleteView):
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
     model = Coach
     template_name = 'coaches/coach_delete.html'
     success_url = '/coaches'

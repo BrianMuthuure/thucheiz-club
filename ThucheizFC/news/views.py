@@ -1,5 +1,6 @@
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import user_passes_test
 
@@ -30,7 +31,7 @@ class NewsDetailView(DetailView):
         return context
 
 
-class NewsCreateView(CreateView):
+class NewsCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
@@ -38,16 +39,23 @@ class NewsCreateView(CreateView):
     model = News
     form_class = NewsCreationForm
     template_name = 'news/create_news.html'
+    success_message = "News was created successfully"
 
 
-class NewsUpdateView(SuccessMessageMixin, UpdateView):
+class NewsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
     model = News
     template_name = 'news/create_news.html'
     fields = ['title', 'content', 'image']
     success_message = "The news was changed successfully"
 
 
-class NewsDeleteView(SuccessMessageMixin, DeleteView):
+class NewsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
     model = News
     template_name = 'news/news_delete.html'
     success_url = '/news'

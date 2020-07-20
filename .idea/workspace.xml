@@ -2,13 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a7790f5c-e770-47ab-b125-5bae099c86c3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/myenv/Lib/site-packages/news-1.0-py3.7.egg-info/PKG-INFO" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myenv/Lib/site-packages/news-1.0-py3.7.egg-info/SOURCES.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myenv/Lib/site-packages/news-1.0-py3.7.egg-info/dependency_links.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myenv/Lib/site-packages/news-1.0-py3.7.egg-info/installed-files.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myenv/Lib/site-packages/news-1.0-py3.7.egg-info/top_level.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myenv/Lib/site-packages/news_module.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/4thYearProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/4thYearProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -44,6 +37,11 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../StarsManagementSystem" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">

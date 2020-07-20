@@ -12,12 +12,18 @@
     text-transform:uppercase;
     font-weight:600;
     }
-    .table{
-     background: #f9fbfd;
+    .first-td{
+    background: #f8f8f8;
     }
+    .sec-td{
+
+    }
+
     .title a{
     text-decoration:none;
     color:#0000CD;
+    font-size: 16px;
+    font-weight: 600;
     }
     .stadium{
     text-transform:lowercase;
@@ -55,19 +61,22 @@
     .date{
     color:#000;
     }
+    .fixture_opponent{
+
+    }
 </style>
 <section>
     <div class="fixture-list">
         <div class="container">
             <div class="row justify-content-center">
-                 <div class="col-md-8">
+                 <div class="col-md-6">
                   <h4 class="fixtures-title">Upcoming Fixtures</h4><br>
 
                  </div>
             </div>
             {% for fixture in fixtures %}
           <div class="row justify-content-center mb-4">
-              <div class="col-md-8">
+              <div class="col-md-6">
                   <table class="table">
                        <thead>
                           <tr></tr>
@@ -77,7 +86,7 @@
                                <td class="first-td"><span class="date">{{fixture.date}}</span> | <span class="title"><a href="{% url 'fixture-detail' fixture.pk %}">{{fixture.title}}</a> </span></td>
                            </tr>
                            <tr>
-                               <td>
+                               <td class="sec-td">
                                     <span class="fixture_club">{{fixture.club}}</span><span class="button rounded-circle btn-circle vs-btn">vs</span><span class="fixture_opponent">{{fixture.opponent}}</span>
                                     <h6 class="stadium mt-4">{{fixture.stadium}}</h6>
                                     <h5 class=" btn btn-outline-info btn-sm match_time mt-4">{{fixture.time}}</h5>

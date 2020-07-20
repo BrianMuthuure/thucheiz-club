@@ -6,7 +6,6 @@ from .views import home, add_player, PlayerListView, PlayerDetailView, PlayerUpd
 
 urlpatterns = [
     path('', home, name='home'),
-    path('user_login/', user_login, name='user-login'),
     path('add_player/', add_player, name='add-player'),
     path('create_contract/', player_contract_create, name='create-contract'),
     path('players/', PlayerListView.as_view(), name='player-list'),
