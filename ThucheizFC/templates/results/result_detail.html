@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+    .results-title{
+    text-transform:uppercase;
+    font-weight:550;
+    color:#111f2d;
+    letter-spacing:1.5px;
+    }
+    .title{
+    text-transform:uppercase;
+    font-weight:600;
+    }
+    .first-td{
+    background: #f8f8f8;
+    }
+    .title a{
+    text-decoration:none;
+    color:#0000CD;
+    font-size: 16px;
+    font-weight: 600;
+    }
+    .fixture_club{
+    letter-spacing:1px;
+    margin-right:5px;
+    }
+    .fixture_opponent{
+    letter-spacing:1px;
+    margin-left:5px;
+    }
+    .club-score, .opponent-score{
+    color:green;
+    font-size:17px;
+    font-weight:600;
+    }
+    .mb-4{
+    margin-bottom:60px !important;
+    }
+    .date{
+    color:#000;
+    }
+    .club-logo{
+    height:68px;
+    }
+    .opponent-logo{
+    height:68px;
+    }
+    .mod{
+    float:right;
+    }
+    .edit{
+    color:green !important;
+    }
+    .delete{
+    color:red !important;
+    }
+</style>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h5 class="results-title">Latest Results</h5>
+        </div>
+    </div>
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-6">
+            <table class="table">
+                <thead>
+                <tr></tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td class="first-td">
+                        <span class="date">{{object.date}}</span>
+                        |
+                        <span class="title"><a href="#">{{object.result_type}}</a> </span>
+                        <span><a href="{% url 'result-update' result.pk %}" class="mod mr-3 edit">update<i class="fa fa-edit ml-1" ></i></a></span>
+                        <span><a href="{% url 'result-delete' result.pk %}" class="mod mr-3 delete">delete<i class="fa fa-trash ml-1" ></i></a></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sec-td">
+                        <span class="fixture_club">{{object.club}}</span>
+                        <span><img class="club-logo mr-4" src="{% static 'images/icons8-kenya-240.png' %}"></span>
+                        <span><a href="" class="club-score">{{object.club_score}} :</a></span>
+
+                        <span><a href="" class="opponent-score">{{object.opponent_score}}</a></span>
+                        <span><img class="opponent-logo ml-4" src="{{object.resultimageURL}}"></span>
+                         <span class="fixture_opponent">{{object.opponent}}</span>
+
+                          <h6 class="stadium mt-4"></h6>
+                          <a href="#" class=" btn btn-outline-info btn-block btn-sm match_time mt-4" style="color:#fff;">match review</a>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+{% endblock content%}

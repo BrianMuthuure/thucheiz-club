@@ -1,0 +1,48 @@
+{% extends "base.html"%}
+{% block content %}
+<style>
+    .errorlist li{
+    color:red !important;
+    }
+
+</style>
+<div class="container">
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row justify-content-center">
+            <div class="form-group col-lg-7">
+                <label class="label">Title</label>
+                {{form.title}}
+            </div>
+
+            <div class="form-group col-lg-7">
+                <label class="label">Date</label>
+                {{form.date.errors}}
+                {{form.date}}
+            </div>
+
+            <div class="form-group col-lg-7">
+                <label class="label">Time</label>
+                {{form.time}}
+            </div>
+
+             <div class="form-group col-lg-7">
+                <label class="label">Opponent</label>
+                {{form.opponent}}
+            </div>
+            <div class="form-group col-lg-7">
+                <label class="label">Image</label>
+                {{form.opponent_image}}
+            </div>
+            <div class="form-group col-lg-7">
+                <label class="label">Stadium</label>
+                {{form.stadium}}
+            </div>
+
+            <div class="form-group col-lg-7">
+                <button class="btn btn-info btn-block" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

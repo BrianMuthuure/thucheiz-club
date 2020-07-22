@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+     .delete-player-btn{
+      display:inline-block;
+     vertical-align:middle;
+     background:#ba2121;
+     padding:13px 15px;
+     border-radius:4px;
+     color:#fff !important;
+      margin:0 0 0 10px;
+     }
+     .take-me-back{
+     display:inline-block;
+     vertical-align:middle;
+     background:#ddd;
+     padding:10px 15px;
+     border-radius:4px;
+     color:#333 !important;
+     margin:0 0 0 10px;
+     }
+</style>
+   <div class="container" >
+       <form method="POST" action="">
+           {% csrf_token %}
+           <div class="row justify-content-center">
+               <div class="form-group col-md-8">
+                   <h4>delete fixture</h4>
+               </div>
+               <div class="form-group col-md-8 mt-4">
+                   <h6>Are you sure you want to delete this fixture ??</h6>
+               </div>
+               <div class="form-group col-md-8 mt-4">
+                  <button class="button delete-player-btn" type="submit">Yes, I'm sure</button>
+                  <a class="button take-me-back" href="{% url 'fixture-list' %}">No, take me back</a>
+               </div>
+           </div>
+       </form>
+   </div>
+{% endblock %}

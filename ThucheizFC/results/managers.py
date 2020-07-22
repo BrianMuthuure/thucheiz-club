@@ -23,3 +23,5 @@ class ResultManager(models.Manager):
 
     def search(self, query):
         return self.get_queryset().search(query)
+
+

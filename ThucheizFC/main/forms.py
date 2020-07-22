@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
-from .models import User, Player, PlayerContract, Coach
+from .models import User, Player, PlayerContract, Coach, Contact
 
 
 class ExtendedUserCreationForm(UserCreationForm):
@@ -183,3 +183,9 @@ class CoachUpdateForm(forms.ModelForm):
             'wins': forms.NumberInput(attrs={'class': 'form-control'}),
             'losses': forms.NumberInput(attrs={'class': 'form-control'}),
         }
+
+
+class ContactUsForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'email', 'subject']

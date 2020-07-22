@@ -11,9 +11,10 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 from main.forms import ExtendedUserCreationForm, PlayerForm, PlayerUpdateForm, UserLoginForm, PlayerContractForm, \
-    CoachCreationForm, CoachUpdateForm
+    CoachCreationForm, CoachUpdateForm, ContactUsForm
 from main.mixins import allowed_users, unauthenticated_user
-from main.models import Player, Coach
+from main.models import Player, Coach, PlayerContract
+from news.models import News
 
 
 def home(request):
@@ -25,7 +26,7 @@ def home(request):
         'players': players,
         'available': available,
         'injured': injured,
-        'coaches': coaches
+        'coaches': coaches,
     }
     return render(request, 'home.html', context)
 
@@ -226,3 +227,18 @@ class CoachDeleteView(LoginRequiredMixin, DeleteView):
     model = Coach
     template_name = 'coaches/coach_delete.html'
     success_url = '/coaches'
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactUsForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'thanks for contacting us , we will get back to you soon')
+            return redirect('/')
+    else:
+        form = ContactUsForm()
+        context = {
+            'form': form
+        }
+    return render(request, 'contact/contact_create.html', context)

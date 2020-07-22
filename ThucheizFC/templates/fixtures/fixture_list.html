@@ -40,12 +40,6 @@
     letter-spacing:1px;
     margin-left:5px;
     }
-    .match_time{
-    font-weight:550;
-    border-radius:4px;
-    width:100px;
-    color:#000;
-    }
     .vs-btn{
      border-radius: 100%;
      width: 42px;
@@ -61,9 +55,15 @@
     .date{
     color:#000;
     }
-    .fixture_opponent{
-
+    .club-logo{
+    height:68px;
     }
+    .opponent-logo{
+    height:68px;
+
+   .btn{
+   color:#fff !important;
+   }
 </style>
 <section>
     <div class="fixture-list">
@@ -87,9 +87,16 @@
                            </tr>
                            <tr>
                                <td class="sec-td">
-                                    <span class="fixture_club">{{fixture.club}}</span><span class="button rounded-circle btn-circle vs-btn">vs</span><span class="fixture_opponent">{{fixture.opponent}}</span>
+                                    <span class="fixture_club">{{fixture.club}}</span>
+                                   <span><img class="club-logo mr-4" src="{% static 'images/icons8-kenya-240.png' %}"></span>
+                                   <span class="button rounded-circle btn-circle vs-btn">
+                                       vs
+                                   </span>
+                                   <span><img class="opponent-logo ml-4" src="{{fixture.fixtureimageURL}}"></span>
+                                   <span class="fixture_opponent">{{fixture.opponent}}</span>
+
                                     <h6 class="stadium mt-4">{{fixture.stadium}}</h6>
-                                    <h5 class=" btn btn-outline-info btn-sm match_time mt-4">{{fixture.time}}</h5>
+                                    <a href="{% url 'fixture-detail' fixture.pk %}" class=" btn btn-outline-info btn-block btn-sm match_time mt-4" style="color:#fff;">kick off : {{fixture.time}}</a>
 
                                </td>
                             </tr>
@@ -99,6 +106,29 @@
     </div>
   </div>
             {% endfor %}
+     <div class="row justify-content-center">
+          <div class="col-md-6">
+         {% if is_paginated %}
+         {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page=1">First</a>
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.previous_page_number}}">Previous</a>
+         {% endif %}
+
+         {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num %}
+           <a class="btn btn-info btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
+           {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+             <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+         {% endfor %}
+
+          {% if page_obj.has_next %}
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+         {% endif %}
+         {% endif %}
+                </div>
+            </div>
     </div>
     </div>
 </section>

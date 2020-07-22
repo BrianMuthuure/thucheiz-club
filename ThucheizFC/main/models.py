@@ -147,8 +147,25 @@ class PlayerContract(models.Model):
             self.total_salary = self.salary + self.bonuses
         super(PlayerContract, self).save()
 
+        """"
+        date_format = "%Y-%m-%d"
+        a = datetime.datetime.strptime(str(datetime.date.today()), date_format)
+        b = datetime.datetime.strptime(str(self.end_date), date_format)
+        self.remaining_days = (b-a).days
+        super().save()
+        """
+
     def get_absolute_url(self):
         return reverse("contract-detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f'{self.player.user.username} Contract'
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
+    subject = models.TextField()
+
+    def __str__(self):
+        return self.email

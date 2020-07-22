@@ -16,6 +16,7 @@ class NewsListView(ListView):
     context_object_name = 'news'
     template_name = 'news/news_list.html'
     paginate_by = 6
+    ordering = ['-date']
 
     def get_context_data(self, *args, **kwargs):
         context = super(NewsListView, self).get_context_data(*args, **kwargs)

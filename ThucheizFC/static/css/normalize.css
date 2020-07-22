@@ -132,10 +132,6 @@ input[type="radio"] {
 	box-sizing: border-box;
 	padding: 0;
 }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-	height: auto;
-}
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-decoration {
 	-webkit-appearance: none;
@@ -172,10 +168,6 @@ textarea {
 	font-weight:400;
 	font-size: 14px;
 	line-height: 24px;
-}
-h1, h2, h3, h4, h5, h6 {
-	font-weight: 700;
-	margin: 0;
 }
 p {
 	color:#757575;
@@ -423,7 +415,7 @@ Preloader Area CSS
 }
 
 .btn {
-	color: #fff;
+	color: #fff !important;
 	padding: 13px 25px;
 	font-size: 14px;
 	text-transform: capitalize;
@@ -691,30 +683,10 @@ input[type="color"],
 textarea {
 	color: #666;
 	border: 1px solid #ccc;
-	border-radius: 3px;
-	padding: 3px;
+	border-radius: 2px;
 	font-weight:400;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="password"]:focus,
-input[type="search"]:focus,
-input[type="number"]:focus,
-input[type="tel"]:focus,
-input[type="range"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="week"]:focus,
-input[type="time"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="color"]:focus,
-textarea:focus {
-	color: #111;
-	font-weight:400;
-}
 
 select {
 	border: 1px solid #ccc;
@@ -734,9 +706,6 @@ a {
 	color: inherit;
 }
 
-a:visited {
-	color: inherit;
-}
 
 a:hover, a:focus, a:active {
 	color: inherit;

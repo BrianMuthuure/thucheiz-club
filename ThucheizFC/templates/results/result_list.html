@@ -1,34 +1,95 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="results-list">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
+{% load static %}
 
-            </div>
-
-            <div class="col-lg-6">
-
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-8">
-                {% for result in results %}
-                <table class="result-table">
-                    <thead></thead>
-                    <tbody>
-                    <tr>
-                        <td><span>{{result.date}} | </span><span>{{result.result_type}}</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>{{result.club}}</span></td>
-                    </tr>
-                    </tbody>
-                </table>
-                {% endfor %}
-            </div>
+<style>
+    .results-title{
+    text-transform:uppercase;
+    font-weight:550;
+    color:#111f2d;
+    letter-spacing:1.5px;
+    }
+    .title{
+    text-transform:uppercase;
+    font-weight:600;
+    }
+    .first-td{
+    background: #f8f8f8;
+    }
+    .title a{
+    text-decoration:none;
+    color:#0000CD;
+    font-size: 16px;
+    font-weight: 600;
+    }
+    .fixture_club{
+    letter-spacing:1px;
+    margin-right:5px;
+    }
+    .fixture_opponent{
+    letter-spacing:1px;
+    margin-left:5px;
+    }
+    .club-score, .opponent-score{
+    color:green;
+    font-size:17px;
+    font-weight:600;
+    }
+    .mb-4{
+    margin-bottom:60px !important;
+    }
+    .date{
+    color:#000;
+    }
+    .club-logo{
+    height:68px;
+    }
+    .opponent-logo{
+    height:68px;
+    }
+</style>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h5 class="results-title">Latest Results</h5>
         </div>
     </div>
+    {% for result in results %}
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-6">
+            <table class="table">
+                <thead>
+                <tr></tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <td class="first-td">
+                        <span class="date">{{result.date}}</span>
+                        |
+                        <span class="title"><a href="{% url 'result-detail' result.pk %}">{{result.result_type}}</a> </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="sec-td">
+                        <span class="fixture_club">{{result.club}}</span>
+                        <span><img class="club-logo mr-4" src="{% static 'images/icons8-kenya-240.png' %}"></span>
+                        <span><a href="{% url 'result-detail' result.pk %}" class="club-score">{{result.club_score}} :</a></span>
+
+                        <span><a href="{% url 'result-detail' result.pk %}" class="opponent-score">{{result.opponent_score}}</a></span>
+                        <span><img class="opponent-logo ml-4" src="{{result.resultimageURL}}"></span>
+                         <span class="fixture_opponent">{{result.opponent}}</span>
+
+                          <h6 class="stadium mt-4"></h6>
+                          <a href="{% url 'result-detail' result.pk %}" class=" btn btn-outline-info btn-block btn-sm match_time mt-4" style="color:#fff;">match review</a>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    {% endfor %}
 </div>
 {% endblock content%}
