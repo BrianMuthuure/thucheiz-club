@@ -1,7 +1,6 @@
 import datetime
 
 from django import forms
-
 from fixtures.models import Fixture
 
 
