@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -57,3 +58,8 @@ class ResultDeleteView(LoginRequiredMixin, DeleteView):
     model = Result
     template_name = 'results/delete_result.html'
     success_url = '/results'
+    
+    def delete(self, request, *args, **kwargs):
+        result = self.get_object()
+        messages.success(request, 'The result %s was deleted with success!' % result.result_type)
+        return super(ResultDeleteView, self).delete(request, *args, **kwargs)

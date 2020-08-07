@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
@@ -52,11 +53,15 @@ class FixtureUpdateView(SuccessMessageMixin, UpdateView):
     success_message = "fixture update was successful"
 
 
-class FixtureDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class FixtureDeleteView(LoginRequiredMixin, DeleteView):
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
     model = Fixture
     template_name = 'fixtures/fixture_delete.html'
-    success_message = "Fixture deleted successfully"
     success_url = '/fixtures'
+
+    def delete(self, request, *args, **kwargs):
+        fixture = self.get_object()
+        messages.success(request, 'The fixture %s was deleted with success!' % fixture.title)
+        return super(FixtureDeleteView, self).delete(request, *args, **kwargs)

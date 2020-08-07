@@ -6,6 +6,12 @@ from fixtures.models import Fixture
 
 class FixtureCreationForm(forms.ModelForm):
 
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        if date < datetime.date.today():
+            raise forms.ValidationError('Fixture date should not be less than today!!')
+        return date
+
     class Meta:
         model = Fixture
         fields = ['title', 'opponent', 'opponent_image', 'stadium', 'time', 'date']

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -60,3 +61,8 @@ class NewsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = News
     template_name = 'news/news_delete.html'
     success_url = '/news'
+    
+    def delete(self, request, *args, **kwargs):
+        news = self.get_object()
+        messages.success(request, 'The fixture %s was deleted with success!' % news.title)
+        return super(NewsDeleteView, self).delete(request, *args, **kwargs)

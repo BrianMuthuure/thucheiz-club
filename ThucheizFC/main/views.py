@@ -6,6 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 # Create your views here.
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
@@ -119,6 +120,7 @@ class PlayerDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(PlayerDetailView, self).get_context_data(*args, **kwargs)
+        context['contracts'] = PlayerContract.objects.filter(player=self.object)
         return context
 
 
@@ -132,15 +134,19 @@ class PlayerUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = 'Player information was changed successfully'
 
 
-@login_required
-@allowed_users(allowed_roles=['Admin'])
-def player_delete_view(request, pk):
-    context = {}
-    player = get_object_or_404(Player, pk=pk)
-    if request.method == 'POST':
-        player.delete()
-        return redirect('player-list')
-    return render(request, 'players/player_delete.html')
+class PlayerDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    model = Player
+    context_object_name = 'player'
+    template_name = 'players/player_delete.html'
+    success_url = reverse_lazy('player-list')
+
+    def delete(self, request, *args, **kwargs):
+        player = self.get_object()
+        messages.success(request, 'The player %s was deleted successfully!' % player.user)
+        return super().delete(request, *args, **kwargs)
 
 
 @login_required
@@ -226,7 +232,12 @@ class CoachDeleteView(LoginRequiredMixin, DeleteView):
         return super().dispatch(*args, **kwargs)
     model = Coach
     template_name = 'coaches/coach_delete.html'
-    success_url = '/coaches'
+    success_url = reverse_lazy('coach-list')
+
+    def delete(self, request, *args, **kwargs):
+        coach = self.get_object()
+        messages.success(request, 'The coach %s was deleted successfully!' % coach.user)
+        return super().delete(request, *args, **kwargs)
 
 
 def contact_us(request):
