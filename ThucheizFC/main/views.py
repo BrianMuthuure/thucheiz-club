@@ -14,7 +14,7 @@ from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from main.forms import ExtendedUserCreationForm, PlayerForm, PlayerUpdateForm, UserLoginForm, PlayerContractForm, \
     CoachCreationForm, CoachUpdateForm, ContactUsForm
 from main.mixins import allowed_users, unauthenticated_user
-from main.models import Player, Coach, PlayerContract
+from main.models import Player, Coach, Contract
 from news.models import News
 
 
@@ -92,7 +92,7 @@ def add_player(request):
             messages.success(request, f'Account created for {username} . You are now required to create {username} contract !')
             group = Group.objects.get(name='Squad')
             user.groups.add(group)
-            return redirect('create-contract')
+            return redirect('player-list')
     else:
         form = ExtendedUserCreationForm()
         player_form = PlayerForm()
@@ -120,7 +120,7 @@ class PlayerDetailView(DetailView):
 
     def get_context_data(self, *args, **kwargs):
         context = super(PlayerDetailView, self).get_context_data(*args, **kwargs)
-        context['contracts'] = PlayerContract.objects.filter(player=self.object)
+        context['contracts'] = Contract.objects.filter(player=self.object)
         return context
 
 

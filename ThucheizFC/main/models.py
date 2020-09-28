@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
+from django.db.models.signals import post_save
 from django.urls import reverse
 
 from main.managers import PlayerManager, CoachManager
@@ -40,6 +41,7 @@ class Player(models.Model):
     dob = models.DateField()
     age = models.PositiveIntegerField(null=True, blank=True)
     appearances = models.PositiveIntegerField(default=0)
+    clean_sheets = models.PositiveIntegerField(default=0)
     goals = models.PositiveIntegerField(null=True, blank=True, default=0)
     red_cards = models.IntegerField(default=0)
     yellow_card = models.IntegerField(default=0)
@@ -63,7 +65,7 @@ class Player(models.Model):
         return reverse("player-detail", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return str(self.jersey_no)
+        return f'{self.user.first_name} {self.user.last_name}'
 
     @property
     def imageURL(self):
@@ -130,30 +132,30 @@ class Coach(models.Model):
         return url
 
 
-class PlayerContract(models.Model):
+class Contract(models.Model):
     player = models.OneToOneField(Player, on_delete=models.CASCADE)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     salary = models.DecimalField(decimal_places=2, max_digits=10, default=0.00)
     buyout_clause = models.DecimalField(decimal_places=2, max_digits=10, default=0.00)
-    bonuses = models.DecimalField(decimal_places=2, max_digits=10, default=0.00)
-    total_salary = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
 
     class Meta:
-        verbose_name_plural = 'player contracts '
+        verbose_name_plural = 'contracts '
 
+
+
+    """"
     def save(self, *args, **kwargs):
         if self.player:
             self.total_salary = self.salary + self.bonuses
-        super(PlayerContract, self).save()
-
-        """"
+        super(Contract, self).save()
+    
         date_format = "%Y-%m-%d"
         a = datetime.datetime.strptime(str(datetime.date.today()), date_format)
         b = datetime.datetime.strptime(str(self.end_date), date_format)
         self.remaining_days = (b-a).days
         super().save()
-        """
+    """""
 
     def get_absolute_url(self):
         return reverse("contract-detail", kwargs={"pk": self.pk})

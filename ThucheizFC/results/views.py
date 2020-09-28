@@ -32,7 +32,7 @@ class ResultDetailView(DetailView):
 
 
 class ResultCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    @method_decorator(user_passes_test(lambda u: u.is_superuser and u.is_admin))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
     model = Result
@@ -42,7 +42,7 @@ class ResultCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 
 class ResultUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    @method_decorator(user_passes_test(lambda u: u.is_superuser and u.is_admin))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
     model = Result
@@ -52,7 +52,7 @@ class ResultUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 
 class ResultDeleteView(LoginRequiredMixin, DeleteView):
-    @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    @method_decorator(user_passes_test(lambda u: u.is_superuser and u.is_admin))
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
     model = Result

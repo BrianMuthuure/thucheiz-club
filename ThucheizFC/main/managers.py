@@ -45,7 +45,6 @@ class PlayerManager(models.Manager):
         return self.get_queryset().search(query)
 
 
-
 class CoachQuerySet(models.query.QuerySet):
     def active(self):
         return self.filter(active=True)

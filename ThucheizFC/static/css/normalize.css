@@ -1,16 +1,6 @@
-/* =====================================
-Template Name: 	Mediplus.
-Author Name: Naimur Rahman
-Website: http://wpthemesgrid.com/
-Description: Mediplus - Doctor HTML Template.
-Version:	1.1
-========================================*/ 
 
-/*--------------------------------------------------------------
-# Normalize
---------------------------------------------------------------*/
 html {
-	 font-family: 'Poppins', sans-serif;
+	font-family: 'Peddana', serif !important;
 	-moz-text-size-adjust: 100%;
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;

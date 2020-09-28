@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
-from .models import User, Player, PlayerContract, Coach, Contact
+from .models import User, Player, Contract, Coach, Contact
 
 
 class ExtendedUserCreationForm(UserCreationForm):
@@ -119,9 +119,9 @@ class PlayerContractForm(forms.ModelForm):
                                     widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
-        model = PlayerContract
+        model = Contract
         fields = [
-            'player', 'start_date', 'end_date', 'salary', 'buyout_clause', 'bonuses'
+            'player', 'start_date', 'end_date', 'salary', 'buyout_clause'
         ]
 
         widgets = {
