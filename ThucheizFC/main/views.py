@@ -145,7 +145,7 @@ class PlayerDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         player = self.get_object()
-        messages.success(request, 'The player %s was deleted successfully!' % player.user)
+        messages.success(request, 'The player was deleted successfully!')
         return super().delete(request, *args, **kwargs)
 
 

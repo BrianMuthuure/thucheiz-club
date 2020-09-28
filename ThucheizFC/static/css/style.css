@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Peddana&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 body{
-    font-family: 'Bangers', cursive;
+font-family: 'Roboto', sans-serif;
 	font-weight: 400;
 	font-size:14px;
 	color:#888;
