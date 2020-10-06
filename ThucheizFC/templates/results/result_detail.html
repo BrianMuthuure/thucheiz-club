@@ -1,104 +1,94 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% block content %}
 {% load static %}
-
 <style>
-    .results-title{
-    text-transform:uppercase;
-    font-weight:550;
-    color:#111f2d;
-    letter-spacing:1.5px;
-    }
-    .title{
-    text-transform:uppercase;
-    font-weight:600;
-    }
-    .first-td{
-    background: #f8f8f8;
-    }
-    .title a{
-    text-decoration:none;
-    color:#0000CD;
-    font-size: 16px;
-    font-weight: 600;
-    }
-    .fixture_club{
-    letter-spacing:1px;
-    margin-right:5px;
-    }
-    .fixture_opponent{
-    letter-spacing:1px;
-    margin-left:5px;
-    }
-    .club-score, .opponent-score{
-    color:green;
-    font-size:17px;
-    font-weight:600;
-    }
-    .mb-4{
-    margin-bottom:60px !important;
-    }
-    .date{
-    color:#000;
-    }
-    .club-logo{
-    height:68px;
-    }
-    .opponent-logo{
-    height:68px;
-    }
-    .mod{
-    float:right;
-    }
-    .edit{
-    color:green !important;
-    }
-    .delete{
-    color:red !important;
-    }
+    .card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+.card-header {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    position: relative;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+.card-title{
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+}
+.card-footer{
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    position: relative;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+
+}
 </style>
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <h5 class="results-title">Latest Results</h5>
+<section>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 mb-3">
+                <div class="card">
+                    <div class="card-header text-center">
+                         <a class="card-title" href="">{{object.result_type}}</a>
+                        <p class="float-right">{{object.date}}</p>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-md-4 text-center">
+                                <img src="{% static 'images/icons8-kenya-240.png' %}" class="img-fluid float-right" style="height:70px;">
+                                 <h6 class="mt-4">Thucheiz FC</h6><br>
+                                <p>{{object.club_goal.all|join:", "}}</p>
+                            </div>
+
+                            <div class="col-md-2 text-center" style="margin-top:20px;margin-bottom:20px;">
+                                <a href="" style="font-size:1.3em;"><span >{{object.club_score}}</span>
+
+                                -
+
+                                    <span>{{object.opponent_score}}</span></a>
+                                <h6 class="mt-2" style="letter-spacing:2px;">FT</h6><br>
+                                <p>{{result.stadium}}</p>
+
+                            </div>
+
+                            <div class="col-md-4 text-center">
+                                <img class="float-left " src="{{object.imageURL}}" style="height:70px;">
+                                <h5 class=" mt-4">{{object.opponent}}</h5><br>
+                                <p>{{object.opponent_goal.all|join:", "}}</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                <div class="card-footer">
+                    <div class="row justify-content-center">
+                        <div class="col-md-5 text-center">
+                             <a href="#"> change <i class="fa fa-edit"></i></a>
+                             <a href="{% url 'result-delete' result.pk %}"> delete <i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+
+             </div>
+
+          </div>
         </div>
-    </div>
-    <div class="row justify-content-center mb-4">
-        <div class="col-lg-6">
-            <table class="table">
-                <thead>
-                <tr></tr>
-                </thead>
 
-                <tbody>
-                <tr>
-                    <td class="first-td">
-                        <span class="date">{{object.date}}</span>
-                        |
-                        <span class="title"><a href="#">{{object.result_type}}</a> </span>
-                        <span><a href="{% url 'result-update' result.pk %}" class="mod mr-3 edit">update<i class="fa fa-edit ml-1" ></i></a></span>
-                        <span><a href="{% url 'result-delete' result.pk %}" class="mod mr-3 delete">delete<i class="fa fa-trash ml-1" ></i></a></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="sec-td">
-                        <span class="fixture_club">{{object.club}}</span>
-                        <span><img class="club-logo mr-4" src="{% static 'images/icons8-kenya-240.png' %}"></span>
-                        <span><a href="" class="club-score">{{object.club_score}} :</a></span>
-
-                        <span><a href="" class="opponent-score">{{object.opponent_score}}</a></span>
-                        <span><img class="opponent-logo ml-4" src="{{object.resultimageURL}}"></span>
-                         <span class="fixture_opponent">{{object.opponent}}</span>
-
-                          <h6 class="stadium mt-4"></h6>
-                          <a href="#" class=" btn btn-outline-info btn-block btn-sm match_time mt-4" style="color:#fff;">match review</a>
-
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-    </div>
-</div>
-{% endblock content%}
+     </div>
+</section>
+{% endblock %}

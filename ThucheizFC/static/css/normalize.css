@@ -160,7 +160,7 @@ textarea {
 	line-height: 24px;
 }
 p {
-	color:#757575;
+	color: rgba(17, 17, 17, 0.51);
 	margin: 0;
 	line-height:24px;
 	font-weight:400;
@@ -692,10 +692,6 @@ textarea {
 /*--------------------------------------------------------------
 ## Links
 --------------------------------------------------------------*/
-a {
-	color: inherit;
-}
-
 
 a:hover, a:focus, a:active {
 	color: inherit;

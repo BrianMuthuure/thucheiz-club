@@ -4,7 +4,7 @@ body{
 font-family: 'Roboto', sans-serif;
 	font-weight: 400;
 	font-size:14px;
-	color:#888;
+	background:#e9ecef14 !important;
 }
 .logo_text{
 font-family: 'Peddana', serif !important;
@@ -34,7 +34,7 @@ transition: all 200ms ease;
 }
 /* Topbar */
 .header .topbar{
-	background-color:#1e2434;
+	background-color:#050217e8;
 	border-bottom:1px solid #eee;
 }
 .header .topbar{
@@ -387,7 +387,7 @@ footer
 display:block;
 position: relative;
 width:100%;
-background: #1e2434;
+background: #050217e8;
 padding-top:94px;
 }
 .footer_background
@@ -425,9 +425,10 @@ transition: all 200ms ease;
 {
 	margin-top: -14px;
 }
-.footer_about_text
+.footer_about_text p
 {
 	margin-top: 31px;
+	color:#fff !important;
 }
 .footer_about_text p
 {

@@ -1,54 +1,103 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-    .news-detail {
-    padding-top: 50px;
-    padding-bottom: 120px;
+.card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
 }
-    .news-detail .news-date{
-    color:#fff;
-    background: linear-gradient(to right, #244cfd, #15e4fd);
-    padding:12px 30px;
-    display:inline-block;
-    position:relative;
-    top:-25px;
-    left:30px;
-    }
-    .update-news-btn{
-    color:#fff !important;
-    background-color: #006cff;
-    padding: 12px 26px;
-    float:left;
-    border-radius:4px;
-    letter-spacing:1.7px;
-    text-transform:capitalize;
-    }
-    .delete-news-btn{
-    background-color: #dc3545;
-    padding: 12px 26px;
-    color:#fff !important;
-    float:right;
-    border-radius:4px;
-    letter-spacing:1.7px;
-    text-transform:capitalize;
-    }
+.card {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+.card-header {
+    background-color: rgba(0,0,0,.09) !important;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: .75rem 1.25rem;
+    position: relative;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+.card-header {
+    padding: .75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: rgba(0,0,0,.03);
+    border-bottom: 0 solid rgba(0,0,0,.125);
+}
+.card-header > .card-tools {
+    float: right;
+    margin-right: -.625rem;
+}
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+}
+.btn-tool {
+    color: #adb5bd;
+    font-size: .875rem;
+    margin: -.75rem 0;
+    padding: .25rem .5rem;
+}
+.news-date {
+    color: #000;
+    display: inline-block;
+    position: relative;
+}
 </style>
-<div class="news-detail">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="image-area">
-                    <img src="{{object.imageURL}}" class="img-fluid">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-tools">
+                     <a href="{% url 'news-update' object.pk %}" class="btn btn-tool"><i class="fas fa-edit"></i></a>
+                     <a href="{% url 'news-delete' object.pk %}" class="btn btn-tool"><i class="fas fa-times"></i></a>
+                    </div>
+                    <div class="news-date float-left">
+                        {{object.date}}
+                    </div>
                 </div>
 
-                <div class="news-details-text">
-                    <div class="news-date">{{object.date}}</div>
-                    <div class="news-title mb-4">
-                        <h5>{{object.title}}</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row mb-4">
+                                <div class="col-sm-4">
+                                    <div class="row-md-2 mt-3">
+                                        <img class="float-left mr-3 mt-3" src="{{object.imageURL}}" style="height:230px;">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8">
+                                     <div class="form-group border-bottom row">
+                                           <div class="col text-center">
+                                               <h5>{{ object.title }}</h5><hr>
+                                            </div>
+                                      </div>
+
+                                       <div class="form-group border-bottom row">
+                                            <div class="col text-center">
+                                               <p>{{ object.content }}</p>
+                                            </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p>{{object.content}}</p>
-                    <a class="update-news-btn mt-4" href="{% url 'news-update' object.pk %}">change news<i class="fa fa-edit ml-4"></i></a>
-                    <a class="delete-news-btn mt-4" href="{% url 'news-delete' object.pk %}">delete news<i class="fa fa-trash ml-4"></i></a>
                 </div>
             </div>
         </div>

@@ -102,13 +102,14 @@ class UserLoginForm(forms.Form):
 class PlayerUpdateForm(forms.ModelForm):
     class Meta:
         model = Player
-        fields = ['position', 'nationality', 'jersey_no', 'appearances', 'goals', 'red_cards', 'yellow_card',  'image']
+        fields = ['position', 'nationality', 'jersey_no', 'appearances', 'goals', 'clean_sheets', 'red_cards', 'yellow_card',  'image']
         widgets = {
             'position': forms.TextInput(attrs={'class': 'form-control'}),
             'nationality': forms.TextInput(attrs={'class': 'form-control'}),
             'jersey_no': forms.NumberInput(attrs={'class': 'form-control'}),
             'appearances': forms.NumberInput(attrs={'class': 'form-control'}),
             'goals': forms.NumberInput(attrs={'class': 'form-control'}),
+            'clean_sheets': forms.NumberInput(attrs={'class': 'form-control'}),
             'red_cards': forms.NumberInput(attrs={'class': 'form-control'}),
             'yellow_card': forms.NumberInput(attrs={'class': 'form-control'})
         }

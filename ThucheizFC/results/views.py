@@ -1,23 +1,17 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import user_passes_test
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
-# Create your views here.
-from django.utils.decorators import method_decorator
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-from results.forms import ResultCreationForm
+from results.forms import ClubGoalCreationForm, OpponentGoalCreationForm, ResultCreationForm
 from results.models import Result
 
 
 class ResultListView(ListView):
     model = Result
+    paginate_by = 3
     context_object_name = 'results'
     template_name = 'results/result_list.html'
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, *args,  **kwargs):
         context = super(ResultListView, self).get_context_data(*args, **kwargs)
         return context
 
@@ -26,40 +20,39 @@ class ResultDetailView(DetailView):
     model = Result
     template_name = 'results/result_detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(ResultDetailView, self).get_context_data(**kwargs)
-        return context
+
+def add_goals(request):
+    if request.method == 'POST':
+        club_goal_form = ClubGoalCreationForm(request.POST)
+        opponent_goal_form = OpponentGoalCreationForm(request.POST)
+        if club_goal_form.is_valid() and opponent_goal_form.is_valid():
+            club_goal_form.save()
+            opponent_goal_form.save()
+            return redirect('/')
+    else:
+        club_goal_form = ClubGoalCreationForm()
+        opponent_goal_form = OpponentGoalCreationForm()
+    context = {
+        'club_goal_form': club_goal_form,
+        'opponent_goal_form': opponent_goal_form
+    }
+    return render(request, 'results/add_goals.html', context)
 
 
-class ResultCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
-    @method_decorator(user_passes_test(lambda u: u.is_superuser and u.is_admin))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+class ResultCreateView(CreateView):
     model = Result
-    form_class = ResultCreationForm
     template_name = 'results/create_result.html'
-    success_message = "result has been created successfully"
+    form_class = ResultCreationForm
+    success_url = '/'
 
 
-class ResultUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    @method_decorator(user_passes_test(lambda u: u.is_superuser and u.is_admin))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+class ResultUpdateView(UpdateView):
     model = Result
     template_name = 'results/create_result.html'
-    form_class = ResultCreationForm
-    success_message = "Result update was successful"
+    fields = ['result_type', 'club', 'club_goal', 'opponent', 'image',  'opponent_goal', 'stadium', 'date']
+    success_message = "The news was changed successfully"
 
 
-class ResultDeleteView(LoginRequiredMixin, DeleteView):
-    @method_decorator(user_passes_test(lambda u: u.is_superuser and u.is_admin))
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+class ResultDeleteView(DeleteView):
     model = Result
     template_name = 'results/delete_result.html'
-    success_url = '/results'
-    
-    def delete(self, request, *args, **kwargs):
-        result = self.get_object()
-        messages.success(request, 'The result %s was deleted with success!' % result.result_type)
-        return super(ResultDeleteView, self).delete(request, *args, **kwargs)
