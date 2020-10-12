@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'news.apps.NewsConfig',
     'fixtures',
     'results',
+    'injury',
     'search',
     'django_countries',
     'django_filters',

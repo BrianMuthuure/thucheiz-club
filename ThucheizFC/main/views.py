@@ -3,7 +3,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db import IntegrityError
+from django.http import HttpResponse, Http404
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -12,19 +14,29 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 from main.forms import ExtendedUserCreationForm, PlayerForm, PlayerUpdateForm, UserLoginForm, PlayerContractForm, \
-    CoachCreationForm, CoachUpdateForm, ContactUsForm
+    CoachCreationForm, CoachUpdateForm, ContactUsForm, PlayerContractUpdateForm
 from main.mixins import allowed_users, unauthenticated_user
 from main.models import Player, Coach, Contract
-from news.models import News
 
 
 def home(request):
     players = Player.objects.all().count()
+    contract_list = Contract.objects.all().order_by('end_date')
+    page = request.GET.get('page', 1)
+    paginator = Paginator(contract_list, 3)
+
+    try:
+        contracts = paginator.page(page)
+    except PageNotAnInteger:
+        contracts = paginator.page(1)
+    except EmptyPage:
+        contracts = paginator.page(paginator.num_pages)
     available = Player.objects.available().count()
     injured = Player.objects.injured().count()
     coaches = Coach.objects.all().count()
     context = {
         'players': players,
+        'contracts': contracts,
         'available': available,
         'injured': injured,
         'coaches': coaches,
@@ -165,6 +177,20 @@ def player_contract_create(request):
     else:
         form = PlayerContractForm()
     return render(request, 'players/add_player_contract.html', {'form': form})
+
+
+class ContractListView(ListView):
+    model = Contract
+    template_name = 'home.html'
+    context_object_name = 'contracts'
+
+
+class ContractUpdateView(SuccessMessageMixin,UpdateView):
+    model = Contract
+    form_class = PlayerContractUpdateForm
+    template_name = 'players/add_player_contract.html'
+    success_message = 'contract was changed successfully!'
+    success_url = '/'
 
 
 @login_required

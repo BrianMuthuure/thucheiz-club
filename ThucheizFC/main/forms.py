@@ -50,13 +50,13 @@ class ExtendedUserCreationForm(UserCreationForm):
 
 class PlayerForm(forms.ModelForm):
 
-    nationality = CountryField().formfield(
+    country = CountryField().formfield(
         widget=CountrySelectWidget(attrs={'class': 'form-control'})
     )
 
     class Meta:
         model = Player
-        fields = ('position', 'nationality', 'jersey_no', 'dob', 'image')
+        fields = ('position', 'country', 'jersey_no', 'dob', 'image')
 
         widgets = {
              'position': forms.Select(attrs={
@@ -102,10 +102,10 @@ class UserLoginForm(forms.Form):
 class PlayerUpdateForm(forms.ModelForm):
     class Meta:
         model = Player
-        fields = ['position', 'nationality', 'jersey_no', 'appearances', 'goals', 'clean_sheets', 'red_cards', 'yellow_card',  'image']
+        fields = ['position', 'country', 'jersey_no', 'appearances', 'goals', 'clean_sheets', 'red_cards', 'yellow_card',  'image']
         widgets = {
             'position': forms.TextInput(attrs={'class': 'form-control'}),
-            'nationality': forms.TextInput(attrs={'class': 'form-control'}),
+            'country': forms.TextInput(attrs={'class': 'form-control'}),
             'jersey_no': forms.NumberInput(attrs={'class': 'form-control'}),
             'appearances': forms.NumberInput(attrs={'class': 'form-control'}),
             'goals': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -145,6 +145,26 @@ class PlayerContractForm(forms.ModelForm):
         if end_date <= datetime.date.today():
             raise forms.ValidationError("End date should be greater than today")
         return data
+
+
+class PlayerContractUpdateForm(forms.ModelForm):
+    player = forms.ModelChoiceField(queryset=Player.objects.filter(has_contract=False),
+                                    widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Contract
+        fields = [
+            'player', 'start_date', 'end_date', 'salary', 'buyout_clause'
+        ]
+
+        widgets = {
+            'start_date': forms.DateInput(
+                attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
+            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
+            'buyout_clause': forms.NumberInput(attrs={'class': 'form-control'}),
+            'bonuses': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
 
 
 class CoachCreationForm(forms.ModelForm):
@@ -190,3 +210,4 @@ class ContactUsForm(forms.ModelForm):
     class Meta:
         model = Contact
         fields = ['name', 'email', 'subject']
+

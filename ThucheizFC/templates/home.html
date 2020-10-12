@@ -19,8 +19,8 @@ background-color: #ffc107 !important;
 background-color: #dc3545 !important;
 }
 </style>
-<div class="container totals">
-    <div class="row">
+<div class="container ">
+    <div class="row totals">
         <div class="col-md-3">
             <div class="card mb-4 total-players">
                 <div class="card-header">
@@ -62,5 +62,75 @@ background-color: #dc3545 !important;
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body">
+                            <a href="{% url 'injury_list' %}">View injuries</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% if user.is_authenticated %}
+    <div class="row mt-4">
+        <div class="text-center">
+            <h5>Contracts</h5>
+        </div>
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>player</th>
+                <th>start date</th>
+                <th>end date</th>
+                <th>salary</th>
+                <th>buyout clause</th>
+            </tr>
+            </thead>
+
+           <tbody>
+           {% for contract in contracts %}
+           <tr>
+               <td>
+                  <a href="" >{{ contract.player }}</a>
+               </td>
+               <td>{{contract.start_date}}</td>
+               <td>{{contract.end_date}}</td>
+               <td>{{contract.salary}}</td>
+               <td>{{contract.buyout_clause}}</td>
+               <td>
+                   <a class="btn btn-info" href="{% url 'contract-update' contract.pk %}">change</a>
+               </td>
+           </tr>
+           {% endfor %}
+           </tbody>
+        </table>
+
+        {% if contracts.has_other_pages %}
+        <ul class="pagination">
+            {% if contracts.has_previous %}
+            <li><a href="?page={{contracts.previous_page_number}}">&laquo;</a> </li>
+            {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+            {% endif %}
+
+            {% for i in contracts.paginator.page_range %}
+            {% if contracts.number == i %}
+
+            <li class="active"><span>{{i}} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+            <li><a href="?page={{i}}">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if contracts.has_next %}
+            <li><a href="?page={{ contracts.next_page_number}}">&raquo;</a></li>
+            {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endif %}
 </div>
 {% endblock content%}

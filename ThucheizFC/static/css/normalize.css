@@ -410,7 +410,6 @@ Preloader Area CSS
 	font-size: 14px;
 	text-transform: capitalize;
 	font-weight: 500;
-	background: #1A76D1;
 	position: relative;
 	box-shadow: none;
 	display: inline-block;
@@ -419,7 +418,6 @@ Preloader Area CSS
 	transition: all 0.4s ease;
 	-webkit-transform: perspective(1px) translateZ(0);
 	transform: perspective(1px) translateZ(0);
-	border: none;
 	border-radius: 0;
 	border-radius:4px;
 }
@@ -469,111 +467,38 @@ Preloader Area CSS
 	color:#888;
 	margin-top:15px;
 }
-/* Overlay */
-.overlay{
-	position:relative;
-}
-.overlay:before{
-	position:absolute;
-	content:"";
-	left:0;
-	top:0;
-	height:100%;
-	width:100%;
-	background:#1a76d1;
-	opacity:0.8;
-}
-/* Bread Crumbs */
-.breadcrumbs {
-	background-image: url('../img/bread-bg.jpg');
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
-	position: relative;
-	padding: 120px 0px;
-}
-.breadcrumbs .bread-inner{
-	z-index:22;
-	text-align:center;
-}
-.breadcrumbs h2{
-	color: #fff;
-	text-transform:capitalize;
-	font-size: 38px;
-	font-weight: 700;
-	margin: 0;
-	padding: 0;
-}
-.breadcrumbs .bread-list {
-	display: inline-block;
-	margin-top: 20px;
-}
-.breadcrumbs ul li{
-	display: inline-block;
-	position: relative;
-	color: #fff;
-	font-size: 15px;
-	font-weight: 500;
-	text-transform: capitalize;
-}
-.breadcrumbs ul li i {
-	margin: 0px 10px;
-	font-size: 14px;
-	font-weight: 600;
-	color:#fff;
-}
-.breadcrumbs ul li a {
-	color: #fff;
-	font-size: 15px;
-	font-weight: 500;
-	text-transform: capitalize;
-	margin:0;
-	padding:0;
-}
-.breadcrumbs ul li a:hover{
-	color:#2C2D3F;
-}
-.breadcrumbs ul li.active a {
-	color: #fff;
-	display: inline-block;
-}
 /* Pagination CSS */
 .pagination {
 	text-align: left;
-	margin: 50px 0 0 0;
+	margin: 50px 0 50px 0;
 	display:block;
 }
 .pagination.center {
 	text-align: center;
 }
-.pagination .pagination-list li {
+.pagination li {
 	margin-right: 5px;
 	display: inline-block;
 }
-.pagination .pagination-list li:last-child{
+.pagination li:last-child{
 	margin-right:0px;
 }
-.pagination .pagination-list li a {
+.pagination li a {
 	background: #F6F7FB;
-	color: #666;
+	color: blue;
 	padding: 6px 18px;
-	font-weight: 400;
+	font-weight: 500;
 	border: 1px solid #e1e1e1;
 	font-size: 16px;
 	border-radius: 4px;
 }
-.pagination .pagination-list li.active a,.pagination .pagination-list li:hover a{
-	background: #1A76D1;
+.pagination  li.active a,.pagination li:hover a{
+	background: blue;
 	color: #fff;
 	border-color: transparent;
 }
 .pagination .pagination-list li a i{
 	font-size:15px;
-}
-.pagination .pagination-list li a i{}
-.blog-grids.pagination{
-	margin-top:50px;
-	text-align:center;
 }
 
 /*--------------------------------------------------------------

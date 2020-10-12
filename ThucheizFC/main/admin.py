@@ -10,3 +10,5 @@ admin.site.register(Player)
 admin.site.register(Coach)
 admin.site.register(Contract)
 admin.site.register(Contact)
+
+

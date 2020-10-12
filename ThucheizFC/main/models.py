@@ -4,8 +4,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
-from django.db.models.signals import post_save
+from django_countries.fields import CountryField
+from django.dispatch import receiver
 from django.urls import reverse
+from django.utils import timezone
 
 from main.managers import PlayerManager, CoachManager
 
@@ -34,7 +36,7 @@ class Player(models.Model):
     )
     image = models.ImageField(upload_to='player_pics', default='default.jpg')
     position = models.CharField(max_length=200, choices=POS)
-    nationality = models.CharField(max_length=200, null=True)
+    country = CountryField(null=True, blank=True)
     jersey_no = models.PositiveSmallIntegerField(primary_key=True)
     available = models.BooleanField(default=True)
     active = models.BooleanField(default=True)
@@ -59,6 +61,7 @@ class Player(models.Model):
             self.age = today.year - self.dob.year - 1
         else:
             self.age = today.year - self.dob.year
+
         super(Player, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
@@ -115,6 +118,8 @@ class Coach(models.Model):
             self.age = today.year - self.dob.year - 1
         else:
             self.age = today.year - self.dob.year
+
+        self.games = self.wins+self.draws+self.losses
         super(Coach, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
