@@ -1,6 +1,6 @@
 from django import forms
 
-from injury.models import CheckOut, Injury
+from injury.models import Injury
 from main.models import Player
 
 
@@ -13,11 +13,3 @@ class InjuryForm(forms.ModelForm):
         model = Injury
         fields = ['injury_type', 'player']
 
-
-class CheckOutForm(forms.ModelForm):
-    class Meta:
-        model = CheckOut
-        fields = ['injury']
-        widgets = {
-            'injury': forms.HiddenInput()
-        }

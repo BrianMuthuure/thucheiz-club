@@ -39,13 +39,13 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\injury" />
-      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\thucheiz\python programs" />
       <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\static\images" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\injury" />
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -60,8 +60,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.salary_raise (1)">
-    <configuration name="salary_raise (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.salary_raise">
+    <configuration name="salary_raise (1)" type="PythonConfigurationType" factoryName="Python">
       <module name="4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -82,7 +82,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="salary_raise" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="salary_raise" type="PythonConfigurationType" factoryName="Python">
       <module name="4thYearProject" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -103,12 +103,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.salary_raise (1)" />
-        <item itemvalue="Python.salary_raise" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />

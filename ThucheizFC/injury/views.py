@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, FormView, DeleteView
 
-from injury.forms import InjuryForm, CheckOutForm
+from injury.forms import InjuryForm
 from injury.models import Injury
 
 

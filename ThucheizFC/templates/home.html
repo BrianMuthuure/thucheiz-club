@@ -18,6 +18,13 @@ background-color: #ffc107 !important;
 .coaches{
 background-color: #dc3545 !important;
 }
+.contract-title{
+letter-spacing:3px;
+text-transform:uppercase;
+}
+h6 a{
+letter-spacing:3px;
+}
 </style>
 <div class="container ">
     <div class="row totals">
@@ -27,7 +34,7 @@ background-color: #dc3545 !important;
                     <h6>Total Players:</h6>
                 </div>
                 <div class="card-body">
-                    <h5>{{players}}</h5>
+                    <h5><a href="{% url 'player-list' %}">{{players}}</a></h5>
                 </div>
             </div>
         </div>
@@ -47,7 +54,7 @@ background-color: #dc3545 !important;
                     <h6>Injured Players:</h6>
                 </div>
                 <div class="card-body">
-                    <h5>{{injured}}</h5>
+                    <h5><a href="{% url 'injury_list' %}" >{{injured}}</a></h5>
                 </div>
             </div>
         </div>
@@ -57,25 +64,27 @@ background-color: #dc3545 !important;
                     <h6>Coaches:</h6>
                 </div>
                 <div class="card-body">
-                    <h5>{{coaches}}</h5>
+                    <h5><a href="{% url 'coach-list' %}" >{{coaches}}</a></h5>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="row">
+<hr>
+    <div class="row justify-content-center">
         <div class="col-md-4">
-            <div class="card mb-4">
+            <div class="card mb-4" style="background:blue;">
                 <div class="card-body">
-                            <a href="{% url 'injury_list' %}">View injuries</a>
+                            <h6 class="text-center"><a href="{% url 'injury_list' %}" style="color:#fff;">View injuries</a></h6>
                 </div>
             </div>
         </div>
     </div>
+    <hr>
 {% if user.is_authenticated %}
-    <div class="row mt-4">
-        <div class="text-center">
-            <h5>Contracts</h5>
+<section class="contracts-section">
+    <div class="row mt-4 justify-content-center">
+        <div>
+            <h5 class="contract-title">contracts</h5>
         </div>
         <table class="table table-hover">
             <thead>
@@ -92,7 +101,7 @@ background-color: #dc3545 !important;
            {% for contract in contracts %}
            <tr>
                <td>
-                  <a href="" >{{ contract.player }}</a>
+                  <a href="#" >{{ contract.player }}</a>
                </td>
                <td>{{contract.start_date}}</td>
                <td>{{contract.end_date}}</td>
@@ -131,6 +140,38 @@ background-color: #dc3545 !important;
         </ul>
         {% endif %}
     </div>
+    {% endif %}
+
+    {% if user.is_authenticated and user.is_superuser %}
+</section>
+    <div class="contact-section mb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>
+                               <h4 class="float-left" style="letter-spacing:2px;">Recent contacts</h4>
+                                <a class="btn btn-info float-right" href="{% url 'contact-list' %}">view all</a>
+                            </th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        {% for contact in contacts %}
+                        <tr>
+                            <td>
+                                <a class="" href="">{{contact.email }}</a>
+                            </td>
+
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+     </div>
     {% endif %}
 </div>
 {% endblock content%}

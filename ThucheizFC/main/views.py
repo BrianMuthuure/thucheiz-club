@@ -13,10 +13,13 @@ from django.utils.decorators import method_decorator
 # Create your views here.
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
-from main.forms import ExtendedUserCreationForm, PlayerForm, PlayerUpdateForm, UserLoginForm, PlayerContractForm, \
-    CoachCreationForm, CoachUpdateForm, ContactUsForm, PlayerContractUpdateForm
+from main.forms import ExtendedUserCreationForm, PlayerForm, \
+    PlayerUpdateForm, UserLoginForm, PlayerContractForm, \
+    CoachCreationForm, CoachUpdateForm, ContactUsForm, \
+    PlayerContractUpdateForm
+
 from main.mixins import allowed_users, unauthenticated_user
-from main.models import Player, Coach, Contract
+from main.models import Player, Coach, Contract, Contact
 
 
 def home(request):
@@ -34,12 +37,14 @@ def home(request):
     available = Player.objects.available().count()
     injured = Player.objects.injured().count()
     coaches = Coach.objects.all().count()
+    contacts = Contact.objects.all().order_by('email')[:3]
     context = {
         'players': players,
         'contracts': contracts,
         'available': available,
         'injured': injured,
         'coaches': coaches,
+        'contacts': contacts
     }
     return render(request, 'home.html', context)
 
@@ -102,7 +107,7 @@ def add_player(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, f'Account created for {username} . You are now required to create {username} contract !')
-            group = Group.objects.get(name='Squad')
+            group = Group.objects.get_or_create(name='Squad')
             user.groups.add(group)
             return redirect('player-list')
     else:
@@ -156,7 +161,6 @@ class PlayerDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('player-list')
 
     def delete(self, request, *args, **kwargs):
-        player = self.get_object()
         messages.success(request, 'The player was deleted successfully!')
         return super().delete(request, *args, **kwargs)
 
@@ -279,3 +283,9 @@ def contact_us(request):
             'form': form
         }
     return render(request, 'contact/contact_create.html', context)
+
+
+class ContactUsListView(ListView):
+    model = Contact
+    template_name = 'contact/contact_list.html'
+    context_object_name = 'contact_us'

@@ -24,10 +24,27 @@
     border-top-right-radius: .25rem;
 }
 .card-title{
-font-size: 1.1rem;
-font-weight: 400;
-margin: 0;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
 }
+@media (max-width: 767.98px) {
+
+}
+
+@media (min-width: 768px) {
+.club-name{
+}
+.club-image{
+
+}
+  }
+
+@media (min-width: 992px) {
+.club-name{
+}
+
+  }
 </style>
 <section>
     <div class="container">
@@ -43,8 +60,8 @@ margin: 0;
                     <div class="card-body">
                         <div class="row justify-content-center">
                             <div class="col-md-4 text-center">
-                                <img src="{% static 'images/icons8-kenya-240.png' %}" class="img-fluid float-right" style="height:70px;">
-                                 <h6 class="mt-4">Thucheiz FC</h6>
+                                <img src="{% static 'images/icons8-kenya-240.png' %}" class="img-fluid float-right club-image" style="height:70px;">
+                                 <h6 class="mt-4 club-name">Thucheiz FC</h6>
                             </div>
 
                             <div class="col-md-2 text-center" style="margin-top:20px;margin-bottom:20px;">
