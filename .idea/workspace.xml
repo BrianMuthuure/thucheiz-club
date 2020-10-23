@@ -35,11 +35,14 @@
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ThucheizFC/static/js" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\static\js" />
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\static\css" />
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\contact" />
       <recent name="C:\Users\thucheiz\python programs" />
       <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\static\images" />
     </key>

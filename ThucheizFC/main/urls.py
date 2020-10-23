@@ -4,7 +4,7 @@ from django.urls import path
 from .views import home, add_player, PlayerListView, PlayerDetailView, \
     PlayerUpdateView, player_contract_create, CoachListView, coach_register, \
     CoachDetailView, CoachUpdateView, CoachDeleteView, \
-    contact_us, PlayerDeleteView, ContractUpdateView, ContactUsListView
+    contact_us, PlayerDeleteView, ContractUpdateView, ContactUsListView, ContactUsDetailView, ContactUsDeleteView
 
 urlpatterns = [
     path('', home, name='home'),
@@ -25,5 +25,7 @@ urlpatterns = [
 
     path('contact/', contact_us, name='contact-us'),
     path('contact-list/', ContactUsListView.as_view(), name='contact-list'),
+    path('contact-list/<int:pk>/', ContactUsDetailView.as_view(), name='contact-detail'),
+    path('contact-list/<int:pk>/delete', ContactUsDeleteView.as_view(), name='contact-delete'),
 
 ]

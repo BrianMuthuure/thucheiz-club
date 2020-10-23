@@ -1,94 +1,120 @@
+
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+
 <style>
-    .card {
-    box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
-    margin-bottom: 1rem;
-    position: relative;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
 }
-.card-header {
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    position: relative;
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
+.card .card-header {
+background-color: #4c70b9;
+padding-top: 15px;
+padding-bottom: 15px;
+border-bottom: none;
+padding: 25px 20px;
+}
+.card .card-header:hover {
+background-color:#6495ED;
 }
 .card-title{
-    font-size: 1.1rem;
-    font-weight: 400;
-    margin: 0;
+font-size: 1.1rem;
+color:#fff;
+font-weight: 400;
+letter-spacing:2px;
+text-transform:uppercase;
+ margin: 0;
 }
-.card-footer{
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    position: relative;
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
+.vs{
+margin-top:30px;
+margin-bottom:30px;
+}
+.card-block {
+ padding: 1.25rem;
 
+}
+.club, .opponent, .vs a{
+letter-spacing:1px;
+}
+.float-right .fa-edit{
+color:blue;
+background:#fff;
+padding:10px;
+border-radius:50%;
+margin-right:8px;
+}
+.float-right .fa-trash{
+color:#DC143C;
+margin-right:8px;
+background:#fff;
+padding:10px;
+border-radius:50%;
+}
+.result-stadium{
+letter-spacing:2px;
+font-weight:500;
+font-size:17px;
+text-transform:uppercase;
+}
+.text-muted{
+letter-spacing:2px;
 }
 </style>
-<section>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-10 mb-3">
-                <div class="card">
-                    <div class="card-header text-center">
-                         <a class="card-title" href="">{{object.result_type}}</a>
-                        <p class="float-right">{{object.date}}</p>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <div class="">
+                           <a class="card-title float-left" href="">{{result.result_type}} </a>
                     </div>
+                    <div class="float-right">
+                        <a href="{% url 'add_goals' result.id %}" ><i class="far fa-edit"></i></a>
+                        <a href="{% url 'result-delete' result.pk %}"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
 
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col-md-4 text-center">
-                                <img src="{% static 'images/icons8-kenya-240.png' %}" class="img-fluid float-right" style="height:70px;">
-                                 <h6 class="mt-4">Thucheiz FC</h6><br>
-                                <p>{{object.club_goal.all|join:", "}}</p>
-                            </div>
-
-                            <div class="col-md-2 text-center" style="margin-top:20px;margin-bottom:20px;">
-                                <a href="" style="font-size:1.3em;"><span >{{object.club_score}}</span>
+                <div class="card-block text-center">
+                    <div class="row">
+                        <div class="col-md-5 text-center">
+                            <h5 class="club">Thucheiz United</h5>
+                            <img src="{% static 'images/icons8-kenya-240.png' %}" class="" style="height:70px;">
+                                {% for total in result.totals %}
+                                <p>{{ total.player }} ({{ total.minute }})</p>
+                                {% endfor %}
+                        </div>
+                        <div class="col-md-2 vs">
+                              <a style="font-size:1.3em;">
+                                  <span >{{result.club_total}}</span>
 
                                 -
 
-                                    <span>{{object.opponent_score}}</span></a>
-                                <h6 class="mt-2" style="letter-spacing:2px;">FT</h6><br>
-                                <p>{{result.stadium}}</p>
-
-                            </div>
-
-                            <div class="col-md-4 text-center">
-                                <img class="float-left " src="{{object.imageURL}}" style="height:70px;">
-                                <h5 class=" mt-4">{{object.opponent}}</h5><br>
-                                <p>{{object.opponent_goal.all|join:", "}}</p>
-                            </div>
+                                 <span>{{result.opponent_total}}</span></a>
                         </div>
-
+                        <div class="col-md-5 text-center">
+                            <h5 class="opponent ">{{result.opponent}}</h5>
+                            <img class="" src="{{result.imageURL}}" style="height:70px;">
+                         {% for concede in result.concedes %}
+                                <p>{{ concede.scorer }} ({{ concede.minute }})</p>
+                                {% endfor %}
+                        </div>
                     </div>
 
-                <div class="card-footer">
-                    <div class="row justify-content-center">
-                        <div class="col-md-5 text-center">
-                             <a href="#"> change <i class="fa fa-edit"></i></a>
-                             <a href="{% url 'result-delete' result.pk %}"> delete <i class="fa fa-times"></i></a>
+                    <div class="row">
+                        <div class="col-md-12">
+                                <h6 class="" style="letter-spacing:2px;">FT</h6><br>
+                                <h6 class="mt-2 result-stadium">{{result.stadium}}</h6>
+                                <small class="text-muted">{{result.date}}</small>
                         </div>
                     </div>
 
                 </div>
-
-             </div>
-
-          </div>
+            </div>
         </div>
+    </div>
 
-     </div>
-</section>
+</div>
 {% endblock %}

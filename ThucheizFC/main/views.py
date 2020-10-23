@@ -24,16 +24,7 @@ from main.models import Player, Coach, Contract, Contact
 
 def home(request):
     players = Player.objects.all().count()
-    contract_list = Contract.objects.all().order_by('end_date')
-    page = request.GET.get('page', 1)
-    paginator = Paginator(contract_list, 3)
-
-    try:
-        contracts = paginator.page(page)
-    except PageNotAnInteger:
-        contracts = paginator.page(1)
-    except EmptyPage:
-        contracts = paginator.page(paginator.num_pages)
+    contracts = Contract.objects.all().order_by('end_date')
     available = Player.objects.available().count()
     injured = Player.objects.injured().count()
     coaches = Coach.objects.all().count()
@@ -107,7 +98,7 @@ def add_player(request):
             user = authenticate(username=username, password=password)
             login(request, user)
             messages.success(request, f'Account created for {username} . You are now required to create {username} contract !')
-            group = Group.objects.get_or_create(name='Squad')
+            group = Group.objects.get(name='Squad')
             user.groups.add(group)
             return redirect('player-list')
     else:
@@ -289,3 +280,20 @@ class ContactUsListView(ListView):
     model = Contact
     template_name = 'contact/contact_list.html'
     context_object_name = 'contact_us'
+
+
+class ContactUsDetailView(DetailView):
+    model = Contact
+    template_name = 'contact/contact_detail.html'
+
+
+class ContactUsUpdateView(UpdateView):
+    model = Contact
+    fields = ['name', 'email', 'subject']
+    template_name = 'contact/contact_create.html'
+
+
+class ContactUsDeleteView(DeleteView):
+    model = Contact
+    template_name = 'contact/contact_delete.html'
+    success_url = 'contact-list'

@@ -23,7 +23,7 @@ letter-spacing:3px;
                                 <h6 class="">{{contact.name }}</h6>
                             </td>
                             <td>
-                                <h6 class=""  style="color:blue;">{{contact.email }}</h6>
+                                <a class=""  href="{% url 'contact-detail' contact.pk %}" style="color:blue;">{{contact.email }}</a>
                             </td>
                             <td>
                                 <p class="">{{contact.subject|truncatewords:20 }}</p>
@@ -32,9 +32,8 @@ letter-spacing:3px;
                                 {{contact.date }}
                             </td>
                              <td>
-                                <a class="btn btn-danger" href="">delete</a>
+                                <a href="{% url 'contact-delete' contact.pk %}" style="color:red;"><i class="fas fa-times"> delete</i></a>
                             </td>
-
                         </tr>
                         {% endfor %}
                         </tbody>

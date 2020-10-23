@@ -10,7 +10,8 @@ class ResultQuerySet(models.query.QuerySet):
         lookups = (
             Q(result_type__icontains=query) |
             Q(opponent__icontains=query) |
-            Q(match_date__icontains=query))
+            Q(date__icontains=query) |
+            Q(stadium__icontains=query))
         return self.filter(lookups).distinct()
 
 

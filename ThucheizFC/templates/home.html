@@ -1,177 +1,96 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-.total-players{
-background-color: #28a745 !important;
-
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
 }
-.totals h5, h6{
-color:#fff;
+.card .card1 {
+background-color: #4c70b9;
+padding-top: 12px;
+padding-bottom: 12px;
+border-bottom: none;
+padding: 25px 20px;
+}
+.card .card2 {
+background-color: #20B2AA;
+padding-top: 12px;
+padding-bottom: 12px;
+border-bottom: none;
+padding: 25px 20px;
+}
+.card .card3 {
+background-color: #191970;
+padding-top: 12px;
+padding-bottom: 12px;
+border-bottom: none;
+padding: 25px 20px;
+}
+.card .card4 {
+background-color: #663399;
+padding-top: 12px;
+padding-bottom: 12px;
+border-bottom: none;
+padding: 25px 20px;
+}
+.total-layers-title, .available-players-title, .injured-players-title, .coach-title{
 letter-spacing:2px;
-}
-.available-players{
-background-color: #17a2b8 !important;
-}
-.injured-players{
-background-color: #ffc107 !important;
-}
-.coaches{
-background-color: #dc3545 !important;
-}
-.contract-title{
-letter-spacing:3px;
+color:#fff;
 text-transform:uppercase;
 }
-h6 a{
-letter-spacing:3px;
+.card-block {
+ padding: 1.35rem;
+
+}
+.total-players a, .available-players a, .injured-players a,.coaches a{
+font-size:30px;
+font-weight:600;
 }
 </style>
 <div class="container ">
     <div class="row totals">
         <div class="col-md-3">
             <div class="card mb-4 total-players">
-                <div class="card-header">
-                    <h6>Total Players:</h6>
+                <div class="card-header card1">
+                    <h6 class="text-center total-layers-title">Total Players</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-block text-center">
                     <h5><a href="{% url 'player-list' %}">{{players}}</a></h5>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card mb-4 available-players">
-                <div class="card-header">
-                    <h6>Available Players:</h6>
+                <div class="card-header card2">
+                    <h6 class="text-center available-players-title">Available Players</h6>
                 </div>
-                <div class="card-body">
-                    <h5>{{available}}</h5>
+                <div class="card-block text-center">
+                    <h5><a class="" href="">{{available}}</a></h5>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card mb-4 injured-players">
-                <div class="card-header">
-                    <h6>Injured Players:</h6>
+                <div class="card-header card3">
+                    <h6 class="text-center injured-players-title">Injured Players</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-block text-center">
                     <h5><a href="{% url 'injury_list' %}" >{{injured}}</a></h5>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="card mb-4 coaches">
-                <div class="card-header">
-                    <h6>Coaches:</h6>
+                <div class="card-header card4">
+                    <h6 class="text-center coach-title">Coaches</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-block text-center">
                     <h5><a href="{% url 'coach-list' %}" >{{coaches}}</a></h5>
                 </div>
             </div>
         </div>
     </div>
-<hr>
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="card mb-4" style="background:blue;">
-                <div class="card-body">
-                            <h6 class="text-center"><a href="{% url 'injury_list' %}" style="color:#fff;">View injuries</a></h6>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-{% if user.is_authenticated %}
-<section class="contracts-section">
-    <div class="row mt-4 justify-content-center">
-        <div>
-            <h5 class="contract-title">contracts</h5>
-        </div>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>player</th>
-                <th>start date</th>
-                <th>end date</th>
-                <th>salary</th>
-                <th>buyout clause</th>
-            </tr>
-            </thead>
-
-           <tbody>
-           {% for contract in contracts %}
-           <tr>
-               <td>
-                  <a href="#" >{{ contract.player }}</a>
-               </td>
-               <td>{{contract.start_date}}</td>
-               <td>{{contract.end_date}}</td>
-               <td>{{contract.salary}}</td>
-               <td>{{contract.buyout_clause}}</td>
-               <td>
-                   <a class="btn btn-info" href="{% url 'contract-update' contract.pk %}">change</a>
-               </td>
-           </tr>
-           {% endfor %}
-           </tbody>
-        </table>
-
-        {% if contracts.has_other_pages %}
-        <ul class="pagination">
-            {% if contracts.has_previous %}
-            <li><a href="?page={{contracts.previous_page_number}}">&laquo;</a> </li>
-            {% else %}
-            <li class="disabled"><span>&laquo;</span></li>
-            {% endif %}
-
-            {% for i in contracts.paginator.page_range %}
-            {% if contracts.number == i %}
-
-            <li class="active"><span>{{i}} <span class="sr-only">(current)</span></span></li>
-            {% else %}
-            <li><a href="?page={{i}}">{{ i }}</a></li>
-            {% endif %}
-            {% endfor %}
-
-            {% if contracts.has_next %}
-            <li><a href="?page={{ contracts.next_page_number}}">&raquo;</a></li>
-            {% else %}
-            <li class="disabled"><span>&raquo;</span></li>
-            {% endif %}
-        </ul>
-        {% endif %}
-    </div>
-    {% endif %}
-
-    {% if user.is_authenticated and user.is_superuser %}
-</section>
-    <div class="contact-section mb-4">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th>
-                               <h4 class="float-left" style="letter-spacing:2px;">Recent contacts</h4>
-                                <a class="btn btn-info float-right" href="{% url 'contact-list' %}">view all</a>
-                            </th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        {% for contact in contacts %}
-                        <tr>
-                            <td>
-                                <a class="" href="">{{contact.email }}</a>
-                            </td>
-
-                        </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-            </div>
-        </div>
-     </div>
-    {% endif %}
 </div>
 {% endblock content%}

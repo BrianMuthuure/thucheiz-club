@@ -175,5 +175,8 @@ class Contact(models.Model):
     subject = models.TextField()
     date = models.DateField(default=timezone.now, blank=True, null=True)
 
+    def get_absolute_url(self):
+        return reverse("contact-detail", kwargs={"pk": self.pk})
+
     def __str__(self):
         return self.email

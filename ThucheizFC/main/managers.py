@@ -18,7 +18,7 @@ class PlayerQuerySet(models.query.QuerySet):
     def search(self, query):
         lookups = (
             Q(position__icontains=query) |
-            Q(nationality__icontains=query) |
+            Q(country__icontains=query) |
             Q(age__icontains=query) |
             Q(jersey_no__iexact=query)
         )

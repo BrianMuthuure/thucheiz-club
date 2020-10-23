@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<style>
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
+}
+.card .card-header {
+background-color: #4c70b9;
+padding-top: 15px;
+padding-bottom: 15px;
+border-bottom: none;
+padding: 25px 20px;
+}
+.card .card-header:hover {
+background-color:#6495ED;
+}
+.card-title{
+font-size: 1.1rem;
+color:#fff;
+font-weight: 400;
+letter-spacing:2px;
+text-transform:uppercase;
+ margin: 0;
+}
+.vs{
+margin-top:30px;
+margin-bottom:30px;
+}
+.card-block {
+ padding: 1.25rem;
+
+}
+.club, .opponent, .vs a{
+letter-spacing:1px;
+}
+.float-right .fa-edit{
+color:blue;
+background:#fff;
+padding:10px;
+border-radius:50%;
+margin-right:8px;
+}
+.float-right .fa-trash{
+color:#DC143C;
+margin-right:8px;
+background:#fff;
+padding:10px;
+border-radius:50%;
+}
+.add-fixture-btn{
+text-transform:uppercase;
+letter-spacing:2px;
+}
+.heading{
+text-transform:uppercase;
+letter-spacing:2px;
+}
+</style>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <a class="btn btn-info btn-block add-fixture-btn">Add fixture</a>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            {% include 'search/fixture_search_form.html' %}
+        </div>
+    </div>
+     <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <h5 class="heading text-center">Latest Fixtures</h5>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% for fixture in fixtures %}
+            <div class="card">
+                <div class="card-header">
+                    <div class="">
+                           <a class="card-title float-left" href="{% url 'fixture-detail' fixture.pk %}">{{fixture.title}} </a>
+                    </div>
+                    <div class="float-right">
+                        <a href="{% url 'fixture-update' fixture.pk %}" ><i class="far fa-edit"></i></a>
+                        <a href="{% url 'fixture-delete' fixture.pk %}"><i class="fas fa-trash"></i></a>
+                    </div>
+                </div>
+
+                <div class="card-block text-center">
+                    <div class="row">
+                        <div class="col-md-5 text-center">
+                            <h5 class="club">{{fixture.club}}</h5>
+                            <img src="{% static 'images/icons8-kenya-240.png' %}" class="" style="height:70px;">
+                        </div>
+                        <div class="col-md-2 vs">
+                            <a href="{% url 'fixture-detail' fixture.pk %}">VS</a>
+                        </div>
+                        <div class="col-md-5 text-center">
+                            <h5 class="opponent ">{{fixture.opponent}}</h5>
+                            <img class="" src="{{fixture.fixtureimageURL}}" style="height:70px;">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+ <div class="row justify-content-center">
+    <div class="col-md-8">
+       {% include 'paginate.html' %}
+    </div>
+</div>
+
+</div>
+{% endblock %}

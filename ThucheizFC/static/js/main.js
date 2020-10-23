@@ -321,6 +321,21 @@ Version:	1.1
 	});
 
 
+$(document).ready(function() {
+    $('#example').DataTable( {
+        "scrollY":        "200px",
+        "scrollCollapse": true,
+        "paging":         false
+    } );
+
+    $('#contact').DataTable({
+        "scrollY":        "200px",
+        "scrollCollapse": true,
+        "paging":         false
+        });
+} );
+
+
 	/*====================
 		Preloader JS
 	======================*/

@@ -2,87 +2,118 @@
 {% block content %}
 {% load static %}
 <style>
-        .card {
-    box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2);
-    margin-bottom: 1rem;
-    position: relative;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
 }
-.card-header {
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    position: relative;
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
+.card .card-header {
+background-color: #4c70b9;
+padding-top: 15px;
+padding-bottom: 15px;
+border-bottom: none;
+padding: 25px 20px;
+}
+.card .card-header:hover {
+background-color:#6495ED;
 }
 .card-title{
 font-size: 1.1rem;
+color:#fff;
 font-weight: 400;
-margin: 0;
+letter-spacing:2px;
+text-transform:uppercase;
+ margin: 0;
+}
+.vs{
+margin-top:30px;
+margin-bottom:30px;
+}
+.card-block {
+ padding: 1.25rem;
+
+}
+.club, .opponent, .vs a{
+letter-spacing:1px;
+}
+.float-right .fa-edit{
+color:blue;
+background:#fff;
+padding:10px;
+border-radius:50%;
+margin-right:8px;
+}
+.float-right .fa-trash{
+color:#DC143C;
+margin-right:8px;
+background:#fff;
+padding:10px;
+border-radius:50%;
+}
+.add-fixture-btn{
+text-transform:uppercase;
+letter-spacing:2px;
+}
+.heading{
+text-transform:uppercase;
+letter-spacing:2px;
 }
 </style>
 <div class="container">
     <div class="row justify-content-center">
-        {% for fixture in fixtures %}
-        <div class="col-md-10 mb-4">
+        <div class="col-md-4 mb-4">
+            <a class="btn btn-info btn-block add-fixture-btn" href="{% url 'fixture-create' %}">Add fixture</a>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            {% include 'search/fixture_search_form.html' %}
+        </div>
+    </div>
+     <div class="row justify-content-center mb-4">
+        <div class="col-md-8">
+            <h5 class="heading text-center">Latest Fixtures</h5>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% for fixture in fixtures %}
             <div class="card">
                 <div class="card-header">
-                    <a class="card-title float-left" href="{% url 'fixture-detail' fixture.pk %}">{{fixture.title}} </a>
-                    <p class="float-right">{{fixture.date}}</p>
+                    <div class="">
+                           <a class="card-title float-left" href="{% url 'fixture-detail' fixture.pk %}">{{fixture.title}} </a>
+                    </div>
+                    <div class="float-right">
+                        <a href="{% url 'fixture-update' fixture.pk %}" ><i class="far fa-edit"></i></a>
+                        <a href="{% url 'fixture-delete' fixture.pk %}"><i class="fas fa-trash"></i></a>
+                    </div>
                 </div>
 
-                <div class="card-body">
-                      <div class="row justify-content-center">
-                           <div class="col-md-4 text-center ">
-                                <img src="{% static 'images/icons8-kenya-240.png' %}" class=" float-right" style="height:70px;">
-                                 <h6 class="mt-4 float-left">{{fixture.club}}</h6>
-                            </div>
+                <div class="card-block text-center">
+                    <div class="row">
+                        <div class="col-md-5 text-center">
+                            <h5 class="club">{{fixture.club}}</h5>
+                            <img src="{% static 'images/icons8-kenya-240.png' %}" class="" style="height:70px;">
+                        </div>
+                        <div class="col-md-2 vs">
+                            <a href="{% url 'fixture-detail' fixture.pk %}">VS</a>
+                        </div>
+                        <div class="col-md-5 text-center">
+                            <h5 class="opponent ">{{fixture.opponent}}</h5>
+                            <img class="" src="{{fixture.fixtureimageURL}}" style="height:70px;">
+                        </div>
+                    </div>
 
-                          <div class="col-md-2 mt-4 text-center">
-                              <a class="button" href="{% url 'fixture-detail' fixture.pk %}">VS</a>
-                          </div>
-
-                          <div class="col-md-4 text-center">
-                                <img class="float-left " src="{{fixture.fixtureimageURL}}" style="height:70px;">
-                                <h6 class=" mt-4">{{fixture.opponent}}</h6>
-                          </div>
-                      </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-<div class="row justify-content-center">
-    <div class="col-md-10">
-       {% if is_paginated %}
-
-         {% if page_obj.has_previous %}
-        <a class="btn btn-outline-info btn-sm mb-4" href="?page=1">First</a>
-        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.previous_page_number}}">Previous</a>
-         {% endif %}
-
-         {% for num in page_obj.paginator.page_range %}
-          {% if page_obj.number == num %}
-           <a class="btn btn-info btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
-           {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-             <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ num }}">{{ num }}</a>
-          {% endif %}
-         {% endfor %}
-
-          {% if page_obj.has_next %}
-        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-        <a class="btn btn-outline-info btn-sm mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-         {% endif %}
-         {% endif %}
+ <div class="row justify-content-center">
+    <div class="col-md-8">
+       {% include 'paginate.html' %}
     </div>
 </div>
+
 </div>
 {% endblock %}

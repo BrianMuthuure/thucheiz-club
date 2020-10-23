@@ -1,8 +1,10 @@
 from django.shortcuts import redirect, render
+from django.forms import inlineformset_factory
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
-from results.forms import ClubGoalCreationForm, OpponentGoalCreationForm, ResultCreationForm
-from results.models import Result
+from results.forms import ResultCreationForm, ClubGoalForm
+from results.models import Result, GoalsScored, GoalsConceded
 
 
 class ResultListView(ListView):
@@ -18,32 +20,18 @@ class ResultListView(ListView):
 
 class ResultDetailView(DetailView):
     model = Result
+    context_object_name = 'result'
     template_name = 'results/result_detail.html'
 
-
-def add_goals(request):
-    if request.method == 'POST':
-        club_goal_form = ClubGoalCreationForm(request.POST)
-        opponent_goal_form = OpponentGoalCreationForm(request.POST)
-        if club_goal_form.is_valid() and opponent_goal_form.is_valid():
-            club_goal_form.save()
-            opponent_goal_form.save()
-            return redirect('/')
-    else:
-        club_goal_form = ClubGoalCreationForm()
-        opponent_goal_form = OpponentGoalCreationForm()
-    context = {
-        'club_goal_form': club_goal_form,
-        'opponent_goal_form': opponent_goal_form
-    }
-    return render(request, 'results/add_goals.html', context)
+    def get_context_data(self, **kwargs):
+        context = super(ResultDetailView, self).get_context_data(**kwargs)
+        return context
 
 
 class ResultCreateView(CreateView):
     model = Result
     template_name = 'results/create_result.html'
     form_class = ResultCreationForm
-    success_url = '/'
 
 
 class ResultUpdateView(UpdateView):
@@ -56,3 +44,27 @@ class ResultUpdateView(UpdateView):
 class ResultDeleteView(DeleteView):
     model = Result
     template_name = 'results/delete_result.html'
+    success_url = reverse_lazy('result-list')
+
+
+def add_goals(request, pk):
+    GoalFormSET = inlineformset_factory(Result, GoalsScored, fields=('player', 'minute'), extra=5)
+    ConcededFormset = inlineformset_factory(Result, GoalsConceded, fields=('scorer', 'minute'), extra=5)
+    result = Result.objects.get(id=pk)
+
+    formset = GoalFormSET(queryset=GoalsScored.objects.none(), instance=result)
+    formset2 = ConcededFormset(queryset=GoalsConceded.objects.none(), instance=result)
+
+    if request.method == 'POST':
+        form = ClubGoalForm(request.POST)
+        formset = GoalFormSET(request.POST, instance=result)
+        formset2 = ConcededFormset(request.POST, instance=result)
+        if formset.is_valid() and formset2.is_valid():
+            formset.save()
+            formset2.save()
+            return redirect('result-list')
+    context = {
+        'form': formset,
+        'form2': formset2
+    }
+    return render(request, 'results/add_goals.html', context)

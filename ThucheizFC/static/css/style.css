@@ -118,6 +118,7 @@ transition: all 200ms ease;
 	text-transform: capitalize;
 	padding: 25px 12px;
 	position: relative;
+	letter-spacing:2px !important;
 	display: inline-block;
 	position:relative;
 }

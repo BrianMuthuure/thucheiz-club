@@ -14,10 +14,6 @@ class Result(models.Model):
     club = models.CharField(max_length=50, default='Thucheiz United')
     opponent = models.CharField(max_length=100, null=False, blank=False)
     active = models.BooleanField(default=True)
-    club_goal = models.ManyToManyField('ClubGoal', blank=True)
-    opponent_goal = models.ManyToManyField('OpponentGoal', blank=True)
-    club_score = models.PositiveIntegerField(null=True, blank=True)
-    opponent_score = models.PositiveIntegerField(null=True, blank=True)
     stadium = models.CharField(max_length=200, null=True, blank=True)
     date = models.DateField()
 
@@ -30,14 +26,20 @@ class Result(models.Model):
         return self.result_type
 
     @property
-    def club_score(self):
-        club_score = self.club_goal.count()
-        return club_score
+    def totals(self):
+        return self.goalsscored_set.all()
 
     @property
-    def opponent_score(self):
-        opponent_score = self.opponent_goal.count()
-        return opponent_score
+    def concedes(self):
+        return self.goalsconceded_set.all()
+
+    @property
+    def club_total(self):
+        return self.goalsscored_set.count()
+
+    @property
+    def opponent_total(self):
+        return self.goalsconceded_set.count()
 
     @property
     def imageURL(self):
@@ -48,18 +50,25 @@ class Result(models.Model):
         return url
 
 
-class ClubGoal(models.Model):
+class GoalsScored(models.Model):
+    result = models.ForeignKey(Result, on_delete=models.CASCADE)
     player = models.ForeignKey(Player, on_delete=models.SET_NULL, null=True, blank=True)
-    minute = models.PositiveIntegerField(null=True, blank=True)
+    minute = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Goals Sored'
 
     def __str__(self):
-        return f'{self.player} ({self.minute})'
+        return str(self.player)
 
 
-class OpponentGoal(models.Model):
-    scorer = models.CharField(max_length=300, null=True, blank=True)
-    minute = models.PositiveIntegerField(blank=True, null=True)
-    
+class GoalsConceded(models.Model):
+    result = models.ForeignKey(Result, on_delete=models.CASCADE)
+    scorer = models.CharField(max_length=200, blank=True, null=True)
+    minute = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Goals Conceded'
+
     def __str__(self):
-        return f'{self.scorer} ({self.minute})'
-
+        return str(self.scorer)

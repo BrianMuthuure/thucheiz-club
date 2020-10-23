@@ -4,6 +4,8 @@ from django.db import models
 # Create your models here.
 from django.urls import reverse
 
+from fixtures.managers import FixtureManager
+
 
 class Fixture(models.Model):
     club = models.CharField(default='Thucheiz United', max_length=200)
@@ -14,6 +16,8 @@ class Fixture(models.Model):
     date = models.DateField()
     active = models.BooleanField(default=True)
     time = models.TimeField(blank=True, null=True)
+
+    objects = FixtureManager()
 
     def get_absolute_url(self):
         return reverse('fixture-detail', kwargs={'pk': self.pk})
