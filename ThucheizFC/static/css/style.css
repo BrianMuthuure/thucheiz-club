@@ -8,7 +8,7 @@ font-family: 'Roboto', sans-serif;
 
 }
 .logo_text{
-font-family: 'Peddana', serif !important;
+font-family: 'Roboto Slab', serif !important;
 font-size: 36px;
 font-weight: 700;
 line-height: 0.85;
@@ -381,7 +381,13 @@ margin-top:50px;
 margin-bottom:40px;
 }
 
-
+label{
+letter-spacing:1px !important;
+color:#666 !important;
+}
+.errorlist{
+color:red !important;
+}
 /**********************
 footer
 **********************/

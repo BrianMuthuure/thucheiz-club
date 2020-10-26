@@ -71,6 +71,10 @@ class Player(models.Model):
         return f'{self.user.first_name} {self.user.last_name}'
 
     @property
+    def injuries(self):
+        return self.injury_set.all()
+
+    @property
     def imageURL(self):
         try:
             url = self.image.url
@@ -92,7 +96,7 @@ class Coach(models.Model):
         on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to='coach_pics', default='default.jpg')
-    nationality = models.CharField(max_length=200, null=True)
+    nationality = CountryField(null=True, blank=True)
     title = models.CharField(choices=TITLE, max_length=100, blank=True, null=True)
     active = models.BooleanField(default=True)
     dob = models.DateField()
@@ -167,6 +171,31 @@ class Contract(models.Model):
 
     def __str__(self):
         return f'{self.player.user.username} Contract'
+
+
+class CoachContract(models.Model):
+    coach = models.OneToOneField(Coach, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    salary = models.DecimalField(decimal_places=2, max_digits=10)
+
+    def __str__(self):
+        return f'{self.coach.user.first_name} {self.coach.user.last_name}  contract'
+
+
+class Injury(models.Model):
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    injury_type = models.CharField(max_length=200, null=True, blank=True)
+    date_added = models.DateField(default=timezone.now, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'injuries'
+
+    def get_absolute_url(self):
+        return reverse("injury-detail", kwargs={"pk": self.pk})
+
+    def __str__(self):
+        return f'{self.player} ---({self.injury_type})'
 
 
 class Contact(models.Model):

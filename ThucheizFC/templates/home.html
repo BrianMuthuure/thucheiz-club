@@ -48,6 +48,9 @@ text-transform:uppercase;
 font-size:30px;
 font-weight:600;
 }
+.add-session, .delete-session{
+font-size:12px !important;
+}
 </style>
 <div class="container ">
     <div class="row totals">
@@ -77,7 +80,7 @@ font-weight:600;
                     <h6 class="text-center injured-players-title">Injured Players</h6>
                 </div>
                 <div class="card-block text-center">
-                    <h5><a href="{% url 'injury_list' %}" >{{injured}}</a></h5>
+                    <h5><a href="" >{{injured}}</a></h5>
                 </div>
             </div>
         </div>
@@ -92,5 +95,51 @@ font-weight:600;
             </div>
         </div>
     </div>
+
+    <div class="training-section">
+    <div class="row">
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="text-center">Training Sessions</h6>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Session ID</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Add</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for session in sessions %}
+                                <tr>
+                                    <td><a href="{% url 'training-detail' session.id %}" >{{session.id}}</a></td>
+                                    <td><p class="text-muted" >{{session.date}}</p></td>
+                                    <td><a href="" >{{session.status}}</a></td>
+                                    <td><a href="" class="btn btn-primary add-session">update</a></td>
+                                    <td><a href="" class="btn btn-danger delete-session">delete</a></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <a class="btn btn-primary btn-block " href="{% url 'create-session' %}" style="letter-spacing:2px;">ADD NEW SESSION</a>
+        </div>
+    </div>
 </div>
+</div>
+
+
 {% endblock content%}

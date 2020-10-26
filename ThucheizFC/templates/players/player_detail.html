@@ -42,15 +42,27 @@
     margin-left:90px;
     margin-top:30px;
     }
+
     #myTab li{
     margin:0px;
     margin-left:75px;
+    }
+    @media (max-width: 768px) {
+    #myTab{
+    border:none;
+    margin-top:70px;
+    margin-left:0px;
+    margin-top:30px;
+    }
+    #myTab li{
+     margin-left:18px !important;
+    }
     }
      #myTab li a{
     border:none;
     margin-bottom:0px;
     line-height:55px;
-    font-size:16px;
+    font-size:18px !important;
     letter-spacing:2px;
     font-family: 'Peddana', serif !important;
     color: grey !important;
@@ -128,17 +140,45 @@
                        <li><a href="" class="lin">Position<span>{{object.position}}</span></a></li>
                        <li><a href="" class="lin">Appearances<span>{{object.appearances}}</span></a></li>
                     </ul>
+                     {% if user.is_superuser and user.is_authenticated %}
                     <div class="modify-player-section">
                         <a class="button edit-player-button" href="{% url 'player-update' player.pk %}">edit player<i class="fa fa-edit"></i> </a>
                         <span>
                             <a class="button delete-player-button" href="{% url 'player-delete' player.pk %}">delete player<i class="fa fa-times"></i> </a>
                         </span>
+                        {% endif %}
+
+                        {% if user.is_superuser and user.is_authenticated and player.available %}
+                        <a href="{% url 'add_injury' player.jersey_no %}" class="btn btn-success btn-block mt-4 " style="letter-spacing:2px;text-transform:uppercase;">Add injury</a>
+                         {% endif %}
+
+                        {% if not player.available %}
+                        {% for injury in player.injuries %}
+
+     <a class="btn btn-danger btn-block mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    view injury details
+    </a>
+    <div class="collapse mt-2" id="collapseExample">
+          <div class="card card-body">
+              <h6>{{injury.injury_type}}</h6>
+
+              <p>Date</p> <span>{{injury.date_added}}</span>
+
+              <span>
+              <a class="btn btn-info mt-2" href="{% url 'update_injury' injury.id %}">update</a>
+                  <a class="btn btn-warning mt-2 float-right" href="{% url 'delete_injury' injury.id %}">delete</a>
+              </span>
+          </div>
+     </div>
+                        {% endfor %}
+                        {% endif %}
                     </div>
+
                 </div>
             </div>
         </div>
 
-        <div class="row player-statistics justify-content-start">
+        <div class="row player-statistics justify-content-center">
             <div class="col-lg-8">
                  <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
@@ -177,10 +217,6 @@
                             <p>{{contract.salary}} ksh</p>
                             <h6>Buyout clause</h6>
                             <p>{{contract.buyout_clause}} ksh</p>
-                            <h6>Bonuses</h6>
-                            <p>{{contract.bonuses}} ksh</p>
-                            <h6>Total Salary</h6>
-                            <p>{{contract.total_salary}} ksh</p>
                             {% endfor %}
                         </div>
                     </div>
@@ -205,8 +241,4 @@
 
 </section>
 
-
-<section>
-
-</section>
 {% endblock %}

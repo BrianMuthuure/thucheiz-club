@@ -60,11 +60,15 @@ letter-spacing:2px;
 text-transform:uppercase;
 letter-spacing:2px;
 }
+.text-muted{
+letter-spacing:2px;
+font-size:14px;
+}
 </style>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-4 mb-4">
-            <a class="btn btn-info btn-block add-result-btn">Add result</a>
+            <a class="btn btn-info btn-block add-result-btn" href="{% url 'create_result' %}">Add result</a>
         </div>
         <div class="col-md-4  mb-4">
             {% include 'search/result_search_form.html' %}
@@ -84,8 +88,8 @@ letter-spacing:2px;
                            <a class="card-title float-left" href="{% url 'result-detail' result.pk %}">{{result.result_type}} </a>
                     </div>
                     <div class="float-right">
-                        <a href="" ><i class="far fa-edit"></i></a>
-                        <a href=""><i class="fas fa-trash"></i></a>
+                        <a href="{% url 'add_goals' result.id %}" ><i class="far fa-edit"></i></a>
+                        <a href="{% url 'result-delete' result.pk %}"><i class="fas fa-trash"></i></a>
                     </div>
                 </div>
 
@@ -106,6 +110,12 @@ letter-spacing:2px;
                         <div class="col-md-5 text-center">
                             <h5 class="opponent ">{{result.opponent}}</h5>
                             <img class="" src="{{result.imageURL}}" style="height:70px;">
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                              <small class="text-muted">{{result.date}}</small>
                         </div>
                     </div>
 

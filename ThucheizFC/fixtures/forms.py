@@ -14,7 +14,7 @@ class FixtureCreationForm(forms.ModelForm):
 
     class Meta:
         model = Fixture
-        fields = ['title', 'opponent', 'opponent_image', 'stadium', 'time', 'date']
+        fields = ['title', 'opponent', 'image', 'stadium', 'time', 'date']
         widgets = {
 
             'title': forms.TextInput(attrs={'class': 'form-control'}),
@@ -35,7 +35,7 @@ class FixtureUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Fixture
-        fields = ['title', 'opponent', 'opponent_image', 'stadium', 'date', 'time']
+        fields = ['title', 'opponent', 'image', 'stadium', 'date', 'time']
         widgets = {
 
             'title': forms.TextInput(attrs={'class': 'form-control'}),

@@ -7,9 +7,9 @@
                 <!-----Contact---->
                 <ul class="top-link">
                    {% if user.is_authenticated %}
-                    <li><a  class=" button " href="{% url 'logout' %}" style="color:yellow;">logout</a>
+                    <li><a  class=" btn btn-danger " href="{% url 'logout' %}" style="letter-spacing:2px;">logout</a>
                     {% else %}
-                     <li><a href="{% url 'user-login' %}" >user login<i class="fa fa-key ml-2"></i></a></li>
+                     <li><a href="{% url 'user-login' %}"  class="btn btn-primary">user login<i class="fa fa-key ml-2"></i></a></li>
                     {% endif %}
                 </ul>
                 <!----End contact--->
@@ -36,7 +36,7 @@
                     <!----Start Logo----->
                     <div class="logo">
                         <a href="">
-                            <div class="logo_text">Thuch<span>eiz</span></div>
+                            <div class="logo_text" style="letter-spacing:2px;">Thuch<span>eiz</span></div>
                         </a>
                     </div>
                     <!----End Logo--->
@@ -70,7 +70,7 @@
                 <div class="col-lg-2 col-12">
 					<div class="get-quote">
                         {% if user.is_authenticated %}
-						<a href="{% url 'password_change' %}" class="btn btn-info">change password</a>
+						<a href="{% url 'password_change' %}" class="btn btn-primary">change password</a>
                         {% endif %}
 					</div>
 				</div>

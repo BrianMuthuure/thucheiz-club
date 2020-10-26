@@ -12,6 +12,7 @@ class ResultListView(ListView):
     paginate_by = 3
     context_object_name = 'results'
     template_name = 'results/result_list.html'
+    ordering = '-date'
 
     def get_context_data(self, *args,  **kwargs):
         context = super(ResultListView, self).get_context_data(*args, **kwargs)
@@ -48,15 +49,14 @@ class ResultDeleteView(DeleteView):
 
 
 def add_goals(request, pk):
-    GoalFormSET = inlineformset_factory(Result, GoalsScored, fields=('player', 'minute'), extra=5)
-    ConcededFormset = inlineformset_factory(Result, GoalsConceded, fields=('scorer', 'minute'), extra=5)
+    GoalFormSET = inlineformset_factory(Result, GoalsScored, fields=('player', 'minute'), extra=3, can_delete=False)
+    ConcededFormset = inlineformset_factory(Result, GoalsConceded, fields=('scorer', 'minute'), extra=3, can_delete=False)
     result = Result.objects.get(id=pk)
 
     formset = GoalFormSET(queryset=GoalsScored.objects.none(), instance=result)
     formset2 = ConcededFormset(queryset=GoalsConceded.objects.none(), instance=result)
 
     if request.method == 'POST':
-        form = ClubGoalForm(request.POST)
         formset = GoalFormSET(request.POST, instance=result)
         formset2 = ConcededFormset(request.POST, instance=result)
         if formset.is_valid() and formset2.is_valid():

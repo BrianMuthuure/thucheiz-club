@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import user_passes_test, login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import IntegrityError
+from django.forms import inlineformset_factory
 from django.http import HttpResponse, Http404
 from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,12 +15,12 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 
 from main.forms import ExtendedUserCreationForm, PlayerForm, \
-    PlayerUpdateForm, UserLoginForm, PlayerContractForm, \
-    CoachCreationForm, CoachUpdateForm, ContactUsForm, \
-    PlayerContractUpdateForm
+    PlayerUpdateForm, UserLoginForm, CoachCreationForm, CoachUpdateForm, ContactUsForm, PlayerContractCreationForm, \
+    InjuryForm
 
 from main.mixins import allowed_users, unauthenticated_user
-from main.models import Player, Coach, Contract, Contact
+from main.models import Player, Coach, Contract, Contact, Injury, CoachContract
+from training.models import TrainingSession
 
 
 def home(request):
@@ -29,13 +30,15 @@ def home(request):
     injured = Player.objects.injured().count()
     coaches = Coach.objects.all().count()
     contacts = Contact.objects.all().order_by('email')[:3]
+    sessions = TrainingSession.objects.all()
     context = {
         'players': players,
         'contracts': contracts,
         'available': available,
         'injured': injured,
         'coaches': coaches,
-        'contacts': contacts
+        'contacts': contacts,
+        'sessions': sessions
     }
     return render(request, 'home.html', context)
 
@@ -84,29 +87,36 @@ def admin_login(request):
 @allowed_users(allowed_roles=['Admin'])
 def add_player(request):
     if request.method == 'POST':
-        form = ExtendedUserCreationForm(request.POST)
+        user_form = ExtendedUserCreationForm(request.POST)
         player_form = PlayerForm(request.POST, request.FILES)
-        if form.is_valid() and player_form.is_valid():
-            user = form.save()
+        contract_form = PlayerContractCreationForm(request.POST)
+        if user_form.is_valid() and player_form.is_valid() and contract_form.is_valid():
+            user = user_form.save()
             user.is_player = True
             user.save()
             player = player_form.save(commit=False)
             player.user = user
             player.save()
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
+            contract = contract_form.save(commit=False)
+            contract.player = player
+            contract.save()
+            username = user_form.cleaned_data.get('username')
+            password = user_form.cleaned_data.get('password1')
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, f'Account created for {username} . You are now required to create {username} contract !')
+            messages.success(request, f'Account created for {username} !')
             group = Group.objects.get(name='Squad')
             user.groups.add(group)
             return redirect('player-list')
     else:
-        form = ExtendedUserCreationForm()
+        user_form = ExtendedUserCreationForm()
         player_form = PlayerForm()
+        contract_form = PlayerContractCreationForm
+
     context = {
-        'form': form,
-        'player_form': player_form
+        'user_form': user_form,
+        'player_form': player_form,
+        'contract_form': contract_form
     }
     return render(request, 'players/add_player.html', context)
 
@@ -116,6 +126,7 @@ class PlayerListView(ListView):
     context_object_name = 'players'
     template_name = 'players/player_list.html'
     paginate_by = 6
+    ordering = 'jersey_no'
 
     def get_context_data(self, *args, **kwargs):
         context = super(PlayerListView, self).get_context_data(*args, **kwargs)
@@ -156,36 +167,10 @@ class PlayerDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-@login_required
-@allowed_users(allowed_roles=['Admin'])
-def player_contract_create(request):
-    if request.method == 'POST':
-        form = PlayerContractForm(request.POST or None)
-
-        if form.is_valid():
-            form.save()
-            player = form.cleaned_data.get('player')
-            player.has_contract = True
-            player.save()
-            messages.success(request, f'Contract created successfully')
-            return redirect('/')
-    else:
-        form = PlayerContractForm()
-    return render(request, 'players/add_player_contract.html', {'form': form})
-
-
 class ContractListView(ListView):
     model = Contract
     template_name = 'home.html'
     context_object_name = 'contracts'
-
-
-class ContractUpdateView(SuccessMessageMixin,UpdateView):
-    model = Contract
-    form_class = PlayerContractUpdateForm
-    template_name = 'players/add_player_contract.html'
-    success_message = 'contract was changed successfully!'
-    success_url = '/'
 
 
 @login_required
@@ -234,6 +219,7 @@ class CoachDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(CoachDetailView, self).get_context_data(**kwargs)
+        context['contracts'] = CoachContract.objects.filter(coach=self.object)
         return context
 
 
@@ -259,6 +245,58 @@ class CoachDeleteView(LoginRequiredMixin, DeleteView):
         coach = self.get_object()
         messages.success(request, 'The coach %s was deleted successfully!' % coach.user)
         return super().delete(request, *args, **kwargs)
+
+
+def add_injury(request, pk):
+    InjuryFormSET = inlineformset_factory(Player, Injury, fields=('injury_type',), extra=1, can_delete=False)
+    player = Player.objects.get(jersey_no=pk)
+
+    formset = InjuryFormSET(queryset=Injury.objects.none(), instance=player)
+
+    if request.method == 'POST':
+        formset = InjuryFormSET(request.POST, instance=player)
+        if formset.is_valid():
+            formset.save()
+            player.available = False
+            player.save()
+            return redirect('player-list')
+    context = {
+        'form': formset,
+    }
+    return render(request, 'players/add_injury.html', context)
+
+
+class InjuryDetailView(DetailView):
+    model = Injury
+    template_name = 'players/injury_detail.html'
+    context_object_name = 'injury'
+
+
+def updateInjury(request, pk):
+    injury = Injury.objects.get(id=pk)
+    form = InjuryForm(instance=injury)
+    if request.method == 'POST':
+        form = InjuryForm(request.POST, instance=injury)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+    context = {
+        'form': form
+    }
+    return render(request, 'players/update_injury.html', context)
+
+
+def deleteInjury(request, pk):
+    injury = Injury.objects.get(id=pk)
+    if request.method == 'POST':
+        injury.delete()
+        injury.player.available = True
+        injury.player.save()
+        return redirect('/')
+    context = {
+        'injury': injury
+    }
+    return render(request, 'players/delete_injury.html', context)
 
 
 def contact_us(request):

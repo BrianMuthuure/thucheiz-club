@@ -2,98 +2,38 @@
 {% extends "base.html" %}
 {% block content %}
 <style>
-body{
-
-}
- .fieldset {
-    border: 5px groove darkgrey !important;
-    padding: 0 1.4em 1.4em 1.4em !important;
-    width:70%;
-    margin-left:15%;
-    background:;
-}
-
-.legend {
-    width: auto;
-    border: none;
-    padding: 5px 5px 5px 5px;
-}
-    .errorlist li{
-    color:red !important;
+    .add-player h5{
+    letter-spacing:2px;
     }
 </style>
-<form action="{% url 'add-player' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <fieldset class="fieldset">
-        <legend class="legend">Personal Information</legend>
-            <div class="form-row">
-              <div class="form-group col-md-4">
-                    <label>Username</label>
-                     {{form.username.errors}}
-                    {{ form.username }}
-                </div>
-                <div class="form-group col-md-4">
-                    <label>First Name</label>
-                    {{ form.first_name }}
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Last Name</label>
-                    {{ form.last_name }}
-                </div>
+<div class="container">
+   <div class="row justify-content-center">
+      <div class="col-md-12">
+          <form action="" method="post" enctype="multipart/form-data" class="add-player">
+               {% csrf_token %}
+              <div class="row justify-content-center">
+                  <div class="col-md-4 mb-4" style="border-right:1px solid #e9ecef;">
+                      <h5 class="text-center">user details</h5><hr>
+                       {{user_form.as_p}}
+                  </div>
+                  <div class="col-md-4 mb-4 " style="border-right:1px solid #e9ecef;">
+                      <h5 class="text-center ">player details</h5><hr>
+                       {{player_form.as_p}}
+                  </div>
+                  <div class="col-md-4 mb-4" style="border-right:1px solid #e9ecef;">
+                      <h5 class="text-center">contract</h5><hr>
+                      {{contract_form.as_p}}
+                  </div>
+              </div>
 
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-4">
-                    <label>Email</label>
-                  {{form.email.errors}}
-                    {{ form.email }}
-                </div>
-              <div class="form-group col-md-4">
-                    <label>Password</label>
-                    {{ form.password1 }}
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Confirm Password</label>
-                    {{ form.password2 }}
-                </div>
-            </div>
-        </fieldset>
+              <div class="row justify-content-center mt-4 mb-4">
+                  <div class="col-md-4">
+                      <button class="btn btn-success btn-block">Submit</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+   </div>
+</div>
 
-      <fieldset class="fieldset">
-        <legend class="legend">Player Details</legend>
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                    <label>Dob</label>
-                  {{player_form.dob.errors}}
-                    {{ player_form.dob }}
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Nationality</label>
-                    {{ player_form.country }}
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label>Position</label>
-                    {{ player_form.position }}
-                </div>
-                <div class="form-group col-md-6">
-                    <label>Jersey No</label>
-                    {{ player_form.jersey_no }}
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-12">
-                     <label>Image</label>
-                    {{ player_form.image }}
-                    </div>
-                </div>
-            </div>
-      </fieldset>
-    <div class="form-row justify-content-center mt-4">
-         <div class="form-group col-md-4">
-           <button class="btn btn-success btn-block">Submit</button>
-          </div>
-    </div>
-    </form>
 {% endblock content%}

@@ -27,7 +27,6 @@ urlpatterns = [
     path('news/', include('news.urls')),
     path('fixtures/', include('fixtures.urls')),
     path('results/', include('results.urls')),
-    path('injury/', include('injury.urls')),
     path('search/', include('search.urls')),
 
 

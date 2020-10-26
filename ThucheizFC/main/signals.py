@@ -2,20 +2,7 @@ import os
 import csv
 from django.db.models.signals import post_save, post_delete, m2m_changed
 from django.dispatch import receiver
-from .models import Player, Contract
-
-""" create contract after the player is saved """
-@receiver(post_save, sender=Player)
-def create_contract(sender, instance, created, **kwargs):
-    if created:
-        Contract.objects.create(player=instance)
-        print(sender)
-
-
-@receiver(post_save, sender=Player)
-def save_contract(sender, instance, **kwargs):
-    instance.contract.save()
-    print(sender)
+from .models import Player
 
 
 def _delete_file(path):

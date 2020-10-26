@@ -1,0 +1,24 @@
+{% extends "base.html"%}
+{% block content %}
+{% load crispy_forms_tags %}
+<style>
+
+</style>
+<div class="container">
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<h6 class="text-center mb-2 goal-title">New Training Session</h6><hr>
+				{{form|crispy}}
+			</div>
+		</div>
+		<div class="row justify-content-center mb-4">
+			<div class="col-md-6">
+                 <button class="btn btn-info btn-block" type="submit">Submit</button>
+			</div>
+		</div>
+
+    </form>
+</div>
+{% endblock %}

@@ -11,7 +11,7 @@ class Fixture(models.Model):
     club = models.CharField(default='Thucheiz United', max_length=200)
     title = models.CharField(max_length=200, blank=True)
     opponent = models.CharField(max_length=200)
-    opponent_image = models.ImageField(upload_to='logos', default='logo.png')
+    image = models.ImageField(upload_to='logos', default='logo.png')
     stadium = models.CharField(max_length=200)
     date = models.DateField()
     active = models.BooleanField(default=True)
@@ -25,7 +25,7 @@ class Fixture(models.Model):
     @property
     def fixtureimageURL(self):
         try:
-            url = self.opponent_image.url
+            url = self.image.url
         except:
             url = ''
         return url

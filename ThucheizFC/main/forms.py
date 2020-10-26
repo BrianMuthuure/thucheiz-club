@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
-from .models import User, Player, Contract, Coach, Contact
+from .models import User, Player, Contract, Coach, Contact, Injury
 
 
 class ExtendedUserCreationForm(UserCreationForm):
@@ -100,70 +100,21 @@ class UserLoginForm(forms.Form):
 
 
 class PlayerUpdateForm(forms.ModelForm):
+    country = CountryField().formfield(
+        widget=CountrySelectWidget(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = Player
         fields = ['position', 'country', 'jersey_no', 'appearances', 'goals', 'clean_sheets', 'red_cards', 'yellow_card',  'image']
         widgets = {
             'position': forms.TextInput(attrs={'class': 'form-control'}),
-            'country': forms.TextInput(attrs={'class': 'form-control'}),
             'jersey_no': forms.NumberInput(attrs={'class': 'form-control'}),
             'appearances': forms.NumberInput(attrs={'class': 'form-control'}),
             'goals': forms.NumberInput(attrs={'class': 'form-control'}),
             'clean_sheets': forms.NumberInput(attrs={'class': 'form-control'}),
             'red_cards': forms.NumberInput(attrs={'class': 'form-control'}),
             'yellow_card': forms.NumberInput(attrs={'class': 'form-control'})
-        }
-
-
-class PlayerContractForm(forms.ModelForm):
-    player = forms.ModelChoiceField(queryset=Player.objects.filter(has_contract=False),
-                                    widget=forms.Select(attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = Contract
-        fields = [
-            'player', 'start_date', 'end_date', 'salary', 'buyout_clause'
-        ]
-
-        widgets = {
-            'start_date': forms.DateInput(
-                attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
-            'end_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
-            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
-            'buyout_clause': forms.NumberInput(attrs={'class': 'form-control'}),
-            'bonuses': forms.NumberInput(attrs={'class': 'form-control'}),
-        }
-
-    def clean(self):
-        data = self.cleaned_data
-        start_date = self.cleaned_data.get('start_date')
-        end_date = self.cleaned_data.get('end_date')
-        if start_date >= end_date:
-            raise forms.ValidationError("start date should be less than end date!!!!")
-        if start_date < datetime.date.today():
-            raise forms.ValidationError("start date should not be less than the current date!!!!!")
-        if end_date <= datetime.date.today():
-            raise forms.ValidationError("End date should be greater than today")
-        return data
-
-
-class PlayerContractUpdateForm(forms.ModelForm):
-    player = forms.ModelChoiceField(queryset=Player.objects.filter(has_contract=False),
-                                    widget=forms.Select(attrs={'class': 'form-control'}))
-
-    class Meta:
-        model = Contract
-        fields = [
-            'player', 'start_date', 'end_date', 'salary', 'buyout_clause'
-        ]
-
-        widgets = {
-            'start_date': forms.DateInput(
-                attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
-            'end_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
-            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
-            'buyout_clause': forms.NumberInput(attrs={'class': 'form-control'}),
-            'bonuses': forms.NumberInput(attrs={'class': 'form-control'}),
         }
 
 
@@ -193,16 +144,43 @@ class CoachCreationForm(forms.ModelForm):
 
 
 class CoachUpdateForm(forms.ModelForm):
+    nationality = CountryField().formfield(
+        widget=CountrySelectWidget(attrs={'class': 'form-control'})
+    )
+
     class Meta:
         model = Coach
         fields = ['title', 'nationality',  'trophies', 'games', 'wins', 'losses', 'image']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
-            'nationality': forms.TextInput(attrs={'class': 'form-control'}),
+            'title': forms.Select(attrs={'class': 'form-control', 'placeholder': 'position'}),
             'trophies': forms.NumberInput(attrs={'class': 'form-control'}),
             'games': forms.NumberInput(attrs={'class': 'form-control'}),
             'wins': forms.NumberInput(attrs={'class': 'form-control'}),
             'losses': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+
+class PlayerContractCreationForm(forms.ModelForm):
+    def clean(self):
+        data = self.cleaned_data
+        start_date = self.cleaned_data.get('start_date')
+        end_date = self.cleaned_data.get('end_date')
+        if start_date >= end_date:
+            raise forms.ValidationError("start date should be less than end date!!!!")
+        if start_date < datetime.date.today():
+            raise forms.ValidationError("start date should not be less than the current date!!!!!")
+        if end_date <= datetime.date.today():
+            raise forms.ValidationError("End date should be greater than today")
+        return data
+
+    class Meta:
+        model = Contract
+        fields = ['start_date', 'end_date', 'salary', 'buyout_clause']
+        widgets = {
+            'start_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
+            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
+            'buyout_clause': forms.NumberInput(attrs={'class': 'form-control'})
         }
 
 
@@ -211,3 +189,8 @@ class ContactUsForm(forms.ModelForm):
         model = Contact
         fields = ['name', 'email', 'subject']
 
+
+class InjuryForm(forms.ModelForm):
+    class Meta:
+        model = Injury
+        fields = '__all__'

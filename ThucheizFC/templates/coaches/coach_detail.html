@@ -39,47 +39,61 @@
     #myTab{
     border:none;
     margin-top:70px;
-    margin-left:90px;
+    margin-left:80px;
     margin-top:30px;
     }
     #myTab li{
     margin:0px;
     margin-left:75px;
     }
+     @media (max-width: 768px) {
+    #myTab{
+    border:none;
+    margin-top:70px;
+    margin-left:0px;
+    margin-top:30px;
+    }
+    #myTab li{
+     margin-left:18px !important;
+    }
+    }
      #myTab li a{
     border:none;
     margin-bottom:0px;
     line-height:55px;
-    font-size:16px;
+    font-size:18px !important;
     letter-spacing:2px;
-    font-family: "Roboto", sans-serif;
-    color: blue !important;
+    font-family: 'Peddana', serif !important;
+    color: grey !important;
     font-weight:600;
     padding: 0px !important;
     border-bottom: 1px solid transparent;
     }
     #myTab li a.active{
     border-color: #17a2b8;
+    color:#000 !important;
 
     }
     #myTabContent{
-    background: #F5FBFF !important;
+    background: linear-gradient(45deg, #17a2b8, #17a2b8, #007bff);
     }
     #myTabContent .objective_text{
     padding: 35px;
     border: 1px solid #eeeeee;
     }
     #myTabContent .objective_text h6{
-    text-transform:capitalize;
+    text-transform:lowercase;
     color: #2c234d;
     font-weight: 600;
+    letter-spacing:2px;
     font-size: 17px;
     }
     #myTabContent .objective_text p{
     text-transform:lowercase;
-    color: grey;
+    color: #fff;
+    letter-spacing:2px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 12px;
     margin-bottom:20px;
     }
     .edit-player-button{
@@ -113,7 +127,7 @@
 <section class="player_area single_player p_120">
     <div class="container">
         <div class="row player_details_inner justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div class="c_details_img">
                     <img src="{{object.coachimageURL}}" class="img-fluid">
                 </div>
@@ -153,7 +167,7 @@
                     <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="objective_text">
                             <h6>nationality</h6>
-                            <p>{{object.nationality}}</p>
+                            <p>{{object.nationality.name}}</p>
 
                             <h6>dob</h6>
                             <p>{{object.dob}}</p>
@@ -165,7 +179,14 @@
 
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="objective_text">
-
+                         {% for contract in contracts %}
+                            <h6>Start date</h6>
+                            <p>{{contract.start_date}}</p>
+                            <h6>End date</h6>
+                            <p>{{contract.end_date}}</p>
+                            <h6>Salary</h6>
+                            <p>{{contract.salary}} ksh</p>
+                            {% endfor %}
                         </div>
                     </div>
 

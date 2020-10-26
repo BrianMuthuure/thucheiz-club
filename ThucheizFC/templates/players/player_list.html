@@ -20,6 +20,7 @@
   }
   .players-title{
   text-transform:uppercase;
+  letter-spacing:2px;
   font-family: 'Peddana', serif !important;
   }
   .player-wrap .text {
@@ -60,19 +61,28 @@ color:#fff !important;
 
 <section class="ftco-section">
     <div class="container">
+        {% if user.is_superuser and user.is_authenticated %}
         <div class="row mb-3">
-          <div class="col-md-6">
-              {% if user.is_superuser and user.is_authenticated %}
-              <a class="btn btn-primary btn-block add-player-btn" href="{% url 'add-player' %}" >Add new player</a>
-              {% endif %}
+          <div class="col-md-6 mb-4">
+              <a class="btn btn-primary btn-block add-player-btn" href="{% url 'add-player' %}"  style="text-transform:uppercase;">Add new player</a>
           </div>
-       <div class="col-md-6">
-           {% include 'search/player_search_form.html' %}
+          <div class="col-md-6 mb-4">
+             {% include 'search/player_search_form.html' %}
+           </div>
+
         </div>
-     </div>
+        {% else %}
+        <div class="row mb-3">
+            <div class="col-md-4">
+                {% include 'search/player_search_form.html' %}
+            </div>
+        </div>
+        {% endif %}
+
+
         <div class="row justify-content-center">
-             <div class="col-md-4">
-                   <h5 class="text-center players-title">Team</h5>
+             <div class="col-md-4 mb-4">
+                   <h4 class="text-center players-title">Team</h4>
              </div>
         </div>
         <div class="row">
@@ -89,9 +99,15 @@ color:#fff !important;
                         <h2 class="mb-0"><a href="{% url 'player-detail' player.pk %}">{{player.user.first_name}} {{player.user.last_name}}</a></h2>
                         <div class="d-flex mb-3">
                             <span class="cat">{{player.position}}</span>
-                            <p class="jersey ml-auto">{{player.jersey_no}}</p>
+                            <a class="jersey ml-auto" href="{% url 'player-detail' player.pk %}">{{player.jersey_no}}</a>
                         </div>
-                        <h6 style="color:#fff;" class="d-flex mb-0 d-block"><a href="{% url 'player-detail' player.pk %}" class="btn btn-primary btn-block py-2 ml-1">View profile</a> </h6>
+                        {% if player.available %}
+                        <h6 style="color:#fff;" class="d-flex mb-0 d-block"><a href="{% url 'player-detail' player.pk %}" class="btn btn-primary btn-block py-2 ml-1">Available</a> </h6>
+                        {% else %}
+                         <h6 style="color:#fff;" class="d-flex mb-0 d-block">
+                             <a href="{% url 'player-detail' player.pk %}" class="btn btn-danger btn-block py-2 ml-1">injured (unavailable) <img src="{% static 'images/warning.png' %}" class="" style="height:20px;"></a>
+                         </h6>
+                        {% endif %}
                     </div>
                 </div>
             </div>
