@@ -28,7 +28,7 @@ SECRET_KEY = 'q)#=cp^ry(=7k2udcr%9cn5q=*(a$q44sok#-_7rbmkx(-t&k3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['thuchy.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['thucheizfc.herokuapp.com', '127.0.0.1']
 
 AUTH_USER_MODEL = 'main.User'
 # Application definition
@@ -139,7 +139,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), '/static/',]
 
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
