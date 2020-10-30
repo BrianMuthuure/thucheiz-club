@@ -12,6 +12,22 @@ from django.utils import timezone
 from main.managers import PlayerManager, CoachManager
 
 
+class Picture(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='admin pictures', default='default.jpg')
+
+    @property
+    def pictureimageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
+    def __str__(self):
+        return f'{self.user} Picture'
+
+
 class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     is_coach = models.BooleanField(default=False)
@@ -22,6 +38,33 @@ class User(AbstractUser):
 
 
 class Player(models.Model):
+    NO = (
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
+        (6, 6),
+        (7, 7),
+        (8, 8),
+        (9, 9),
+        (10, 10),
+        (11, 11),
+        (12, 12),
+        (13, 13),
+        (14, 14),
+        (15, 15),
+        (16, 16),
+        (17, 17),
+        (18, 18),
+        (19, 19),
+        (20, 20),
+        (21, 21),
+        (22, 22),
+        (23, 23),
+        (24, 24),
+        (25, 25),
+    )
     POS = (
         ('gk', 'gk'),
         ('defender', 'defender'),
@@ -37,8 +80,9 @@ class Player(models.Model):
     image = models.ImageField(upload_to='player_pics', default='default.jpg')
     position = models.CharField(max_length=200, choices=POS)
     country = CountryField(null=True, blank=True)
-    jersey_no = models.PositiveSmallIntegerField(primary_key=True)
-    available = models.BooleanField(default=True)
+    jersey_no = models.PositiveSmallIntegerField(primary_key=True, choices=NO)
+    available = models.BooleanField(default=True, editable=True)
+    injured = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     dob = models.DateField()
     age = models.PositiveIntegerField(null=True, blank=True)
@@ -73,6 +117,10 @@ class Player(models.Model):
     @property
     def injuries(self):
         return self.injury_set.all()
+
+    @property
+    def unavailables(self):
+        return self.deletedplayer_set.all()
 
     @property
     def imageURL(self):
@@ -209,3 +257,24 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class DeletedPlayer(models.Model):
+    STATUS = (
+        ('sold', 'sold'),
+        ('terminated', 'terminated'),
+        ('end contract', 'end contract')
+    )
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
+    status = models.CharField(choices=STATUS, max_length=200)
+    date = models.DateField(default=timezone.now)
+
+    def save(self, *args, **kwargs):
+        self.player.available = False
+        super(DeletedPlayer, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return str(self.player)
+
+
+

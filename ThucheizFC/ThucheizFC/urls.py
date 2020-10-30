@@ -19,15 +19,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from main.views import admin_login
+from main.views import profile, add_user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
+    path('profile/', profile, name='profile'),
     path('news/', include('news.urls')),
     path('fixtures/', include('fixtures.urls')),
     path('results/', include('results.urls')),
     path('search/', include('search.urls')),
+    path('add-user/', add_user, name='add-user'),
 
 
     path('login/', auth_views.LoginView.as_view(template_name='user_login.html'), name='user-login'),

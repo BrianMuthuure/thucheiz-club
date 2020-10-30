@@ -1,64 +1,58 @@
-<footer class="footer">
-    <div class="footer_background" style="background-image:url('/static/images/footer_background.png')">
-
-    </div>
-    <div class="container">
-        <div class="row footer_row">
-            <div class="col">
-                <div class="footer_content">
-                    <div class="row">
-                        <div class="col-lg-4 footer_col">
-                            <div class="footer_section footer_about">
-                                <div class="footer_logo_container">
-                                    <a href="">
-                                        <div class="footer_logo_text">Thuch<span>eiz</span></div>
-                                    </a>
-                                </div>
-                                <div class="footer_about_text">
-										<p>Lorem ipsum dolor sit ametium, consectetur adipiscing elit.</p>
-								</div>
-                            </div>
-                        </div>
-                      <div class="col-lg-4 footer_col text-center">
-                          <!-- Footer Contact -->
-						<div class="footer_section footer_contact">
-							<div class="footer_title">Contact Us</div>
-                            <div class="footer_contact_info">
-								<ul>
-									<li>Email: Thucheiz.fc@gmail.com</li>
-									<li>Phone:  +(88) 111 555 666</li>
-									<li>40 Baria Sreet 133/2 Nairobi City, Kenya</li>
-								</ul>
-							</div>
-						</div>
-
-                      </div>
-                    </div>
-
-                </div>
-            </div>
+{% load static %}
+<div class="footer">
+<div class="content">
+    <div class="row">
+        <div class="col-md-4 text-center mb-4">
+             <h1 class="logo-text"><span>Thuch</span>eiz FC</h1>
+            <p></p>
+            <ul class="socials">
+                <li><i class="fab fa-facebook-square"></i></li>
+                <li><i class="fab fa-twitter"></i></li>
+                <li><i class="fab fa-linkedin"></i></li>
+                <li><i class="fab fa-instagram"></i></li>
+            </ul>
         </div>
-        <div class="row copyright_row">
-				<div class="col">
-					<div class="copyright d-flex flex-lg-row flex-column align-items-center justify-content-start">
-                        <div class="cr_text">
-                         Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script>
-                            All rights reserved | This website is made with
-                            <i class="fa fa-heart-o" aria-hidden="true"></i>
-                            by
-                            <a href="#" target="_blank">Stars</a>
-                        </div>
-						<div class="ml-lg-auto cr_links">
-							<ul class="cr_list">
-								<li><a href="#">Copyright notification</a></li>
-								<li><a href="#">Terms of Use</a></li>
-								<li><a href="#">Privacy Policy</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
+        <div class="col-md-4 text-center">
+            <h2 class="our-address">Our addresses</h2>
+            <ul class="address">
+                <li><i class="fas fa-map-marker"></i>Kenya (Nairobi) </li>
+                <li><i class="fas fa-phone"></i>+254 - 567 - 560 - 442</li>
+                <li><i class="fas fa-envelope"></i>@thucheizunited.com</li>
+            </ul>
+        </div>
+
+        <div class="col-md-4 text-center">
+            <h2 class="quick-links" >quick links</h2>
+            <ul class="links">
+                <li>
+                    <a href="">
+                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                        Home
+                    </a>
+                </li>
+
+                 <li>
+                    <a href="{% url 'contact-us' %}">
+                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                        Contact
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="fa fa-caret-right" aria-hidden="true"></i>
+                        News
+                    </a>
+                </li>
+
+            </ul>
         </div>
     </div>
+</div><hr>
 
-</footer>
+    <div class=" row mb-2">
+        <div class="col-md-12 text-center">
+              &copy; rapid united | Designed by Brian Muthuure
+        </div>
+
+    </div>
+</div>

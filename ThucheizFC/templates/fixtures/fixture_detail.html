@@ -66,8 +66,10 @@ border-radius:50%;
                            <a class="card-title float-left" >{{object.title}} </a>
                     </div>
                     <div class="float-right">
+                         {% if user.is_authenticated and user.is_superuser %}
                         <a href="{% url 'fixture-update' fixture.pk %}" ><i class="far fa-edit"></i></a>
                         <a href="{% url 'fixture-delete' fixture.pk %}"><i class="fas fa-trash"></i></a>
+                        {% endif %}
                     </div>
                 </div>
 

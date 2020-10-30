@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
-from .models import User, Player, Contract, Coach, Contact, Injury
+from .models import User, Player, Contract, Coach, Contact, Injury, DeletedPlayer
 
 
 class ExtendedUserCreationForm(UserCreationForm):
@@ -48,6 +48,16 @@ class ExtendedUserCreationForm(UserCreationForm):
         return user
 
 
+class UserUpdateForm(forms.ModelForm):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}), required=True,
+                               max_length=20)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'type': 'email'}), required=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email')
+
+
 class PlayerForm(forms.ModelForm):
 
     country = CountryField().formfield(
@@ -63,7 +73,7 @@ class PlayerForm(forms.ModelForm):
                  'class': 'form-control', 'placeholder': 'position'
              }),
 
-             'jersey_no': forms.NumberInput(attrs=
+             'jersey_no': forms.Select(attrs=
                                             {'class': 'form-control', 'placeholder': 'jersey no'}),
              'dob': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'})
         }
@@ -150,11 +160,11 @@ class CoachUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Coach
-        fields = ['title', 'nationality',  'trophies', 'games', 'wins', 'losses', 'image']
+        fields = ['title', 'nationality',  'trophies', 'draws', 'wins', 'losses', 'image']
         widgets = {
             'title': forms.Select(attrs={'class': 'form-control', 'placeholder': 'position'}),
             'trophies': forms.NumberInput(attrs={'class': 'form-control'}),
-            'games': forms.NumberInput(attrs={'class': 'form-control'}),
+            'draws': forms.NumberInput(attrs={'class': 'form-control'}),
             'wins': forms.NumberInput(attrs={'class': 'form-control'}),
             'losses': forms.NumberInput(attrs={'class': 'form-control'}),
         }
@@ -193,4 +203,10 @@ class ContactUsForm(forms.ModelForm):
 class InjuryForm(forms.ModelForm):
     class Meta:
         model = Injury
+        fields = '__all__'
+
+
+class DeletePlayerForm(forms.ModelForm):
+    class Meta:
+        model = DeletedPlayer
         fields = '__all__'

@@ -64,7 +64,7 @@ color:#fff !important;
         {% if user.is_superuser and user.is_authenticated %}
         <div class="row mb-3">
           <div class="col-md-6 mb-4">
-              <a class="btn btn-primary btn-block add-player-btn" href="{% url 'add-player' %}"  style="text-transform:uppercase;">Add new player</a>
+              <a class="btn btn-primary btn-block add-player-btn" href="{% url 'add-player' %}"  style="text-transform:lowercase;">Add new player</a>
           </div>
           <div class="col-md-6 mb-4">
              {% include 'search/player_search_form.html' %}
@@ -101,12 +101,12 @@ color:#fff !important;
                             <span class="cat">{{player.position}}</span>
                             <a class="jersey ml-auto" href="{% url 'player-detail' player.pk %}">{{player.jersey_no}}</a>
                         </div>
-                        {% if player.available %}
-                        <h6 style="color:#fff;" class="d-flex mb-0 d-block"><a href="{% url 'player-detail' player.pk %}" class="btn btn-primary btn-block py-2 ml-1">Available</a> </h6>
-                        {% else %}
-                         <h6 style="color:#fff;" class="d-flex mb-0 d-block">
-                             <a href="{% url 'player-detail' player.pk %}" class="btn btn-danger btn-block py-2 ml-1">injured (unavailable) <img src="{% static 'images/warning.png' %}" class="" style="height:20px;"></a>
+                        {% if player.injured %}
+                        <h6 style="color:#fff;" class="d-flex mb-0 d-block">
+                             <a href="{% url 'player-detail' player.pk %}" class="btn btn-danger btn-block py-2 ml-1">injured <img src="{% static 'images/warning.png' %}" class="" style="height:20px;"></a>
                          </h6>
+                        {% else %}
+                        <h6 style="color:#fff;" class="d-flex mb-0 d-block"><a href="{% url 'player-detail' player.pk %}" class="btn btn-primary btn-block py-2 ml-1">Available</a> </h6>
                         {% endif %}
                     </div>
                 </div>

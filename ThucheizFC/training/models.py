@@ -12,8 +12,8 @@ class TrainingSession(models.Model):
         ('completed', 'completed'),
     )
     date = models.DateField()
-    player = models.ManyToManyField(Player, blank=True, null=True)
-    coach = models.ManyToManyField(Coach, blank=True, null=True)
+    player = models.ManyToManyField(Player, blank=True)
+    coach = models.ManyToManyField(Coach, blank=True)
     status = models.CharField(choices=STATUS, max_length=200, blank=True, null=True)
 
     def get_absolute_url(self):

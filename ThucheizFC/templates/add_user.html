@@ -1,0 +1,31 @@
+
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .add-player h5{
+    letter-spacing:2px;
+    }
+</style>
+<div class="container">
+   <div class="row justify-content-center">
+      <div class="col-md-12">
+          <form action="" method="post" enctype="multipart/form-data" class="add-player">
+               {% csrf_token %}
+              <div class="row justify-content-center">
+                  <div class="col-md-8 mb-4" style="">
+                      <h5 class="text-center">user details</h5><hr>
+                       {{form.as_p}}
+                  </div>
+              </div>
+
+              <div class="row justify-content-center mt-4 mb-4">
+                  <div class="col-md-4">
+                      <button class="btn btn-success btn-block">Submit</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+   </div>
+</div>
+
+{% endblock content%}

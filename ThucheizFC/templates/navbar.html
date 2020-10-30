@@ -1,15 +1,15 @@
 {% load static %}
 <!--Topbar-->
-<div class="topbar" style="background-image:url('/static/images/footer_background.png')">
+<div class="topbar" style="background-color:#f6f6f6 !important;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-5 col-12">
                 <!-----Contact---->
                 <ul class="top-link">
                    {% if user.is_authenticated %}
-                    <li><a  class=" btn btn-danger " href="{% url 'logout' %}" style="letter-spacing:2px;">logout</a>
+                    <a  class=" " href="{% url 'logout' %}" style="letter-spacing:2px; color:red;">logout</a>
                     {% else %}
-                     <li><a href="{% url 'user-login' %}"  class="btn btn-primary">user login<i class="fa fa-key ml-2"></i></a></li>
+                     <a href="{% url 'user-login' %}"  class="">user login<i class="fa fa-key ml-2"></i></a>
                     {% endif %}
                 </ul>
                 <!----End contact--->
@@ -17,9 +17,12 @@
             </div>
             <div class="col-lg-6 col-md-7 col-12">
                 <!----Top Contact---->
-                <ul class="top-contact">
-                    <li><i class="fa fa-phone"></i>+254 1234 56789</li>
-                    <li><i class="fa fa-envelope"></i>thucheiz@gmail.com</li>
+                <ul class=" top-contact">
+                    {% if user.is_authenticated %}
+                    <span class="text-muted">Logged in user : </span><span style="letter-spacing:2px;font-size:15px;"><a href="{% url 'profile' %}" >{{user.first_name}}  {{user.last_name}}</a></span>
+
+                    {% endif %}
+
                 </ul>
                 <!--End Top Contact-->
             </div>
@@ -28,7 +31,7 @@
 </div>
 <!---End Topbar--->
 <!---Header Inner--->
-<div class="header-inner">
+<div class="header-inner mb-4">
     <div class="container">
         <div class="inner">
             <div class="row">
@@ -36,7 +39,7 @@
                     <!----Start Logo----->
                     <div class="logo">
                         <a href="">
-                            <div class="logo_text" style="letter-spacing:2px;">Thuch<span>eiz</span></div>
+                             <h1 class="logo-text"><span>Thuch</span>eiz FC</h1>
                         </a>
                     </div>
                     <!----End Logo--->
@@ -61,19 +64,13 @@
                                 <li><a href="{% url 'news-list' %}">news</a></li>
 								<li><a href="{% url 'result-list' %}">Results</a></li>
                                 <li><a href="{% url 'fixture-list' %}">Fixtures</a></li>
-								<li><a href="{% url 'contact-us' %}">Contact Us</a></li>
+
                             </ul>
                         </nav>
                     </div>
                     <!----End Main Menu------>
                 </div>
-                <div class="col-lg-2 col-12">
-					<div class="get-quote">
-                        {% if user.is_authenticated %}
-						<a href="{% url 'password_change' %}" class="btn btn-primary">change password</a>
-                        {% endif %}
-					</div>
-				</div>
+
             </div>
         </div>
     </div>

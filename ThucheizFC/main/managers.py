@@ -10,7 +10,7 @@ class PlayerQuerySet(models.query.QuerySet):
         return self.filter(available=True, active=True)
 
     def injured(self):
-        return self.filter(available=False, active=True)
+        return self.filter(injured=True, active=True)
 
     def has_contract(self):
         return self.filter(has_contract=False, active=True)

@@ -54,6 +54,7 @@ letter-spacing:2px;
 
 <section class="ftco-section">
     <div class="container">
+        {% if user.is_superuser and user.is_authenticated %}
         <div class="row mb-3">
           <div class="col-md-6 mb-4">
               <a class="btn btn-primary btn-block add-player-btn" href="{% url 'coach-register' %}" >Add new coach</a>
@@ -62,6 +63,14 @@ letter-spacing:2px;
            {% include 'search/coach_search_form.html' %}
         </div>
      </div>
+                {% else %}
+        <div class="row mb-3">
+            <div class="col-md-4">
+                {% include 'search/coach_search_form.html' %}
+            </div>
+        </div>
+        {% endif %}
+
         <div class="row justify-content-center">
              <div class="col-md-4">
                    <h5 class="text-center coach-title">Our Coaches</h5>

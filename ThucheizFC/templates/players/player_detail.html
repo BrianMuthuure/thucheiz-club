@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 <style>
-   .single_player{
+.single_player{
    margin-bottom:50px;
    }
    .p_details_list{
@@ -39,15 +39,14 @@
     #myTab{
     border:none;
     margin-top:70px;
-    margin-left:90px;
+    margin-left:80px;
     margin-top:30px;
     }
-
     #myTab li{
     margin:0px;
     margin-left:75px;
     }
-    @media (max-width: 768px) {
+     @media (max-width: 768px) {
     #myTab{
     border:none;
     margin-top:70px;
@@ -57,50 +56,52 @@
     #myTab li{
      margin-left:18px !important;
     }
+     #myTab li a{
+     margin-left:19px !important;
+    }
     }
      #myTab li a{
     border:none;
     margin-bottom:0px;
     line-height:55px;
-    font-size:18px !important;
+    font-size:15px !important;
     letter-spacing:2px;
-    font-family: 'Peddana', serif !important;
     color: grey !important;
     font-weight:600;
     padding: 0px !important;
     border-bottom: 1px solid transparent;
     }
     #myTab li a.active{
-    color:#000 !important;
     border-color: #17a2b8;
-    background: #e9ecef14 !important;
-    border:none;
+    color:#000 !important;
+
     }
     #myTabContent{
     background: linear-gradient(45deg, #17a2b8, #17a2b8, #007bff);
-     font-family: 'Peddana', serif !important;
     }
     #myTabContent .objective_text{
     padding: 35px;
     border: 1px solid #eeeeee;
     }
     #myTabContent .objective_text h6{
-    text-transform:capitalize;
+    text-transform:lowercase;
     color: #2c234d;
     font-weight: 600;
+    letter-spacing:2px;
     font-size: 17px;
     }
     #myTabContent .objective_text p{
     text-transform:lowercase;
     color: #fff;
+    letter-spacing:2px;
     font-weight: 600;
-    font-size: 15px;
+    font-size: 12px;
     margin-bottom:20px;
     }
     .edit-player-button{
     color:#fff !important;
      background: #244cfd;
-    padding:15px 25px;
+    padding:5px 15px;
     border-radius:6px;
     float:left;
     letter-spacing:1.1px;
@@ -113,7 +114,7 @@
     color:#fff !important;
     background:red;
     float:right;
-    padding:15px 25px;
+    padding:5px 15px;
     border-radius:6px;
     letter-spacing:1.1px;
     }
@@ -147,38 +148,13 @@
                             <a class="button delete-player-button" href="{% url 'player-delete' player.pk %}">delete player<i class="fa fa-times"></i> </a>
                         </span>
                         {% endif %}
-
-                        {% if user.is_superuser and user.is_authenticated and player.available %}
-                        <a href="{% url 'add_injury' player.jersey_no %}" class="btn btn-success btn-block mt-4 " style="letter-spacing:2px;text-transform:uppercase;">Add injury</a>
-                         {% endif %}
-
-                        {% if not player.available %}
-                        {% for injury in player.injuries %}
-
-     <a class="btn btn-danger btn-block mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    view injury details
-    </a>
-    <div class="collapse mt-2" id="collapseExample">
-          <div class="card card-body">
-              <h6>{{injury.injury_type}}</h6>
-
-              <p>Date</p> <span>{{injury.date_added}}</span>
-
-              <span>
-              <a class="btn btn-info mt-2" href="{% url 'update_injury' injury.id %}">update</a>
-                  <a class="btn btn-warning mt-2 float-right" href="{% url 'delete_injury' injury.id %}">delete</a>
-              </span>
-          </div>
-     </div>
-                        {% endfor %}
-                        {% endif %}
                     </div>
 
                 </div>
             </div>
         </div>
 
-        <div class="row player-statistics justify-content-center">
+        <div class="row player-statistics justify-content-start">
             <div class="col-lg-8">
                  <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">

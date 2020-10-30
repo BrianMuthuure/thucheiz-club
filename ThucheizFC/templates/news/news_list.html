@@ -54,9 +54,11 @@
 
 <div class="container">
     <div class="row justify-content-center">
+        {% if user.is_superuser and user.is_authenticated %}
             <div class="col-lg-4 mb-4">
                  <a class="btn btn-primary btn-block" href="{% url 'news-create' %}" >Add news</a>
             </div>
+        {% endif %}
             <div class="col-lg-6 mb-4">
                  {% include 'search/news_search_form.html' %}
             </div>

@@ -54,7 +54,7 @@ font-size:12px !important;
 </style>
 <div class="container ">
     <div class="row totals">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card mb-4 total-players">
                 <div class="card-header card1">
                     <h6 class="text-center total-layers-title">Total Players</h6>
@@ -64,17 +64,7 @@ font-size:12px !important;
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card mb-4 available-players">
-                <div class="card-header card2">
-                    <h6 class="text-center available-players-title">Available Players</h6>
-                </div>
-                <div class="card-block text-center">
-                    <h5><a class="" href="">{{available}}</a></h5>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card mb-4 injured-players">
                 <div class="card-header card3">
                     <h6 class="text-center injured-players-title">Injured Players</h6>
@@ -84,7 +74,7 @@ font-size:12px !important;
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card mb-4 coaches">
                 <div class="card-header card4">
                     <h6 class="text-center coach-title">Coaches</h6>
@@ -97,11 +87,20 @@ font-size:12px !important;
     </div>
 
     <div class="training-section">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'create-session' %}" class=" btn btn-success btn-block">Add new session</a>
+                </div>
+            </div>
+            </div>
+        </div>
     <div class="row">
-        <div class="col-md-8 mb-4">
+        <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h6 class="text-center">Training Sessions</h6>
+                    <h6 class="text-center">Completed Training Sessions</h6>
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table">
@@ -109,8 +108,6 @@ font-size:12px !important;
                                 <tr>
                                     <th>Session ID</th>
                                     <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Add</th>
                                     <th>Delete</th>
                                 </tr>
                                 </thead>
@@ -120,9 +117,7 @@ font-size:12px !important;
                                 <tr>
                                     <td><a href="{% url 'training-detail' session.id %}" >{{session.id}}</a></td>
                                     <td><p class="text-muted" >{{session.date}}</p></td>
-                                    <td><a href="" >{{session.status}}</a></td>
-                                    <td><a href="" class="btn btn-primary add-session">update</a></td>
-                                    <td><a href="" class="btn btn-danger delete-session">delete</a></td>
+                                    <td><a href="{% url 'training-delete' session.id %}" class="btn btn-danger delete-session">delete</a></td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>
@@ -134,11 +129,51 @@ font-size:12px !important;
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <a class="btn btn-primary btn-block " href="{% url 'create-session' %}" style="letter-spacing:2px;">ADD NEW SESSION</a>
+        <div class="col-md-6 mb-4">
+         <div class="card">
+                <div class="card-body">
+                    <h6 class="text-center">Pending Training Sessions</h6>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Session ID</th>
+                                    <th>Date</th>
+                                    <th>Add</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for pending in pendings %}
+                                <tr>
+                                    <td><a href="{% url 'training-detail' pending.id %}" >{{pending.id}}</a></td>
+                                    <td><p class="text-muted" >{{pending.date}}</p></td>
+                                    <td><a href="{% url 'training-update' pending.id %}" class="btn btn-primary add-session">update</a></td>
+                                    <td><a href="{% url 'training-delete' pending.id %}" class="btn btn-danger delete-session">delete</a></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'unavailable-players' %}" class=" btn btn-outline-success btn-block">View unavailable players</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 

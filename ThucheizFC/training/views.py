@@ -1,8 +1,9 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.views.generic import DetailView, CreateView, UpdateView
+from django.views.generic import DetailView, CreateView, UpdateView, DeleteView
 
+from training.forms import TrainingForm
 from training.models import TrainingSession
 
 
@@ -18,10 +19,18 @@ class TrainingSessionDetailView(DetailView):
 
 class TrainingSessionCreateView(CreateView):
     model = TrainingSession
-    fields = '__all__'
+    form_class = TrainingForm
     template_name = 'training/add_new_session.html'
     success_url = ('/')
 
 
 class TrainingSessionUpdateView(UpdateView):
-    pass
+    model = TrainingSession
+    fields = '__all__'
+    template_name = 'training/add_new_session.html'
+
+
+class TrainingSessionDeleteView(DeleteView):
+    model = TrainingSession
+    template_name = 'training/delete_session.html'
+    success_url = '/'

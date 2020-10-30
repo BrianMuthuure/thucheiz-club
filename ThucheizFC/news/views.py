@@ -51,7 +51,7 @@ class NewsUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = News
     template_name = 'news/create_news.html'
     fields = ['title', 'content', 'image']
-    success_message = "The news was changed successfully"
+    success_message = "News was changed successfully "
 
 
 class NewsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
@@ -64,5 +64,5 @@ class NewsDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     
     def delete(self, request, *args, **kwargs):
         news = self.get_object()
-        messages.success(request, 'The fixture %s was deleted with success!' % news.title)
+        messages.success(request, 'News %s was deleted with success!' % news.title)
         return super(NewsDeleteView, self).delete(request, *args, **kwargs)

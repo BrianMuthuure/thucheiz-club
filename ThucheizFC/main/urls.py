@@ -1,12 +1,13 @@
 
 from django.urls import path
 
-from training.views import TrainingSessionDetailView, TrainingSessionCreateView
+from training.views import TrainingSessionDetailView, TrainingSessionCreateView, TrainingSessionUpdateView, \
+    TrainingSessionDeleteView
 from .views import home, add_player, PlayerListView, PlayerDetailView, \
     PlayerUpdateView, CoachListView, coach_register, \
     CoachDetailView, CoachUpdateView, CoachDeleteView, \
     contact_us, PlayerDeleteView, ContactUsListView, ContactUsDetailView, ContactUsDeleteView, add_injury, updateInjury, \
-    deleteInjury
+    deleteInjury, unavailable_player, unavailable_players_listview, export_csv, export_excel, Pdf
 
 urlpatterns = [
     path('', home, name='home'),
@@ -14,10 +15,18 @@ urlpatterns = [
     path('players/', PlayerListView.as_view(), name='player-list'),
     path('players/<int:pk>/', PlayerDetailView.as_view(), name='player-detail'),
     path('players/<int:pk>/update/', PlayerUpdateView.as_view(), name='player-update'),
+    path('players/<int:pk>/delete/', PlayerDeleteView.as_view(), name='player-delete'),
+
+    path('players/<int:pk>/add_unavailable_player/', unavailable_player, name='add_unavailable_player'),
+    path('unavailable-players', unavailable_players_listview, name='unavailable-players'),
+    path('render/pdf/', Pdf.as_view(), name='export-pdf'),
+    path('export-csv', export_csv, name='export-csv'),
+    path('export-excel', export_excel, name='export-excel'),
+
+
     path('players/<int:pk>/add_injury/', add_injury, name='add_injury'),
     path('injury/<int:pk>/update_injury/', updateInjury, name='update_injury'),
     path('injury/<int:pk>/delete_injury/', deleteInjury, name='delete_injury'),
-    path('players/<int:pk>/delete/', PlayerDeleteView.as_view(), name='player-delete'),
 
     path('coaches/', CoachListView.as_view(), name='coach-list'),
     path('coach-register/', coach_register, name='coach-register'),
@@ -27,6 +36,8 @@ urlpatterns = [
 
     path('create-session/', TrainingSessionCreateView.as_view(), name='create-session'),
     path('training/<int:pk>/', TrainingSessionDetailView.as_view(), name='training-detail'),
+    path('training/<int:pk>/update', TrainingSessionUpdateView.as_view(), name='training-update'),
+    path('training/<int:pk>/delete', TrainingSessionDeleteView.as_view(), name='training-delete'),
 
     path('contact/', contact_us, name='contact-us'),
     path('contact-list/', ContactUsListView.as_view(), name='contact-list'),

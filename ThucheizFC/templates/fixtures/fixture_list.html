@@ -62,10 +62,11 @@ letter-spacing:2px;
 </style>
 <div class="container">
     <div class="row justify-content-center">
+         {% if user.is_authenticated and user.is_superuser %}
         <div class="col-md-4 mb-4">
             <a class="btn btn-info btn-block add-fixture-btn" href="{% url 'fixture-create' %}">Add fixture</a>
         </div>
-
+         {% endif %}
         <div class="col-md-4 mb-4">
             {% include 'search/fixture_search_form.html' %}
         </div>
@@ -84,8 +85,10 @@ letter-spacing:2px;
                            <a class="card-title float-left" href="{% url 'fixture-detail' fixture.pk %}">{{fixture.title}} </a>
                     </div>
                     <div class="float-right">
+                         {% if user.is_authenticated and user.is_superuser %}
                         <a href="{% url 'fixture-update' fixture.pk %}" ><i class="far fa-edit"></i></a>
                         <a href="{% url 'fixture-delete' fixture.pk %}"><i class="fas fa-trash"></i></a>
+                        {% endif %}
                     </div>
                 </div>
 
