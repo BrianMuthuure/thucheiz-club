@@ -28,7 +28,7 @@ SECRET_KEY = 'q)#=cp^ry(=7k2udcr%9cn5q=*(a$q44sok#-_7rbmkx(-t&k3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['thucheizfc.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'main.User'
 # Application definition
@@ -139,7 +139,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"), '/static/',]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -158,6 +158,5 @@ EMAIL_HOST_USER = 'brianmuthuure@gmail.com'
 EMAIL_HOST_PASSWORD = 'zijrnolcbunasjki'
 
 LOGIN_URL = 'user-login'
-
 
 django_heroku.settings(locals())
