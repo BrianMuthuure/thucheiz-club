@@ -52,8 +52,68 @@ font-weight:600;
 font-size:12px !important;
 }
 </style>
-<div class="container ">
-    <div class="row totals">
+
+ <section class="slider">
+			<div class="hero-slider">
+				<!-- Start Single Slider -->
+				<div class="single-slider" style="background-image:url('static/images/diapo-rennes-20b.jpg')">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-7">
+								<div class="text">
+									<h1>Get all <span>Our Latest</span> News, Results and <span>Fixtures!</span></h1>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. </p>
+									<div class="button">
+										<a href="#" class="btn">Glory Glory</a>
+										<a href="#" class="btn primary">We Value You</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Single Slider -->
+				<!-- Start Single Slider -->
+				<div class="single-slider" style="background-image:url('static/images/diapo-rennes-12.jpg')">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-7">
+								<div class="text">
+									<h1>Get all <span>Our Latest</span> News, Results and <span>Fixtures!</span></h1>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. </p>
+									<div class="button">
+										<a href="#" class="btn">Glory Glory</a>
+										<a href="#" class="btn primary">We Value You</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Start End Slider -->
+				<!-- Start Single Slider -->
+				<div class="single-slider" style="background-image:url('static/images/31.jpg')">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-7">
+								<div class="text">
+									<h1>Get all <span>Our Latest</span> News, Results and <span>Fixtures!</span></h1>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sed nisl pellentesque, faucibus libero eu, gravida quam. </p>
+									<div class="button">
+										<a href="#" class="btn">Glory Glory</a>
+										<a href="#" class="btn primary">We Value You</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End Single Slider -->
+			</div>
+		</section>
+		<!--/ End Slider Area -->
+<div class=" mt-4">
+    <div class="row totals" style="padding:20px 20px;">
         <div class="col-md-4">
             <div class="card mb-4 total-players">
                 <div class="card-header card1">
@@ -86,29 +146,38 @@ font-size:12px !important;
         </div>
     </div>
 
-    <div class="training-section">
-        <div class="row">
+
+
+    <div class="training-section" style="padding:20px 20px;">
+        {% if user.is_authenticated and user.is_superuser %}
+        <div class="row justify-content-center">
             <div class="col-md-6 mb-4">
                 <div class="card">
                 <div class="card-body">
-                    <a href="{% url 'create-session' %}" class=" btn btn-success btn-block">Add new session</a>
+                    <a href="{% url 'create-session' %}" class=" btn btn-success btn-block">Add New Training Session</a>
                 </div>
             </div>
             </div>
         </div>
-    <div class="row">
+        {% endif %}
+
+        {% if user.is_authenticated %}
+    <div class="row" >
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
                     <h6 class="text-center">Completed Training Sessions</h6>
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table">
+                            <table class="table text-center">
                                 <thead>
                                 <tr>
                                     <th>Session ID</th>
+
                                     <th>Date</th>
-                                    <th>Delete</th>
+                                    {% if user.is_superuser %}
+                                    <th>Delete
+                                    {% endif %}
                                 </tr>
                                 </thead>
 
@@ -117,7 +186,9 @@ font-size:12px !important;
                                 <tr>
                                     <td><a href="{% url 'training-detail' session.id %}" >{{session.id}}</a></td>
                                     <td><p class="text-muted" >{{session.date}}</p></td>
+                                    {% if user.is_superuser %}
                                     <td><a href="{% url 'training-delete' session.id %}" class="btn btn-danger delete-session">delete</a></td>
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                                 </tbody>
@@ -135,13 +206,15 @@ font-size:12px !important;
                     <h6 class="text-center">Pending Training Sessions</h6>
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table">
+                            <table class="table text-center">
                                 <thead>
                                 <tr>
                                     <th>Session ID</th>
                                     <th>Date</th>
+                                    {% if user.is_superuser %}
                                     <th>Add</th>
                                     <th>Delete</th>
+                                    {% endif %}
                                 </tr>
                                 </thead>
 
@@ -150,8 +223,10 @@ font-size:12px !important;
                                 <tr>
                                     <td><a href="{% url 'training-detail' pending.id %}" >{{pending.id}}</a></td>
                                     <td><p class="text-muted" >{{pending.date}}</p></td>
+                                    {% if user.is_superuser %}
                                     <td><a href="{% url 'training-update' pending.id %}" class="btn btn-primary add-session">update</a></td>
                                     <td><a href="{% url 'training-delete' pending.id %}" class="btn btn-danger delete-session">delete</a></td>
+                                    {% endif %}
                                 </tr>
                                 {% endfor %}
                                 </tbody>
@@ -164,8 +239,10 @@ font-size:12px !important;
         </div>
     </div>
 </div>
+    {% endif %}
 
-    <div class="row">
+{% if user.is_authenticated and user.is_superuser %}
+    <div class="row" style="padding:20px 20px;">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
@@ -173,8 +250,28 @@ font-size:12px !important;
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'injury-list' %}" class=" btn btn-outline-info btn-block">View injured players</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+
+    <div class="row justify-content-center" style="padding:20px 20px;">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <a href="{% url 'contracts' %}" class="btn btn-success btn-block">View Player Contracts</a>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    {% endif %}
+    </div>
 
 
 {% endblock content%}

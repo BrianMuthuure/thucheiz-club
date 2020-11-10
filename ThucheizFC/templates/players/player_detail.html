@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+{% load humanize %}
+
 <style>
-.single_player{
-   margin-bottom:50px;
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
+}
+    .single_player{
+    margin-bottom:50px;
    }
    .p_details_list{
     margin-top:80px;
@@ -34,17 +42,17 @@
     color:red;
     }
     .c_details_img img{
-    height:480px;
+    height:430px;
     }
     #myTab{
     border:none;
     margin-top:70px;
-    margin-left:80px;
+    margin-left:0px;
     margin-top:30px;
     }
     #myTab li{
     margin:0px;
-    margin-left:75px;
+    margin-right:75px;
     }
      @media (max-width: 768px) {
     #myTab{
@@ -54,7 +62,8 @@
     margin-top:30px;
     }
     #myTab li{
-     margin-left:18px !important;
+     margin-left:0px !important;
+      margin-right:10px;
     }
      #myTab li a{
      margin-left:19px !important;
@@ -98,29 +107,6 @@
     font-size: 12px;
     margin-bottom:20px;
     }
-    .edit-player-button{
-    color:#fff !important;
-     background: #244cfd;
-    padding:5px 15px;
-    border-radius:6px;
-    float:left;
-    letter-spacing:1.1px;
-    }
-    .edit-player-button:hover{
-     background: #15e4fd;
-     color:#343a40 !important;
-    }
-    .delete-player-button{
-    color:#fff !important;
-    background:red;
-    float:right;
-    padding:5px 15px;
-    border-radius:6px;
-    letter-spacing:1.1px;
-    }
-     .delete-player-button:hover{
-     background: #e83e8c;
-    }
     .fa{
     margin-left:6px;
     }
@@ -129,7 +115,7 @@
 <section class="player_area single_player p_120">
     <div class="container">
         <div class="row player_details_inner justify-content-center">
-            <div class="col-lg-6">
+            <div class="col-lg-5">
                 <div class="c_details_img">
                     <img src="{{object.imageURL}}" class="img-fluid">
                 </div>
@@ -141,20 +127,46 @@
                        <li><a href="" class="lin">Position<span>{{object.position}}</span></a></li>
                        <li><a href="" class="lin">Appearances<span>{{object.appearances}}</span></a></li>
                     </ul>
-                     {% if user.is_superuser and user.is_authenticated %}
-                    <div class="modify-player-section">
-                        <a class="button edit-player-button" href="{% url 'player-update' player.pk %}">edit player<i class="fa fa-edit"></i> </a>
-                        <span>
-                            <a class="button delete-player-button" href="{% url 'player-delete' player.pk %}">delete player<i class="fa fa-times"></i> </a>
-                        </span>
-                        {% endif %}
-                    </div>
 
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card" style=" margin-top:80px;">
+                    <div class="card-body">
+                        {% if user.is_superuser and user.is_authenticated %}
+                         <a class="btn btn-success btn-block mb-2" href="{% url 'player-update' player.pk %}">edit player<i class="fa fa-edit"></i> </a>
+                        <a class="btn btn-danger btn-block mb-2" href="{% url 'player-delete' player.pk %}">delete player<i class="fa fa-times"></i> </a>
+                        <a class="btn btn-secondary btn-block mb-2" href="{% url 'add_unavailable_player' player.jersey_no %}">add to unavailable list</a>
+                       {% else %}
+                        <a class="btn btn-success btn-block"></a>
+                        {% endif %}
+                         {% if user.is_superuser and user.is_authenticated and not player.injuries %}
+                        <a class="btn btn-outline-success btn-block mb-2" href="{% url 'add_injury' player.jersey_no %}">add to injury list</a>
+                        {% endif %}
+
+                        {% for injury in player.injuries %}
+                           <a class="btn btn-primary btn-block mt-4" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                      view injury details
+                         </a>
+                  <div class="collapse mt-2" id="collapseExample">
+                             <div class="card card-body">
+                               <h6>{{injury.injury_type}}</h6>
+
+              <p>Date</p> <span>{{injury.date_added}}</span>
+              {% if user.is_authenticated and user.is_superuser %}
+              <a class="btn btn-info btn-block mt-2" href="{% url 'update_injury' injury.id %}">update</a>
+                  <a class="btn btn-warning btn-block mt-2 " href="{% url 'delete_injury' injury.id %}">delete</a>
+              {% endif %}
+          </div>
+     </div>
+                        {% endfor %}
+
+                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row player-statistics justify-content-start">
+        <div class="row player-statistics">
             <div class="col-lg-8">
                  <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
@@ -181,7 +193,6 @@
                             <p>{{object.age}} years</p>
                         </div>
                     </div>
-
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="objective_text">
                            {% for contract in contracts %}
@@ -190,9 +201,9 @@
                             <h6>End date</h6>
                             <p>{{contract.end_date}}</p>
                             <h6>Salary</h6>
-                            <p>{{contract.salary}} ksh</p>
+                            <p>{{contract.salary|intcomma}} ksh</p>
                             <h6>Buyout clause</h6>
-                            <p>{{contract.buyout_clause}} ksh</p>
+                            <p>{{contract.buyout_clause|intcomma}} ksh</p>
                             {% endfor %}
                         </div>
                     </div>

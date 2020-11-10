@@ -64,11 +64,16 @@ class Player(models.Model):
         (23, 23),
         (24, 24),
         (25, 25),
+        (26, 26),
+        (27, 27),
+        (28, 28),
+        (29, 29),
+        (30, 30),
     )
     POS = (
-        ('gk', 'gk'),
+        ('goal keeper', 'goal keeper'),
         ('defender', 'defender'),
-        ('mid', 'mid'),
+        ('midfielder', 'midfielder'),
         ('forward', 'forward')
     )
     user = models.OneToOneField(
@@ -240,7 +245,7 @@ class Injury(models.Model):
         verbose_name_plural = 'injuries'
 
     def get_absolute_url(self):
-        return reverse("injury-detail", kwargs={"pk": self.pk})
+        return reverse("injury_detail", kwargs={"pk": self.pk})
 
     def __str__(self):
         return f'{self.player} ---({self.injury_type})'

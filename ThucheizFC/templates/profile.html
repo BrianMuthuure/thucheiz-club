@@ -31,7 +31,6 @@ margin-bottom: 30px;
             <div class="media-body mt-4">
                    <h6 class="account-heading mb-4">{{ user.first_name }} {{user.last_name}}</h6>
                    <p class="text-secondary mb-4">Email: {{ user.email }}</p>
-
              </div>
             <form method="POST" enctype="multipart/form-data">
           {% csrf_token %}

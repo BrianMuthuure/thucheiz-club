@@ -34,7 +34,7 @@ border-bottom: none !important;
                     </div>
                     <div class="col-md-4 text-center mt-3">
                         <h6 class="mb-4">Status</h6>
-                        <p>{{session.status}}</p>
+                        <h5>{{session.status}}</h5>
                     </div>
                 </div><hr>
 
@@ -48,7 +48,7 @@ border-bottom: none !important;
                             </thead>
                             <tbody>
                             <tr>
-                                <td><p>{{ session.coach.all|join:", " }}</p></td>
+                                <td><h6>{{ session.coach.all|join:", " }}</h6></td>
                             </tr>
                             </tbody>
                         </table>
@@ -63,7 +63,7 @@ border-bottom: none !important;
                             </thead>
                             <tbody>
                             <tr>
-                                <td><p>{{ session.player.all|join:", " }}</p></td>
+                                <td><h6>{{ session.player.all|join:", " }}</h6></td>
                             </tr>
                             </tbody>
                         </table>

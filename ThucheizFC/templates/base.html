@@ -34,14 +34,11 @@
 <header class="header">
 {% include 'navbar.html' %}
 </header>
-<div class="container mb-4" style="min-height:100%;">
 {% block content %}
 
 
 
 {% endblock content %}
-</div>
-
 {% include 'footer.html' %}
     <script src="{% static '/js/Jquery3.4.1.min.js' %}" ></script>
     <script src="{% static '/js/bootstrap.min.js' %}" ></script>
@@ -49,6 +46,7 @@
     <script src="{% static '/js/slicknav.min.js' %}" ></script>
     <script src="{% static '/js/jquery-migrate-3.0.0.js' %}" ></script>
     <script src="{% static '/js/main.js' %}" ></script>
+    <script src="{% static '/js/owl-carousel.js' %}" ></script>
     <script src="{% static '/js/jquery.nav.js' %}" ></script>
     <script src="{% static '/js/jquery.magnific-popup.min.js' %}" ></script>
     <script src="{% static '/js/toastr.min.js' %}" ></script>
@@ -63,6 +61,6 @@
 {% endif %}
 
 
-
 </body>
+
 </html>

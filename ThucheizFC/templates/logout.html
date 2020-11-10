@@ -1,15 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 
+<style>
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+padding-top:30px;
+padding-bottom:30px;
+margin-bottom:30px;
+}
+</style>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <h5>You have been logged out</h5>
-             <div class="border-top pt-3">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body text-center">
+                     <h5>You have been logged out</h5>
+                      <div class="border-top pt-3">
                    <small class="text-muted">
                         <a href="{% url 'user-login' %}" class="mb-4" style="color:blue;">Login In Again</a>
                    </small>
-              </div>
+                </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

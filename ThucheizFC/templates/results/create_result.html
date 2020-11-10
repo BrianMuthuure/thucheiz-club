@@ -5,28 +5,8 @@
         {% csrf_token %}
         <div class="row justify-content-center">
             <div class="form-group col-lg-7">
-                <label class="label">Title</label>
-                {{form.result_type}}
+                {{form.as_p}}
             </div>
-
-            <div class="form-group col-lg-7">
-                <label class="label">Opponent</label>
-                {{form.opponent}}
-            </div>
-
-             <div class="form-group col-lg-7">
-                <label class="label">Opponent Logo</label>
-                {{form.image}}
-            </div>
-             <div class="form-group col-lg-7">
-                <label class="label">Venue</label>
-                {{form.stadium}}
-            </div>
-            <div class="form-group col-lg-7">
-                <label class="label">Date</label>
-                {{form.date}}
-            </div>
-
             <div class="form-group col-lg-7">
                 <button class="btn btn-info btn-block" type="submit">Submit</button>
             </div>

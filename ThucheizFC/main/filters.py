@@ -11,3 +11,12 @@ class DeletedPlayerFilter(django_filters.FilterSet):
         model = DeletedPlayer
         fields = '__all__'
         exclude = ['player', 'date']
+
+
+class InjuryFilter(django_filters.FilterSet):
+    date_range = DateRangeFilter(field_name='date_added')
+
+    class Meta:
+        model = Injury
+        fields = '__all__'
+        exclude = ['player', 'date_added']

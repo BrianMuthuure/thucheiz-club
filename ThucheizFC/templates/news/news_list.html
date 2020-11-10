@@ -1,95 +1,99 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
 <style>
-.news-wrap {
- margin-bottom: 40px;
- -webkit-box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.06);
- -moz-box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.06);
-  box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.06);
-  background: #fff;
-
-  }
-  .news-wrap .img {
-   width: fill;
-   margin-left:3%;
-   margin-right:3%;
-   height: 220px;
-   background-size:cover;
-
-  }
-  .news-header{
-  text-transform:uppercase;
-  letter-spacing:3px;
-   font-weight: 550;
-  }
-  .news-wrap .text {
-   border-top: none;
-   padding: 20px 30px 30px;
-   }
-
-    .news-wrap .text h2 {
-     font-size: 20px;
-     font-weight: 500;
-       }
-
-    .news-wrap .text h2 a {
-    font-weight: 400;
+    .news-card{
+    }
+    .news-card .poster{
+    position:relative;
+    overflow:hidden;
+    }
+    .news-card .poster{
+    content:'';
+    bottom:0;
+    left:0;
+    width:100%;
+    transition:0.5s;
+    z-index:1;
+    }
+    .news-card .poster img{
+    width:100%;
+    height:300px;
+    opacity:0.8;
+    transition:0.9s;
+    }
+    .poster:hover img{
+    transform:scale(1.2);
+    opacity:1.0;
+    }
+    .details{
+    position:absolute;
+    padding:20px;
+    width:100%;
+    height:40%;
+    bottom:0;
+    left:0;
+    box-sizing:border-box;
+    transition:0.5s;
+    z-index:2;
+    }
+    .details h2{
+    margin:0;
+    padding:0;
+    font-size:20px;
+    font-weight:700 !important;
     letter-spacing:2px;
     text-transform:uppercase;
+    }
+    .details a{
+    color:yellow !important;
+    }
+    .rating{
+    position:absolute;
+    padding:20px;
+    width:100%;
+    height:20%;
+    bottom:0;
+    left:0;
+    box-sizing:border-box;
+    transition:0.5s;
+    z-index:2;
+    }
+    .rating i{
+    margin-right:20px;
+    }
+    .rating p{
+    color:#fff !important;
+    }
 
-         }
-    .news-wrap .text span.cat {
-      font-weight: 700;
-      color: rgba(0, 0, 0, 0.6);
-      display: block;
-      margin-bottom: 0; }
-    .news-wrap .text p.d-block {
-      width: 100%; }
-      .player-wrap .text p.d-block a {
-        width: 100%;
-         }
-.
 </style>
-
-
 <div class="container">
-    <div class="row justify-content-center">
-        {% if user.is_superuser and user.is_authenticated %}
-            <div class="col-lg-4 mb-4">
-                 <a class="btn btn-primary btn-block" href="{% url 'news-create' %}" >Add news</a>
-            </div>
-        {% endif %}
-            <div class="col-lg-6 mb-4">
-                 {% include 'search/news_search_form.html' %}
-            </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <a class="btn btn-info btn-block" href="{% url 'news-create' %}">Add news</a>
         </div>
-    <div class="row justify-content-center">
-        <h6 class="text-center news-header mb-4">Latest news</h6><hr>
+        <div class="col-md-6 mb-4">
+             {% include 'search/news_search_form.html' %}
+        </div>
     </div>
     <div class="row">
         {% for new in news %}
-        <div class="col-md-4">
-            <div class="news-wrap rounded ftco-animate">
-                 <a href="{% url 'news-detail' new.pk %}">
-                     <div class="img d-flex">
-                            <img src="{{new.imageURL}}" style="margin-top:10px;width:fill;" class="">
-                     </div>
-                </a>
+        <div class="col-md-4 mb-4">
+            <div class="card news-card">
+                <div class="poster">
+                    <a href="{% url 'news-detail' new.pk %}" ><img src="{{new.imageURL}}"></a>
+                </div>
+                <div class="details">
+                    <h2 class="text-center"><a href="{% url 'news-detail' new.pk %}">{{new.title}}</a></h2>
+                </div>
 
-                <div class="text">
-                        <h2 class="mb-0"><a href="{% url 'news-detail' new.pk %}">{{new.title}}</a></h2><hr>
-
-                        <p style="color:#000;" class="d-flex mb-0 d-block">{{new.content|truncatewords:20}}</p>
-                        <div class="d-flex mb-3 mt-3">
-                            <span class="cat"></span>
-                            <p class="jersey ml-auto">{{new.date}}</p>
-                        </div>
-                    </div>
+                <div class="rating text-center">
+                    <p><i class="fa fa-calendar"></i>{{new.date}}</p>
+                </div>
             </div>
         </div>
         {% endfor %}
     </div>
-{% include 'paginate.html' %}
+    {% include 'paginate.html' %}
 </div>
-
 {% endblock content%}

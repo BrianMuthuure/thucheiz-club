@@ -1,0 +1,38 @@
+
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+<style>
+    .add-player h5{
+    letter-spacing:2px;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h4></h4>
+        </div>
+    </div>
+   <div class="row justify-content-center">
+      <div class="col-md-12">
+          <form action="" method="post" enctype="multipart/form-data" class="add-player">
+               {% csrf_token %}
+              <div class="row justify-content-center">
+                  <div class="col-md-8 mb-4">
+                      <h5 class="text-center">update contract</h5><hr>
+                      {{form|crispy}}
+                  </div>
+              </div>
+
+              <div class="row justify-content-center mt-4 mb-4">
+                  <div class="col-md-4">
+                      <button class="btn btn-success btn-block">Submit</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+   </div>
+</div>
+
+<script></script>
+{% endblock content%}

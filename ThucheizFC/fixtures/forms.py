@@ -19,7 +19,7 @@ class FixtureCreationForm(forms.ModelForm):
 
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'date': forms.DateInput(attrs={'class': 'form-control', 'id': 'dob', 'type': 'date'}),
-            'time': forms.TimeInput(attrs={'class': 'form-control', 'placeholder': '00:00:00'}),
+            'time': forms.TimeInput(attrs={'class': 'form-control', 'type': 'time'}),
             'opponent': forms.TextInput(attrs={'class': 'form-control'}),
             'stadium': forms.TextInput(attrs={'class': 'form-control'}),
         }

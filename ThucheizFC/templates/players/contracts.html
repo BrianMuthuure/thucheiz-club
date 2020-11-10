@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+{% load humanize %}
+<style>
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
+}
+</style>
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="text-center">Player contracts</h6>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Player</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Salary</th>
+                                    <th>change</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for contract in contracts %}
+                                <tr>
+                                    <td><a href="">{{contract.player.jersey_no}}</a></td>
+                                    <td><p class="text-muted" >{{contract.start_date}}</p></td>
+                                    <td><p class="text-muted" >{{contract.end_date}}</p></td>
+                                    <td><p class="text-muted" >{{contract.salary|intcomma}} </p></td>
+                                    <td><a href="{% url 'contract-update' contract.id %}"><i class="fa fa-edit"></i> </a></td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+         {% include 'paginate.html' %}
+        </div>
+</div>
+</div>
+
+
+{% endblock content%}

@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 <style>
+    .card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
+}
 </style>
 <div class="container mb-4">
 
     <div class="row justify-content-center mb-4">
-        <div class="col-md-2 mb-4">
-            <a href="{% url 'export-pdf' %}" class="btn btn-warning btn-block">Export PDF</a>
-        </div>
-        <div class="col-md-2 mb-4">
-            <a href="{% url 'export-csv' %}" class="btn btn-primary btn-block">Export CSV</a>
+        <div class="col-md-4 mb-4">
+            <a href="" class="btn btn-primary btn-block" onclick="printContent('div1')">Export PDF</a>
         </div>
         <div class="col-md-8 text-center mb-4">
           <form method="get">
@@ -19,8 +22,10 @@
 		  </form>
         </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" id="div1">
         <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
             <table class="table table-striped mb-4">
   <thead>
     <tr>
@@ -46,7 +51,19 @@
 
   </tbody>
 </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<script>
+    function printContent (el){
+         var restorepage = document.body.innerHTML;
+         var printcontent = document.getElementById(el).innerHTML;
+         document.body.innerHTML = printcontent;
+         window.print();
+         document.body.innerHTML = restorepage;
+    }
+</script>
 {% endblock %}

@@ -17,14 +17,14 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 
-from .filters import DeletedPlayerFilter
+from .filters import DeletedPlayerFilter, InjuryFilter
 
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.views.generic.base import View
 
 from main.forms import ExtendedUserCreationForm, PlayerForm, \
     PlayerUpdateForm, UserLoginForm, CoachCreationForm, CoachUpdateForm, ContactUsForm, PlayerContractCreationForm, \
-    InjuryForm, UserUpdateForm
+    InjuryForm, UserUpdateForm, InjuryUpdateForm, PlayerContractUpdateForm
 
 from main.mixins import allowed_users, unauthenticated_user
 from main.models import Player, Coach, Contract, Contact, Injury, CoachContract, DeletedPlayer
@@ -37,7 +37,6 @@ def home(request):
     if request.user.is_authenticated:
         user = request.user
     players = Player.objects.available().count()
-    contracts = Contract.objects.all().order_by('end_date')
     injured = Player.objects.injured().count()
     coaches = Coach.objects.all().count()
     contacts = Contact.objects.all().order_by('email')[:3]
@@ -45,7 +44,6 @@ def home(request):
     pendings = TrainingSession.objects.filter(status='pending').order_by('date')
     context = {
         'players': players,
-        'contracts': contracts,
         'injured': injured,
         'coaches': coaches,
         'contacts': contacts,
@@ -196,8 +194,22 @@ class PlayerDeleteView(LoginRequiredMixin, SuccessMessageMixin, DeleteView):
 
 class ContractListView(ListView):
     model = Contract
-    template_name = 'home.html'
+    template_name = 'players/contracts.html'
     context_object_name = 'contracts'
+    paginate_by = 5
+    ordering = 'end_date'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ContractListView, self).get_context_data(*args, **kwargs)
+        return context
+
+
+class ContractUpdateView( SuccessMessageMixin, UpdateView):
+    model = Contract
+    form_class = PlayerContractUpdateForm
+    template_name = 'players/contract_update.html'
+    success_url = reverse_lazy('contracts')
+    success_message = 'contract was updated successfully'
 
 
 @login_required
@@ -274,6 +286,8 @@ class CoachDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def add_injury(request, pk):
     InjuryFormSET = inlineformset_factory(Player, Injury, fields=('injury_type',), extra=1, can_delete=False)
     player = Player.objects.get(jersey_no=pk)
@@ -294,26 +308,41 @@ def add_injury(request, pk):
     return render(request, 'players/add_injury.html', context)
 
 
+def injury_list(request):
+    injuries = Injury.objects.all()
+    injuryFilter = InjuryFilter(request.GET, queryset=injuries)
+    injuries = injuryFilter.qs
+    context = {
+        'injuries': injuries,
+        'injuryFilter': injuryFilter
+    }
+    return render(request, 'players/injury_list.html', context)
+
+
 class InjuryDetailView(DetailView):
     model = Injury
     template_name = 'players/injury_detail.html'
     context_object_name = 'injury'
 
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def updateInjury(request, pk):
     injury = Injury.objects.get(id=pk)
-    form = InjuryForm(instance=injury)
+    form = InjuryUpdateForm(instance=injury)
     if request.method == 'POST':
-        form = InjuryForm(request.POST, instance=injury)
+        form = InjuryUpdateForm(request.POST, instance=injury)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('player-list')
     context = {
         'form': form
     }
     return render(request, 'players/update_injury.html', context)
 
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def deleteInjury(request, pk):
     injury = Injury.objects.get(id=pk)
     if request.method == 'POST':
@@ -321,7 +350,7 @@ def deleteInjury(request, pk):
         injury.player.injured = False
         injury.player.save()
         messages.success(request, 'player was successfully removed from injury list')
-        return redirect('/')
+        return redirect('player-list')
     context = {
         'injury': injury
     }
@@ -366,10 +395,11 @@ class ContactUsDeleteView(DeleteView):
     success_url = 'contact-list'
 
 
+@login_required
+@allowed_users(allowed_roles=['Admin'])
 def unavailable_player(request, pk):
     DeletedPlayerFormSET = inlineformset_factory(Player, DeletedPlayer, fields=('status', 'date'), extra=1, can_delete=False)
     player = Player.objects.get(jersey_no=pk)
-
     formset = DeletedPlayerFormSET(queryset=DeletedPlayer.objects.none(), instance=player)
 
     if request.method == 'POST':
@@ -378,6 +408,8 @@ def unavailable_player(request, pk):
             formset.save()
             player.available = False
             player.save()
+            contract = Contract.objects.filter(player=player)
+            contract.delete()
             messages.info(request, 'Player is now unavailable')
             return redirect('player-list')
     context = {
@@ -464,3 +496,16 @@ class Pdf(View):
             'request': request
         }
         return Render.render('pdf.html', params)
+
+
+class InjuryPdf(View):
+
+    def get(self, request):
+        outs = Injury.objects.all()
+        today = timezone.now()
+        params = {
+            'today': today,
+            'outs': outs,
+            'request': request
+        }
+        return Render.render('pdfs/injury_pdf.html', params)

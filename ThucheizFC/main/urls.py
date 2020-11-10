@@ -1,13 +1,17 @@
 
 from django.urls import path
 
-from training.views import TrainingSessionDetailView, TrainingSessionCreateView, TrainingSessionUpdateView, \
+from training.views import TrainingSessionDetailView,\
+    TrainingSessionCreateView, TrainingSessionUpdateView, \
     TrainingSessionDeleteView
-from .views import home, add_player, PlayerListView, PlayerDetailView, \
-    PlayerUpdateView, CoachListView, coach_register, \
-    CoachDetailView, CoachUpdateView, CoachDeleteView, \
-    contact_us, PlayerDeleteView, ContactUsListView, ContactUsDetailView, ContactUsDeleteView, add_injury, updateInjury, \
-    deleteInjury, unavailable_player, unavailable_players_listview, export_csv, export_excel, Pdf
+from .views import home, add_player, PlayerListView, \
+    PlayerDetailView, PlayerUpdateView, CoachListView, \
+    coach_register, CoachDetailView, CoachUpdateView, \
+    CoachDeleteView, contact_us, PlayerDeleteView, \
+    ContactUsListView, ContactUsDetailView, ContactUsDeleteView, \
+    add_injury, updateInjury, deleteInjury, unavailable_player, \
+    unavailable_players_listview, export_csv, export_excel, Pdf, \
+    injury_list, ContractListView, ContractUpdateView, InjuryPdf
 
 urlpatterns = [
     path('', home, name='home'),
@@ -19,14 +23,20 @@ urlpatterns = [
 
     path('players/<int:pk>/add_unavailable_player/', unavailable_player, name='add_unavailable_player'),
     path('unavailable-players', unavailable_players_listview, name='unavailable-players'),
+
+
     path('render/pdf/', Pdf.as_view(), name='export-pdf'),
     path('export-csv', export_csv, name='export-csv'),
     path('export-excel', export_excel, name='export-excel'),
 
+    path('contracts/', ContractListView.as_view(), name='contracts'),
+    path('contracts/<int:pk>/update', ContractUpdateView.as_view(), name='contract-update'),
 
-    path('players/<int:pk>/add_injury/', add_injury, name='add_injury'),
+    path('injury-list/', injury_list, name='injury-list'),
+    path('players/<int:pk>/add_injury', add_injury, name='add_injury'),
     path('injury/<int:pk>/update_injury/', updateInjury, name='update_injury'),
     path('injury/<int:pk>/delete_injury/', deleteInjury, name='delete_injury'),
+    path('render-injury/pdf/', InjuryPdf.as_view(), name='injury-pdf'),
 
     path('coaches/', CoachListView.as_view(), name='coach-list'),
     path('coach-register/', coach_register, name='coach-register'),

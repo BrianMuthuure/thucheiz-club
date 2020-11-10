@@ -12,6 +12,7 @@ class FixtureQuerySet(models.query.QuerySet):
             Q(title__icontains=query) |
             Q(opponent__icontains=query) |
             Q(stadium__icontains=query) |
+            Q(time__icontains=query) |
             Q(date__icontains=query))
         return self.filter(lookups).distinct()
 

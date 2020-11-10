@@ -1,5 +1,6 @@
 import datetime
 
+
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -10,17 +11,39 @@ from .models import User, Player, Contract, Coach, Contact, Injury, DeletedPlaye
 
 
 class ExtendedUserCreationForm(UserCreationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}), required=True,
+    username = forms.CharField(widget=forms.TextInput(attrs=
+                                                      {'class': 'form-control', 'type': 'text'}),
+                               required=True,
                                max_length=20)
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}), max_length=20)
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}), max_length=20)
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control', 'type': 'email'}), required=True)
-    password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs=
+                                                        {'class': 'form-control', 'input type': 'text'}),
+                                 max_length=20, required=True)
+    last_name = forms.CharField(widget=forms.TextInput(attrs=
+                                                       {'class': 'form-control', 'input type': 'text'}),
+                                max_length=20, required=True)
+    email = forms.EmailField(widget=forms.EmailInput(attrs=
+                                                     {'class': 'form-control', 'type': 'email'}),
+                             required=True)
+    password1 = forms.CharField(widget=forms.PasswordInput(attrs=
+                                                           {'class': 'form-control', 'type': 'password'}))
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs=
+                                                           {'class': 'form-control', 'type': 'password'}))
 
     class Meta:
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2')
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if not str(first_name).isalpha():
+            raise forms.ValidationError("first name should be in letters!!!!")
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if not str(last_name).isalpha():
+            raise forms.ValidationError("last name should be in letters!!!!")
+        return last_name
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
@@ -118,7 +141,8 @@ class PlayerUpdateForm(forms.ModelForm):
         model = Player
         fields = ['position', 'country', 'jersey_no', 'appearances', 'goals', 'clean_sheets', 'red_cards', 'yellow_card',  'image']
         widgets = {
-            'position': forms.TextInput(attrs={'class': 'form-control'}),
+              'position': forms.Select(attrs={
+                 'class': 'form-control', 'placeholder': 'position'}),
             'jersey_no': forms.NumberInput(attrs={'class': 'form-control'}),
             'appearances': forms.NumberInput(attrs={'class': 'form-control'}),
             'goals': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -194,6 +218,39 @@ class PlayerContractCreationForm(forms.ModelForm):
         }
 
 
+class PlayerContractUpdateForm(forms.ModelForm):
+
+    disabled_fields = ('player',)
+
+    class Meta:
+        model = Contract
+        fields = '__all__'
+        widgets = {
+            'player': forms.TextInput(attrs={'class': 'form-control'}),
+            'start_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
+            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
+            'buyout_clause': forms.NumberInput(attrs={'class': 'form-control'})
+        }
+
+    def clean(self):
+        data = self.cleaned_data
+        start_date = self.cleaned_data.get('start_date')
+        end_date = self.cleaned_data.get('end_date')
+        if start_date >= end_date:
+            raise forms.ValidationError("start date should be less than end date!!!!")
+        if start_date < datetime.date.today():
+            raise forms.ValidationError("start date should not be less than the current date!!!!!")
+        if end_date <= datetime.date.today():
+            raise forms.ValidationError("End date should be greater than today")
+        return data
+
+    def __init__(self, *args, **kwargs):
+        super(PlayerContractUpdateForm, self).__init__(*args, **kwargs)
+        for field in self.disabled_fields:
+            self.fields[field].disabled = True
+
+
 class ContactUsForm(forms.ModelForm):
     class Meta:
         model = Contact
@@ -204,6 +261,13 @@ class InjuryForm(forms.ModelForm):
     class Meta:
         model = Injury
         fields = '__all__'
+
+
+class InjuryUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Injury
+        fields = '__all__'
+        exclude = ('player',)
 
 
 class DeletePlayerForm(forms.ModelForm):
