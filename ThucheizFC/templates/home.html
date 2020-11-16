@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static%}
 <style>
 .card {
 border-radius: 5px;
@@ -48,8 +49,75 @@ text-transform:uppercase;
 font-size:30px;
 font-weight:600;
 }
-.add-session, .delete-session{
-font-size:12px !important;
+
+.training-btn {
+    color: #fff;
+    padding: 13px 25px;
+    font-size: 14px;
+    letter-spacing:2px;
+    text-transform: capitalize;
+    font-weight: 500;
+    background: #1A76D1;
+    position: relative;
+    box-shadow: none;
+    display: inline-block;
+    border-radius: 4px;
+}
+.training-btn:hover {
+    color: #fff;
+    background: linear-gradient(to right, indigo, violet);
+}
+.contract-btn {
+    color: #fff;
+    padding: 13px 25px;
+    font-size: 14px;
+    letter-spacing:2px;
+    text-transform: capitalize;
+    font-weight: 500;
+    background: green;
+    position: relative;
+    box-shadow: none;
+    display: inline-block;
+    border-radius: 4px;
+}
+.contract-btn:hover {
+    color: #fff;
+    background: linear-gradient(to right, purple, blue);
+}
+.injury-btn {
+    color: #fff;
+    padding: 13px 25px;
+    font-size: 14px;
+    letter-spacing:2px;
+    text-transform: capitalize;
+    font-weight: 500;
+    background: #191970;
+    position: relative;
+    box-shadow: none;
+    display: inline-block;
+    border-radius: 4px;
+    transition-duration:1s;
+}
+.injury-btn:hover {
+    color: #fff;
+    background: linear-gradient(to right, purple, maroon);
+}
+.inaccessible-btn {
+    color: #fff;
+    padding: 13px 25px;
+    font-size: 14px;
+    letter-spacing:2px;
+    text-transform: capitalize;
+    font-weight: 500;
+    background: purple;
+    position: relative;
+    box-shadow: none;
+    display: inline-block;
+    border-radius: 4px;
+}
+.inaccessible-btn:hover {
+    color: #fff;
+    background: linear-gradient(to right, green, blue);
 }
 </style>
 
@@ -112,8 +180,8 @@ font-size:12px !important;
 			</div>
 		</section>
 		<!--/ End Slider Area -->
-<div class=" mt-4">
-    <div class="row totals" style="padding:20px 20px;">
+<div class="container mt-4">
+    <div class=" row totals justify-content-center">
         <div class="col-md-4">
             <div class="card mb-4 total-players">
                 <div class="card-header card1">
@@ -130,7 +198,7 @@ font-size:12px !important;
                     <h6 class="text-center injured-players-title">Injured Players</h6>
                 </div>
                 <div class="card-block text-center">
-                    <h5><a href="" >{{injured}}</a></h5>
+                    <h5><a href="{% url 'injury-list' %}" >{{injured}}</a></h5>
                 </div>
             </div>
         </div>
@@ -145,133 +213,38 @@ font-size:12px !important;
             </div>
         </div>
     </div>
-
-
-
-    <div class="training-section" style="padding:20px 20px;">
-        {% if user.is_authenticated and user.is_superuser %}
-        <div class="row justify-content-center">
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                <div class="card-body">
-                    <a href="{% url 'create-session' %}" class=" btn btn-success btn-block">Add New Training Session</a>
-                </div>
-            </div>
+</div>
+<div class="container home-btn">
+<div class="row justify-content-start">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <a href="{% url 'session-list' %}" class=" btn btn-block mb-2 training-btn">Training Sessions</a>
             </div>
         </div>
-        {% endif %}
-
-        {% if user.is_authenticated %}
-    <div class="row" >
-        <div class="col-md-6 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="text-center">Completed Training Sessions</h6>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table text-center">
-                                <thead>
-                                <tr>
-                                    <th>Session ID</th>
-
-                                    <th>Date</th>
-                                    {% if user.is_superuser %}
-                                    <th>Delete
-                                    {% endif %}
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                {% for session in sessions %}
-                                <tr>
-                                    <td><a href="{% url 'training-detail' session.id %}" >{{session.id}}</a></td>
-                                    <td><p class="text-muted" >{{session.date}}</p></td>
-                                    {% if user.is_superuser %}
-                                    <td><a href="{% url 'training-delete' session.id %}" class="btn btn-danger delete-session">delete</a></td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
+    </div>
+        <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <a href="{% url 'contracts' %}" class="btn  btn-block mb-2 contract-btn">Player Contracts</a>
             </div>
         </div>
-
-        <div class="col-md-6 mb-4">
-         <div class="card">
-                <div class="card-body">
-                    <h6 class="text-center">Pending Training Sessions</h6>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table text-center">
-                                <thead>
-                                <tr>
-                                    <th>Session ID</th>
-                                    <th>Date</th>
-                                    {% if user.is_superuser %}
-                                    <th>Add</th>
-                                    <th>Delete</th>
-                                    {% endif %}
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                {% for pending in pendings %}
-                                <tr>
-                                    <td><a href="{% url 'training-detail' pending.id %}" >{{pending.id}}</a></td>
-                                    <td><p class="text-muted" >{{pending.date}}</p></td>
-                                    {% if user.is_superuser %}
-                                    <td><a href="{% url 'training-update' pending.id %}" class="btn btn-primary add-session">update</a></td>
-                                    <td><a href="{% url 'training-delete' pending.id %}" class="btn btn-danger delete-session">delete</a></td>
-                                    {% endif %}
-                                </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
+    </div>
+        <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <a href="{% url 'injury-list' %}" class=" btn  btn-block mb-2 injury-btn">Injuries</a>
+            </div>
+        </div>
+    </div>
+        <div class="col-md-3">
+        <div class="card">
+            <div class="card-body">
+                <a href="{% url 'unavailable-players' %}" class=" btn btn-block inaccessible-btn">inaccessible players</a>
             </div>
         </div>
     </div>
 </div>
-    {% endif %}
-
-{% if user.is_authenticated and user.is_superuser %}
-    <div class="row" style="padding:20px 20px;">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <a href="{% url 'unavailable-players' %}" class=" btn btn-outline-success btn-block">View unavailable players</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <a href="{% url 'injury-list' %}" class=" btn btn-outline-info btn-block">View injured players</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row justify-content-center" style="padding:20px 20px;">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <a href="{% url 'contracts' %}" class="btn btn-success btn-block">View Player Contracts</a>
-                </div>
-            </div>
-        </div>
-
-        </div>
-    {% endif %}
-    </div>
-
+</div>
 
 {% endblock content%}

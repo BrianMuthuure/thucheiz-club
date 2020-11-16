@@ -1,0 +1,59 @@
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load humanize %}
+<style>
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
+}
+.player-detail{
+margin-top:10px;
+}
+.player-detail h3{
+font-size:50px;
+}
+.player-detail .span1{
+font-size:20px;
+}
+.player-detail .span2{
+font-size:16px;
+letter-spacing:2px;
+text-transform:uppercase;
+color:green;
+}
+</style>
+<div class="container">
+    <div class="content-section">
+        <div class="card">
+            <div class="card-body">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="media">
+                <img class="rounded-circle account-img" src="{{ contract.player.imageURL }}">
+
+             </div>
+        </div>
+
+        <div class="col-md-4 mt-4">
+            <div class="player-detail">
+                <h3 class="mb-4">{{contract.player}}</h3><hr>
+                <h6 class="mb-4"><span class="span1">Start Date: - </span><span class="span2">{{contract.start_date}}</span></h6>
+                <h6 class="mb-4"><span class="span1">End Date: - </span><span class="span2">{{contract.end_date}}</span></h6>
+
+                <span>Daily Pay -  </span><span>{{contract.daily_pay|intcomma}} ksh.</span>
+                <p class="mt-4">Total Salary : - {{contract.salary|intcomma}} ksh</p>
+                <a class=" btn btn-info btn-block mt-4" href="{% url 'contract-update' contract.id %}">update contract</a>
+                <a class=" btn btn-danger btn-block mt-4" href="">delete contract</a>
+            </div>
+
+        </div>
+    </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock content %}

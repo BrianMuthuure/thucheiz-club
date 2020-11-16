@@ -15,6 +15,7 @@ class TrainingSession(models.Model):
     player = models.ManyToManyField(Player, blank=True)
     coach = models.ManyToManyField(Coach, blank=True)
     status = models.CharField(choices=STATUS, max_length=200, blank=True, null=True)
+    active = models.BooleanField(default=True)
 
     def get_absolute_url(self):
         return reverse("training-detail", kwargs={"pk": self.pk})

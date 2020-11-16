@@ -40,18 +40,18 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\deletedplayers" />
-      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\players" />
-      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\injury" />
-      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\static\images" />
       <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\static\js" />
       <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\static\css" />
       <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\contact" />
       <recent name="C:\Users\thucheiz\python programs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\deletedplayers" />
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\players" />
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates\injury" />
+      <recent name="C:\Users\thucheiz\4thYearProject\ThucheizFC\templates" />
     </key>
   </component>
   <component name="RunDashboard">

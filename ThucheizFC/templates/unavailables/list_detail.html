@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<style>
+.card {
+border-radius: 5px;
+box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
+border: none;
+margin-bottom: 30px;
+}
+.player-detail{
+margin-top:40px;
+}
+.player-detail h3{
+font-size:50px;
+}
+.player-detail .span1{
+font-size:30px;
+}
+.player-detail .span2{
+font-size:26px;
+letter-spacing:2px;
+text-transform:uppercase;
+color:green;
+}
+</style>
+<div class="container">
+    <div class="content-section">
+        <div class="card">
+            <div class="card-body">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="media">
+                <img class="rounded-circle account-img" src="{{ data.player.imageURL }}">
+
+             </div>
+        </div>
+
+        <div class="col-md-4 mt-4">
+            <div class="player-detail">
+                <h3 class="mb-4">{{data.player}}</h3><hr>
+                <h4><span>Age: - </span><span>{{data.player.age}} years</span></h4>
+                <h6 class="mb-4"><span class="span1">Status: - </span><span class="span2">{{data.status}}</span></h6>
+                <span class="">Date: - </span><span>{{data.date}}</span>
+                <a href="{% url 'inaccessible-delete' data.pk %}" class="btn btn-danger btn-block mt-4">delete</a>
+            </div>
+
+        </div>
+    </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock content %}

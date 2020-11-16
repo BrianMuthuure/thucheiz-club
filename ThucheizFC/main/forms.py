@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
-from .models import User, Player, Contract, Coach, Contact, Injury, DeletedPlayer
+from .models import User, Player, Contract, Coach, Contact, Injury, Inaccessible, CoachContract, PlayerJersey
 
 
 class ExtendedUserCreationForm(UserCreationForm):
@@ -86,18 +86,14 @@ class PlayerForm(forms.ModelForm):
     country = CountryField().formfield(
         widget=CountrySelectWidget(attrs={'class': 'form-control'})
     )
+    jersey_no = forms.ModelChoiceField(queryset=PlayerJersey.objects.all().filter(active=False), widget=forms.Select(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Player
-        fields = ('position', 'country', 'jersey_no', 'dob', 'image')
+        fields = ('position', 'country', 'dob', 'image', 'jersey_no')
 
         widgets = {
-             'position': forms.Select(attrs={
-                 'class': 'form-control', 'placeholder': 'position'
-             }),
-
-             'jersey_no': forms.Select(attrs=
-                                            {'class': 'form-control', 'placeholder': 'jersey no'}),
+             'position': forms.Select(attrs={'class': 'form-control', 'placeholder': 'position'}),
              'dob': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'})
         }
 
@@ -139,11 +135,10 @@ class PlayerUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Player
-        fields = ['position', 'country', 'jersey_no', 'appearances', 'goals', 'clean_sheets', 'red_cards', 'yellow_card',  'image']
+        fields = ['position', 'country', 'appearances', 'goals', 'clean_sheets', 'red_cards', 'yellow_card', 'image']
         widgets = {
-              'position': forms.Select(attrs={
+            'position': forms.Select(attrs={
                  'class': 'form-control', 'placeholder': 'position'}),
-            'jersey_no': forms.NumberInput(attrs={'class': 'form-control'}),
             'appearances': forms.NumberInput(attrs={'class': 'form-control'}),
             'goals': forms.NumberInput(attrs={'class': 'form-control'}),
             'clean_sheets': forms.NumberInput(attrs={'class': 'form-control'}),
@@ -194,6 +189,17 @@ class CoachUpdateForm(forms.ModelForm):
         }
 
 
+class CoachContractForm(forms.ModelForm):
+    class Meta:
+        model = CoachContract
+        fields = ('start_date', 'end_date', 'salary')
+        widgets = {
+            'start_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
+            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
+        }
+
+
 class PlayerContractCreationForm(forms.ModelForm):
     def clean(self):
         data = self.cleaned_data
@@ -209,11 +215,11 @@ class PlayerContractCreationForm(forms.ModelForm):
 
     class Meta:
         model = Contract
-        fields = ['start_date', 'end_date', 'salary', 'buyout_clause']
+        fields = ['start_date', 'end_date', 'daily_pay', 'buyout_clause']
         widgets = {
             'start_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
             'end_date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'select date', 'type': 'date'}),
-            'salary': forms.NumberInput(attrs={'class': 'form-control'}),
+            'daily_pay': forms.NumberInput(attrs={'class': 'form-control'}),
             'buyout_clause': forms.NumberInput(attrs={'class': 'form-control'})
         }
 
@@ -272,5 +278,16 @@ class InjuryUpdateForm(forms.ModelForm):
 
 class DeletePlayerForm(forms.ModelForm):
     class Meta:
-        model = DeletedPlayer
+        model = Inaccessible
         fields = '__all__'
+
+
+class PlayerJerseyForm(forms.ModelForm):
+
+    class Meta:
+        model = PlayerJersey
+        fields = ('no',)
+        widgets = {
+            'no': forms.Select(attrs={'class': 'form-control'})
+        }
+

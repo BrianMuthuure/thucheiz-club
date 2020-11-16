@@ -19,8 +19,7 @@ class PlayerQuerySet(models.query.QuerySet):
         lookups = (
             Q(position__icontains=query) |
             Q(country__icontains=query) |
-            Q(available__icontains=query) |
-            Q(jersey_no__iexact=query)
+            Q(available__icontains=query)
         )
         return self.filter(lookups).distinct()
 

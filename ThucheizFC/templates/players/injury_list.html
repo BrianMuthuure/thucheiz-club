@@ -34,7 +34,7 @@ margin-left:60px !important;
   <thead>
     <tr>
       <th scope="col">Player</th>
-       <th>Jersey No</th>
+       <th>Position</th>
          <th>Age</th>
       <th scope="col">Type</th>
       <th scope="col">Date</th>
@@ -44,8 +44,8 @@ margin-left:60px !important;
   {% for injury in injuries %}
     <tr>
 
-      <td>{{injury.player}}</td>
-      <td>{{injury.player.jersey_no}}</td>
+        <td><a href="" >{{injury.player}}</a></td>
+      <td>{{injury.player.position}}</td>
       <td>{{injury.player.age}}</td>
       <td>{{injury.injury_type}}</td>
       <td>{{injury.date_added}}</td>

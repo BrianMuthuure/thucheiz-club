@@ -8,43 +8,77 @@ box-shadow: 0 1px 11px 0 rgba(0, 0, 0, 0.12);
 border: none;
 margin-bottom: 30px;
 }
+
 </style>
 <div class="container ">
-    <div class="row">
+    <div class="row justify-content-end">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
+                <form method="get">
+				{{tableFilter.form}}
+		            <button class="btn btn-outline-success btn-sm ml-4" type="submit">search</button>
+		       </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="card">
+                <div class="card-body">
                     <h6 class="text-center">Player contracts</h6>
-                            <table class="table">
+                            <table class="table text-center" >
                                 <thead>
                                 <tr>
                                     <th>Player</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Salary</th>
-                                    <th>change</th>
                                 </tr>
                                 </thead>
 
-                                <tbody>
+                                <tbody id="myTable">
                                 {% for contract in contracts %}
                                 <tr>
-                                    <td><a href="">{{contract.player.jersey_no}}</a></td>
+                                    <td><a href="{% url 'contract-detail' contract.id %}">{{contract.player}}</a></td>
                                     <td><p class="text-muted" >{{contract.start_date}}</p></td>
                                     <td><p class="text-muted" >{{contract.end_date}}</p></td>
                                     <td><p class="text-muted" >{{contract.salary|intcomma}} </p></td>
-                                    <td><a href="{% url 'contract-update' contract.id %}"><i class="fa fa-edit"></i> </a></td>
                                 </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>
 
+                     {% if contracts.has_other_pages %}
+                    <ul class="pagination text-center">
+                        {% if sessions.has_previous %}
+                        <li><a href="?page={{ contracts.previous_page_number }}">&laquo;</a> </li>
+                        {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                        {% endif %}
+                        {% for i in contracts.paginator.page_range %}
+                        {% if sessions.number == i %}
+                        <li class="active"><span>{{ i }}<span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a> </li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if contracts.has_next %}
+                        <li><a href="?page={{ contracts.next_page_number}}">&raquo;</a> </li>
+                        {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
                         </div>
                     </div>
-         {% include 'paginate.html' %}
         </div>
 </div>
 </div>
+<script>
 
+</script>
 
 {% endblock content%}

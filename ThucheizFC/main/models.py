@@ -38,38 +38,6 @@ class User(AbstractUser):
 
 
 class Player(models.Model):
-    NO = (
-        (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 4),
-        (5, 5),
-        (6, 6),
-        (7, 7),
-        (8, 8),
-        (9, 9),
-        (10, 10),
-        (11, 11),
-        (12, 12),
-        (13, 13),
-        (14, 14),
-        (15, 15),
-        (16, 16),
-        (17, 17),
-        (18, 18),
-        (19, 19),
-        (20, 20),
-        (21, 21),
-        (22, 22),
-        (23, 23),
-        (24, 24),
-        (25, 25),
-        (26, 26),
-        (27, 27),
-        (28, 28),
-        (29, 29),
-        (30, 30),
-    )
     POS = (
         ('goal keeper', 'goal keeper'),
         ('defender', 'defender'),
@@ -82,10 +50,11 @@ class Player(models.Model):
         null=True,
         on_delete=models.CASCADE
     )
+    id = models.AutoField(primary_key=True)
     image = models.ImageField(upload_to='player_pics', default='default.jpg')
     position = models.CharField(max_length=200, choices=POS)
+    jersey_no = models.ForeignKey('PlayerJersey', on_delete=models.CASCADE, null=True)
     country = CountryField(null=True, blank=True)
-    jersey_no = models.PositiveSmallIntegerField(primary_key=True, choices=NO)
     available = models.BooleanField(default=True, editable=True)
     injured = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
@@ -127,6 +96,7 @@ class Player(models.Model):
     def unavailables(self):
         return self.deletedplayer_set.all()
 
+
     @property
     def imageURL(self):
         try:
@@ -134,6 +104,65 @@ class Player(models.Model):
         except:
             url = ''
         return url
+
+
+class PlayerJersey(models.Model):
+    NO = (
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5),
+        (6, 6),
+        (7, 7),
+        (8, 8),
+        (9, 9),
+        (10, 10),
+        (11, 11),
+        (12, 12),
+        (13, 13),
+        (14, 14),
+        (15, 15),
+        (16, 16),
+        (17, 17),
+        (18, 18),
+        (19, 19),
+        (20, 20),
+        (21, 21),
+        (22, 22),
+        (23, 23),
+        (24, 24),
+        (25, 25),
+        (26, 26),
+        (27, 27),
+        (28, 28),
+        (29, 29),
+        (30, 30),
+        (31, 31),
+        (32, 32),
+        (33, 33),
+        (34, 34),
+        (35, 35),
+        (36, 36),
+        (37, 37),
+        (38, 38),
+        (39, 39),
+        (40, 40),
+        (41, 41),
+        (42, 42),
+        (43, 43),
+        (44, 44),
+        (45, 45),
+
+    )
+    no = models.IntegerField(choices=NO, unique=True)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = 'Jerseys'
+
+    def __str__(self):
+        return str(self.no)
 
 
 class Coach(models.Model):
@@ -198,26 +227,20 @@ class Contract(models.Model):
     player = models.OneToOneField(Player, on_delete=models.CASCADE)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
-    salary = models.DecimalField(decimal_places=2, max_digits=10, default=0.00)
+    daily_pay = models.DecimalField(decimal_places=2, max_digits=10, default=0.00)
+    salary = models.DecimalField(decimal_places=2, max_digits=10, blank=True, null=True)
     buyout_clause = models.DecimalField(decimal_places=2, max_digits=10, default=0.00)
 
     class Meta:
         verbose_name_plural = 'contracts '
 
-
-
-    """"
     def save(self, *args, **kwargs):
-        if self.player:
-            self.total_salary = self.salary + self.bonuses
-        super(Contract, self).save()
-    
         date_format = "%Y-%m-%d"
-        a = datetime.datetime.strptime(str(datetime.date.today()), date_format)
+        a = datetime.datetime.strptime(str(self.start_date), date_format)
         b = datetime.datetime.strptime(str(self.end_date), date_format)
-        self.remaining_days = (b-a).days
+        self.no_days = (b-a).days
+        self.salary = (self.no_days * int(self.daily_pay))
         super().save()
-    """""
 
     def get_absolute_url(self):
         return reverse("contract-detail", kwargs={"pk": self.pk})
@@ -264,7 +287,7 @@ class Contact(models.Model):
         return self.email
 
 
-class DeletedPlayer(models.Model):
+class Inaccessible(models.Model):
     STATUS = (
         ('sold', 'sold'),
         ('terminated', 'terminated'),
@@ -276,7 +299,7 @@ class DeletedPlayer(models.Model):
 
     def save(self, *args, **kwargs):
         self.player.available = False
-        super(DeletedPlayer, self).save(*args, **kwargs)
+        super(Inaccessible, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.player)

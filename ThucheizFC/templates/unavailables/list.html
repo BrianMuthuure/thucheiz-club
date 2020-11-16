@@ -14,7 +14,7 @@ margin-bottom: 30px;
         <div class="col-md-4 mb-4">
             <a href="" class="btn btn-primary btn-block" onclick="printContent('div1')">Export PDF</a>
         </div>
-        <div class="col-md-8 text-center mb-4">
+        <div class="col-md-6 text-center mb-4">
           <form method="get">
 				{{myFilter.form}}
 
@@ -23,15 +23,13 @@ margin-bottom: 30px;
         </div>
     </div>
     <div class="row justify-content-center" id="div1">
-        <div class="col-md-12">
+        <div class="col-md-10">
             <div class="card">
                 <div class="card-body">
-            <table class="table table-striped mb-4">
+            <table class="table mb-4 text-center">
   <thead>
     <tr>
       <th scope="col">Player</th>
-       <th>Jersey No</th>
-         <th>Age</th>
       <th scope="col">Status</th>
       <th scope="col">Date</th>
     </tr>
@@ -39,19 +37,20 @@ margin-bottom: 30px;
   <tbody>
   {% for delete in deletes %}
     <tr>
-
-      <td>{{delete.player}}</td>
-      <td>{{delete.player.jersey_no}}</td>
-      <td>{{delete.player.age}}</td>
+        <td><a href="{% url 'inaccessible-detail' delete.pk %}" >{{delete.player}}</a></td>
       <td>{{delete.status}}</td>
       <td>{{delete.date}}</td>
-
     </tr>
   {% endfor %}
 
   </tbody>
 </table>
                 </div>
+            </div>
+
+            <div class="user">
+             <span style="font-size:16px;">{{user}}</span><br>
+                <span style="font-size:16px;">{{date}}</span>
             </div>
         </div>
     </div>
@@ -65,5 +64,7 @@ margin-bottom: 30px;
          window.print();
          document.body.innerHTML = restorepage;
     }
+
+
 </script>
 {% endblock %}

@@ -478,7 +478,7 @@ background:linear-gradient(transparent, #00c6ff);
 }
 
 .slider .single-slider {
-	height: 500px;
+	height: 400px !important;
 	background-size: cover;
 	background-position: center;
 	background-repeat:no-repeat;

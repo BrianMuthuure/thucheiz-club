@@ -4,33 +4,113 @@
 <style>
     .add-player h5{
     letter-spacing:2px;
+    margin-top:20px;
+    margin-bottom:20px;
+    text-transform:uppercase;
+    line-height:30px;
+    font-weight:500;
+    color:#000;
     }
-
+    .errorlist li{
+    color:red !important;
+    }
 </style>
-
 <div class="container">
    <div class="row justify-content-center">
-      <div class="col-md-8">
+      <div class="col-md-12">
           <form action="" method="post" enctype="multipart/form-data" class="add-player">
                {% csrf_token %}
+               <h5 class="text-center">User details</h5>
+             <div class="row justify-content-center">
+                 <div class="form-group col-md-4 mb-4">
+                     <label class="label">Username</label>
+                     {{form.username.errors}}
+                     {{form.username}}
+                 </div>
+                 <div class="form-group col-md-3 mb-4">
+                     <label class="label">First Name</label>
+                     {{form.first_name.errors}}
+                     {{form.first_name}}
+                 </div>
+
+                 <div class="form-group col-md-3 mb-4">
+                     <label class="label">Last Name</label>
+                     {{form.last_name.errors}}
+                     {{form.last_name}}
+                 </div>
+             </div>
               <div class="row justify-content-center">
-                  <div class="col-md-6 mb-4" style="border-right:1px solid #e9ecef;">
-                      <h5 class="text-center">user details</h5><hr>
-                       {{form.as_p}}
+                  <div class="col-md-10 mb-4">
+                      <label class="label">Email</label>
+                      {{form.email.errors}}
+                      {{form.email}}
                   </div>
-                  <div class="col-md-6 mb-4 " style="border-right:1px solid #e9ecef;">
-                      <h5 class="text-center ">coach details</h5><hr>
-                       {{profile_form.as_p}}
+              </div>
+              <div class="row justify-content-center">
+                  <div class="col-md-5 mb-4">
+                      <label class="label">Password</label>
+                      {{form.password1}}
+                  </div>
+
+                  <div class="col-md-5 mb-4">
+                      <label class="label">Confirm Password</label>
+                      {{form.password2}}
+                  </div>
+              </div>
+              <div class="row justify-content-center">
+                  <div class="col-md-4 mb-4">
+                      <label class="label">Position</label>
+                          {{profile_form.title}}
+                  </div>
+                  <div class="col-md-3 mb-4">
+                      <label class="label">Country</label>
+                      {{profile_form.nationality}}
+                  </div>
+
+                  <div class="col-md-3 mb-4">
+                      <label class="label">DOB</label>
+                      {{profile_form.dob.errors}}
+                      {{profile_form.dob}}
+                  </div>
+
+              </div>
+              <div class="row justify-content-center">
+                  <div class="col-md-10 mb-4">
+                      <label class="label">Image</label>
+                      {{profile_form.image}}
+                  </div>
+              </div>
+                     <h5 class="text-center">Contract details</h5>
+              <div class="row justify-content-center">
+                  <div class="col-md-5 mb-4">
+                      <label class="label">Start Date</label>
+                      {{contract_form.start_date.errors}}
+                      {{contract_form.start_date}}
+                  </div>
+
+                  <div class="col-md-5 mb-4">
+                      <label class="label">End Date</label>
+                      {{contract_form.end_date.errors}}
+                      {{contract_form.end_date}}
                   </div>
               </div>
 
-              <div class="row justify-content-center mt-4 mb-4">
-                  <div class="col-md-4">
-                      <button class="btn btn-success btn-block">Submit</button>
+              <div class="row justify-content-center">
+                  <div class="col-md-10 mb-4">
+                      <label class="label">Salary</label>
+                      {{contract_form.salary}}
+                  </div>
+              </div>
+
+              <div class="row justify-content-center">
+                  <div class="col-md-6 mb-4">
+                      <button class="btn btn-success btn-block" type="submit">Submit</button>
                   </div>
               </div>
           </form>
       </div>
    </div>
 </div>
+
+<script></script>
 {% endblock content%}

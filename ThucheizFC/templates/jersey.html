@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+{% block content %}
+<style>
+    .add-player h5{
+    letter-spacing:2px;
+    margin-top:20px;
+    margin-bottom:20px;
+    text-transform:uppercase;
+    line-height:30px;
+    font-weight:500;
+    color:#000;
+    }
+    .errorlist li{
+    color:red !important;
+    }
+</style>
+<div class="container">
+   <div class="row justify-content-center">
+      <div class="col-md-12">
+          <form action="" method="post" enctype="multipart/form-data" class="add-player">
+               {% csrf_token %}
+               <h5 class="text-center">add jersey</h5>
+             <div class="row justify-content-center">
+
+                  <div class="col-md-5 mb-4">
+                      <label class="label">Jersey No</label>
+                      {{jersey_form.no}}
+                  </div>
+              </div>
+              <div class="row justify-content-center">
+                  <div class="col-md-5 mb-4">
+                      <button class="btn btn-success btn-block" type="submit">Submit</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+   </div>
+</div>
+
+<script></script>
+{% endblock content%}

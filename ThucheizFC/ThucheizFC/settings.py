@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'ThucheizFC.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'thucheizfc-db',
+        'NAME': 'club-db',
         'USER': 'postgres',
         'PASSWORD': 'Brian6894',
         'HOST': 'localhost',

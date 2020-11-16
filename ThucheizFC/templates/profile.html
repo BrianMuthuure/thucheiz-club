@@ -20,6 +20,10 @@ margin-bottom: 30px;
              <img class="rounded-circle account-img" src="{{ user.player.imageURL }}">
                 {% endif %}
 
+                {% if user.coach %}
+             <img class="rounded-circle account-img" src="{{ user.coach.coachimageURL }}">
+                {% endif %}
+
                 {% if user.is_superuser %}
              <img class="rounded-circle account-img" src="{{ user.picture.pictureimageURL}}">
                 {% endif %}
