@@ -18,8 +18,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
-
+from django.utils.translation import ugettext_lazy as _
 from main.views import profile, add_user
+
+
+admin.site.site_header = 'THUCHEIZ FC'
+admin.site.site_title = 'Thucheiz admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),

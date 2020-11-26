@@ -15,7 +15,7 @@ class ResultCreationForm(forms.ModelForm):
 
     class Meta:
         model = Result
-        fields = ['result_type', 'opponent', 'image', 'stadium', 'date']
+        fields = ['result_type', 'opponent', 'opponent_logo', 'stadium', 'date']
         widgets = {
             'result_type': forms.TextInput(attrs={'class': 'form-control'}),
             'opponent': forms.TextInput(attrs={'class': 'form-control'}),

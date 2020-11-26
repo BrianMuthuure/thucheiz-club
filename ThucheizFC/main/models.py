@@ -246,7 +246,7 @@ class Contract(models.Model):
         return reverse("contract-detail", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return f'{self.player.user.username} Contract'
+        return f'{self.player.user.first_name} {self.player.user.last_name} Contract'
 
 
 class CoachContract(models.Model):

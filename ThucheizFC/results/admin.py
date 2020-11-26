@@ -4,5 +4,19 @@ from django.contrib import admin
 from results.models import Result, GoalsScored, GoalsConceded
 
 admin.site.register(Result)
-admin.site.register(GoalsScored)
-admin.site.register(GoalsConceded)
+
+
+class GoalsScoredAdmin(admin.ModelAdmin):
+    list_display = ('result', 'player', 'minute')
+    list_filter = ('result',)
+
+
+admin.site.register(GoalsScored, GoalsScoredAdmin)
+
+
+class GoalsConcededAdmin(admin.ModelAdmin):
+    list_display = ('result', 'scorer', 'minute')
+    list_filter = ('result',)
+
+
+admin.site.register(GoalsConceded, GoalsConcededAdmin)

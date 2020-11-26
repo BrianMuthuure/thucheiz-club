@@ -43,4 +43,4 @@ class ContractFilter(django_filters.FilterSet):
     class Meta:
         model = Contract
         fields = '__all__'
-        exclude = ['player', 'buyout_clause', 'start_date', 'end_date']
+        exclude = ['player', 'buyout_clause', 'start_date', 'end_date', 'daily_pay']

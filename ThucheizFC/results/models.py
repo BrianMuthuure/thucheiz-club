@@ -10,8 +10,8 @@ from results.managers import ResultManager
 
 class Result(models.Model):
     result_type = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='opponent_logos', null=True, blank=True)
-    club = models.CharField(max_length=50, default='Thucheiz United')
+    club = models.CharField(max_length=50, default='Thucheiz United', editable=False)
+    opponent_logo = models.ImageField(upload_to='opponent_logos', null=True, blank=True)
     opponent = models.CharField(max_length=100, null=False, blank=False)
     active = models.BooleanField(default=True)
     stadium = models.CharField(max_length=200, null=True, blank=True)
@@ -23,7 +23,7 @@ class Result(models.Model):
         return reverse("result-detail", kwargs={"pk": self.pk})
 
     def __str__(self):
-        return self.result_type
+        return str(self.id)
 
     @property
     def totals(self):
@@ -44,7 +44,7 @@ class Result(models.Model):
     @property
     def imageURL(self):
         try:
-            url = self.image.url
+            url = self.opponent_logo.url
         except:
             url = ''
         return url

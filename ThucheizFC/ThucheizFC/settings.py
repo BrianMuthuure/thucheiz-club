@@ -33,7 +33,8 @@ AUTH_USER_MODEL = 'main.User'
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    'material.admin',
+    'material.admin.default',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -159,5 +160,8 @@ EMAIL_HOST_USER = 'brianmuthuure@gmail.com'
 EMAIL_HOST_PASSWORD = 'zijrnolcbunasjki'
 
 LOGIN_URL = 'user-login'
+
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 django_heroku.settings(locals())
